@@ -90,39 +90,37 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 
 # Background
 
-Person-oriented analysis involves a statistical approach to exploring
-psychological constructs in a way that captures and simplifies complexity. This
-approach can be used to consider the way in which psychological constructs, for
-example, are experienced together and at once. Thus, conceptually, this approach
-emphasizes how individuals go about interacting, socializing, and behaving in
-this way, experiencing these activities as a whole person. Person-oriented
-analysis, developed within developmental science, focuses on how individuals
-have experiences in a holistic way and also how these ways can be identified
-through common groups, or profiles.(Bergman & El-Khouri, 1997; Magnusson &
-Cairns, 1996). One way to distinguish the approach is to consider it in contrast
-to variable-centered approaches, such as those for which the covariability
-between variables, rather than the relations between profiles of individuals, is
-the focus (Bergman & Trost, 2006).
+For teachers, psychologists, researchers, and friends and family member, people 
+are highly-complex and not easily able to be characterized by a single 
+characteristic or personality trait. In the social sciences, broadly, and in 
+psychology, particularly, a statistical method that can be used to describe how 
+people, in their individual particularities, may have similarities on the basis 
+of some set of measures through which they can be grouped in meaningful, 
+distinctive ways. This approach, which has a provenance in developmental 
+approaches (Bergman & El-Khouri, 1997; Magnusson & Cairns, 1996), though is now 
+widely used in educational, social, personality, and other domains of psychology, 
+is an example of a general mixture model (Harring & Hodis, 2016; Pastor, Barron, 
+Miller, & Davis, 2007).
 
-Though studies examining learning from a person-oriented perspective are not
-very common, some examples include studies of intrinsic and extrinsic motivation
-(Corpus & Wormington, 2014; Hayenga & Corpus, 2010), profiles of achievement
-goals (see Wormington & Linnenbrink-Garcia, advance online publication, for a
-review), and epistemic cognition (Trevors, Kendeou, Braten, & Braasch, 2017).
-Recently, too, there have been excellent reviews of person-oriented analyses in
-motivation and educational psychology (Linnenbrink-Garcia & Wormington, 2017).
+In this tutorial, we aim to describe one of the most commonly-used--and relevant 
+to psychologists--application of the general mixture model, to cases for which 
+all of the variables for which (relatively) homogeneous groups are identified 
+from among a (relatively) heterogeneous sample are continuos, *latent profile 
+analysis* (LPA). After describing the method and some examples of its use, we 
+provide a tutorial for carrying out LPA in the context of a freely-available, 
+open-source statistical software package we created for R (R Core Team, 2019), 
+tidyLPA. Finally, we offer some informed recommendations for researchers aiming
+to use LPA in their applied work, and conclude with reflections on the role of 
+statistical software--especially software that is freely-available, open-source, 
+and highly-performant--in the psychological sciences. 
 
-In this article, our goal is to review person-oriented analysis focused on
-getting started (on both knowing about and doing person-oriented analyses) in an
-informed way. More specifically, we start with an overview of the methodology,
-describe specific software tools, explain analytic choices made in the course of
-their use, and conclude with general recommendations One challenge facing those
-trying to learn about and apply person-oriented analysis in their research is
-the multitude of terms used for similar analytic approaches or ideas. Throughout
-this manuscript, we aim to point these out and explain when and why a variety of
-terms have been used. Thus, this manuscript is written for an informed and
-curious reader at any level interested in understanding this particular
-approach.
+<!-- Though studies examining learning from a person-oriented perspective are not -->
+<!-- very common, some examples include studies of intrinsic and extrinsic motivation -->
+<!-- (Corpus & Wormington, 2014; Hayenga & Corpus, 2010), profiles of achievement -->
+<!-- goals (see Wormington & Linnenbrink-Garcia, advance online publication, for a -->
+<!-- review), and epistemic cognition (Trevors, Kendeou, Braten, & Braasch, 2017). -->
+<!-- Recently, too, there have been excellent reviews of person-oriented analyses in -->
+<!-- motivation and educational psychology (Linnenbrink-Garcia & Wormington, 2017). -->
 
 ## Overview of Methodologies
 
@@ -238,7 +236,17 @@ parameters may mean a loss of external validity. As we progress toward more
 complex models (with increasingly complex parameterization, i.e. models 3 and 4
 above), then we are more likely to fit the data better.
 
-    A number of notes regarding person-oriented analyses are important to raise at the same time as their promise. Bauer (2007) notes that many samples of data can be usefully broken down into profiles, and that the addition of profiles will likely be suggested for reasons other than the samples coming from more than one distribution (i.e., due to non-normality in the variables measured). Bauer also cautions that profiles should not be reified; that profiles do not necessarily exist outside of the analysis that they should be interpreted more as useful interpretative devices. These cautions suggest that, in general, parsimony, interpretability, and a general sense that the profiles are not necessarily real, but are rather helpful analytic tools, should be both priorities for the analyst and the reader of studies using this approach.
+A number of notes regarding person-oriented analyses are important to raise at
+the same time as their promise. Bauer (2007) notes that many samples of data can
+be usefully broken down into profiles, and that the addition of profiles will
+likely be suggested for reasons other than the samples coming from more than one
+distribution (i.e., due to non-normality in the variables measured). Bauer also
+cautions that profiles should not be reified; that profiles do not necessarily
+exist outside of the analysis that they should be interpreted more as useful
+interpretative devices. These cautions suggest that, in general, parsimony,
+interpretability, and a general sense that the profiles are not necessarily
+real, but are rather helpful analytic tools, should be both priorities for the
+analyst and the reader of studies using this approach.
 
 # Specific Software Tools
 
