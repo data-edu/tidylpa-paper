@@ -65,107 +65,39 @@ set.seed(42)
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
-<!-- The questions on the Scimo per and post survey are from Ryan and Deci's "Learning Climate Questionnaire".  You can read a short description here: -->
-
-<!-- https://selfdeterminationtheory.org/pas-learning-climate/ -->
-
-<!-- It is 15 questions, but they identify 6 which can be used as  short-form.  Questions 1, 2, 4, 7, 10, 14.  I have attached the PDF of the survey since you have to create an account on their website do download it.  Below are the question text, along with the variable name in the Scimo data: -->
-
-<!-- I feel that my instructor provides me choices and options.  t_choices1 -->
-<!-- I feel understood by my instructor.  t_understand1 -->
-<!-- My instructor conveyed confidence in my ability to do well in the course.  t_confidence1 -->
-<!-- My instructor encouraged me to ask questions.  t_encourage1 -->
-<!-- My instructor listens to how I would like to do things.  t_listen1 -->
-<!-- My instructor tries to understand how I see things before suggesting a new way to do things.  t_triesunder1 -->
-
-<!-- tidyLPA Tutorial for AMPPS -->
-<!-- https://www.psychologicalscience.org/publications/ampps/ampps-submission-guidelines#NEMP -->
-<!-- Tutorials -->
-<!-- Tutorials provide hands-on, practical guidance for researchers. Any topic that could enhance research practices or methods might be suitable for a Tutorial, provided that the material covered in the Tutorial would be relevant to and useful for the journal’s broad readership; Tutorials of more narrow interest or of relevance to only one subfield or literature typically are not appropriate for AMPPS. AMPPS welcomes Tutorials that focus on helping researchers learn to use statistical tools, improve their statistical practices and intuitions, better their data-management and lab practices, enhance the reliability and reproducibility of their research, engage in transparent and open practices, and so on. Tutorials often include dynamic, interactive content and should provide concrete guidance rather than solely abstract principles. Some Tutorials will be solicited by the editorial team, and the team welcomes suggestions and proposals for Tutorials. -->
-<!-- Most Tutorials should be brief (< 3,000 words), but they may be longer if necessary to explain the content fully and make it accessible to and usable by readers. -->
-<!-- The introduction to a Tutorial typically should be no more than one to two paragraphs long (< 500 words) and should not include an extensive literature review. The introduction should explain the motivation for the Tutorial and highlight how learning the contents will benefit readers. -->
-<!-- Tutorials should have a brief summary of their contents, rather than a General Discussion section. -->
-<!-- Tutorials should be accompanied by publicly available code and all resources necessary for researchers (and reviewers) to follow the text. -->
-<!-- Tutorials can include a list of additional resources (e.g., citations and links) for readers who would like to learn more. -->
-
 # Introduction
 
-For teachers, psychologists, researchers, and friends and family member, people 
-are highly-complex and not easily able to be characterized by a single 
-characteristic or personality trait. In the social sciences, broadly, and in 
-psychology, particularly, a statistical method that can be used to describe how 
-people, in their individual particularities, may have similarities on the basis 
-of some set of measures through which they can be grouped in meaningful, 
-distinctive ways. This approach, which has a provenance in developmental 
-approaches (Bergman & El-Khouri, 1997; Magnusson & Cairns, 1996), though is now 
-widely used in educational, social, personality, and other domains of psychology, 
-is an example of a general mixture model (Harring & Hodis, 2016; Pastor, Barron, 
-Miller, & Davis, 2007).
+For teachers, psychologists, researchers, and friends and family member, people
+are highly-complex and not easily able to be characterized by a single
+characteristic or personality trait. In the social sciences, broadly, and in
+psychology, particularly, a statistical method that can be used to describe how
+people, in their individual particularities, may have similarities on the basis
+of some set of measures through which they can be grouped in meaningful,
+distinctive ways. This approach, which has a provenance in developmental (or
+*person-oriented*) approaches (Bergman & El-Khouri, 1997; Magnusson &
+Cairns, 1996; see Linnenbrink-Garcia & Wormington, 2017, for a recent review),
+though is now widely used in educational, social, personality, and other domains
+of psychology, is an example of a general mixture model (Harring & Hodis, 2016;
+Pastor, Barron, Miller, & Davis, 2007).
 
-In this tutorial, we aim to describe one of the most commonly-used--and relevant 
-to psychologists--application of the general mixture model, to cases for which 
-all of the variables for which (relatively) homogeneous groups are identified 
-from among a (relatively) heterogeneous sample are continuos, *latent profile 
-analysis* (LPA). After describing the method and some examples of its use, we 
-provide a tutorial for carrying out LPA in the context of a freely-available, 
-open-source statistical software package we created for R (R Core Team, 2019), 
-tidyLPA. Finally, we offer some informed recommendations for researchers aiming
-to use LPA in their applied work, and conclude with reflections on the role of 
-statistical software--especially software that is freely-available, open-source, 
-and highly-performant--in the psychological sciences. 
+In this tutorial, we aim to describe one of the most commonly-used--and relevant
+to psychologists--application of the general mixture model, to cases for which
+all of the variables for which (relatively) homogeneous groups are identified
+from among a (relatively) heterogeneous sample are continuos, *latent profile
+analysis* (LPA). We note that scholars using the approach, especially in
+developmental and educational psychology, use cluster analytic methods. Such an
+approach has some similarities with LPA (CITE paper showing how k-means is
+similar to the simplest model specification of LPA?), though LPA also has a
+number of benefits (Linnenbrink-Garcia & Wormington, 2017), and we we focus on
+LPA in this paper.
 
-<!-- Though studies examining learning from a person-oriented perspective are not -->
-<!-- very common, some examples include studies of intrinsic and extrinsic motivation -->
-<!-- (Corpus & Wormington, 2014; Hayenga & Corpus, 2010), profiles of achievement -->
-<!-- goals (see Wormington & Linnenbrink-Garcia, advance online publication, for a -->
-<!-- review), and epistemic cognition (Trevors, Kendeou, Braten, & Braasch, 2017). -->
-<!-- Recently, too, there have been excellent reviews of person-oriented analyses in -->
-<!-- motivation and educational psychology (Linnenbrink-Garcia & Wormington, 2017). -->
-
-<!-- ## Cluster Analysis -->
-
-<!-- Cluster analysis is an approach that has been frequently applied to analysis of -->
-<!-- topics in educational psychology (such as motivation and engagement) from a more -->
-<!-- holistic, whole-person approach. One particular way in which cluster analysis -->
-<!-- has been used has been as part of an approach termed I-States-as-Objects -->
-<!-- Analysis (ISOA). The purpose of ISOA is to identify profiles at specific time -->
-<!-- points, and then to explore how individuals do or do not shift between profiles -->
-<!-- across time points (needs cite). In their early work, Bergman and Magnusson -->
-<!-- (1999) and colleagues (1999) described a two-step approach to cluster analysis -->
-<!-- as part of their I-States-as-Objects analysis. In this approach, all of the -->
-<!-- observations are clustered. The key idea behind the approach is that each -->
-<!-- observation represents not a permanent group, but rather a status, or an -->
-<!-- i-state. These i-states, are considered independently for the purposes of -->
-<!-- constructing profiles. Then, shifts between these i-states across time (say, two -->
-<!-- or three time points) are evaluated. -->
-
-<!-- Commonly, cluster analysis carried out as part of ISOA in fact involves two -->
-<!-- distinct clustering steps. This is because different clustering algorithms have -->
-<!-- different strengths--as well as weaknesses. In ISOA, the first step is Ward’s -->
-<!-- hierarchical cluster analysis (Bergman & El-Khouri, 1999). In this step, -->
-<!-- observations are split, step-by-step, based upon their multivariate similarity. -->
-<!-- The analyst provides the number of groups which will be used and interpreted, -->
-<!-- though technically most algorithms will continue splitting the groups until each -->
-<!-- observation makes up its own. This type of clustering is deterministic: The same -->
-<!-- results will be obtained each time it is run. In the second step of the cluster -->
-<!-- analysis, an iterative, k-means cluster analysis is carried out (Bergman and -->
-<!-- El-Khouri, 1999). For this step, the algorithm partitions the observations into -->
-<!-- groups, the success of the clustering based on a criterion such as the -->
-<!-- variability in the data explained by the groups, and then “moves,” when -->
-<!-- possible, the observations that are not in the group they are most similar to to -->
-<!-- the one that they are most similar to. When no more such moves are possible, the -->
-<!-- algorithm stops. On its own, k-means is not deterministic: Depending on the -->
-<!-- starting values, it can obtain different results the different times that it is -->
-<!-- run. So, the results from the hierarchical cluster analysis, the first step, are -->
-<!-- used as start values to initialize the k-means clustering. -->
-
-<!-- The rationale behind using these two approaches is that the hierarchical -->
-<!-- clustering provides reasonable guesses for the profile membership, and then the -->
-<!-- iterative clustering optimizes the clustering solution. To sum up, then, cluster -->
-<!-- analysis as part of ISOA in fact involves two separate cluster analyses. The -->
-<!-- merits of this approach are to leverage the benefits of each: the iterative -->
-<!-- clustering starts with reasonable cluster solutions generated from the -->
-<!-- hierarchical clustering and optimizes them. -->
+After describing the method and some examples of its use, we provide a tutorial
+for carrying out LPA in the context of a freely-available, open-source
+statistical software package we created for R (R Core Team, 2019), tidyLPA.
+Finally, we offer some informed recommendations for researchers aiming to use
+LPA in their applied work, and conclude with reflections on the role of
+statistical software--especially software that is freely-available, open-source,
+and highly-performant--in the psychological sciences.
 
 # Latent Profile Analysis
 
