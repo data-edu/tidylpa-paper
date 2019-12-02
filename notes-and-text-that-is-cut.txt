@@ -1,4 +1,4 @@
-
+# Potential survey questions
 The questions on the Scimo per and post survey are from Ryan and Deci's "Learning Climate Questionnaire".  You can read a short description here:
 
 https://selfdeterminationtheory.org/pas-learning-climate/
@@ -12,8 +12,9 @@ My instructor encouraged me to ask questions.  t_encourage1
 My instructor listens to how I would like to do things.  t_listen1
 My instructor tries to understand how I see things before suggesting a new way to do things.  t_triesunder1
 
-tidyLPA Tutorial for AMPPS
+# Notes from AMPPS
 https://www.psychologicalscience.org/publications/ampps/ampps-submission-guidelines#NEMP
+
 Tutorials
 Tutorials provide hands-on, practical guidance for researchers. Any topic that could enhance research practices or methods might be suitable for a Tutorial, provided that the material covered in the Tutorial would be relevant to and useful for the journal’s broad readership; Tutorials of more narrow interest or of relevance to only one subfield or literature typically are not appropriate for AMPPS. AMPPS welcomes Tutorials that focus on helping researchers learn to use statistical tools, improve their statistical practices and intuitions, better their data-management and lab practices, enhance the reliability and reproducibility of their research, engage in transparent and open practices, and so on. Tutorials often include dynamic, interactive content and should provide concrete guidance rather than solely abstract principles. Some Tutorials will be solicited by the editorial team, and the team welcomes suggestions and proposals for Tutorials.
 Most Tutorials should be brief (< 3,000 words), but they may be longer if necessary to explain the content fully and make it accessible to and usable by readers.

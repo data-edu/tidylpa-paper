@@ -1,6 +1,6 @@
 ---
-title             : "Doing Latent Profile Analysis in a more rigorous and reproducible way: A tutorial using the tidyLPA R package"
-shorttitle        : "Title"
+title             : "Carrying out Latent Profile Analysis in Accordance With Best Practices: A Tutorial Using the tidyLPA R package"
+shorttitle        : "tidyLPA"
 
 author: 
   - name          : "Joshua Rosenberg"
@@ -94,10 +94,11 @@ LPA in this paper.
 After describing the method and some examples of its use, we provide a tutorial
 for carrying out LPA in the context of a freely-available, open-source
 statistical software package we created for R (R Core Team, 2019), tidyLPA.
-Finally, we offer some informed recommendations for researchers aiming to use
-LPA in their applied work, and conclude with reflections on the role of
-statistical software--especially software that is freely-available, open-source,
-and highly-performant--in the psychological sciences.
+Finally, we offer some ideas about best practices and informed recommendations
+for researchers aiming to use LPA in their applied work, and conclude with
+reflections on the role of statistical software--especially software that is
+freely-available, open-source, and highly-performant--in the psychological
+sciences.
 
 # Latent Profile Analysis
 
@@ -152,33 +153,35 @@ are more likely to fit the data better. More information on the model
 parameterizations are discussed in the context of the software tool tidyLPA that
 we have developed.
 
-A note of caution is warranted about LPA in the context of their potential.
-Bauer (2007) notes that many samples of data can be usefully broken down into
-profiles, and that the addition of profiles will likely be suggested for reasons
-other than the samples coming from more than one distribution (i.e., due to
-non-normality in the variables measured). Bauer also cautions that profiles
-should not be reified; that profiles do not necessarily exist outside of the
-analysis that they should be interpreted more as useful interpretative devices.
-These cautions suggest that, in general, parsimony, interpretability, and a
-general sense that the profiles are not necessarily real, but are rather helpful
-analytic tools, should be both priorities for the analyst and the reader of
-studies using this approach.
+<!-- I think we move this to the discussion in light of best practices -->
+
+A note of caution is warranted about LPA in the context of their characteristics
+and strengths. Bauer (2007) notes that many samples of data can be usefully
+broken down into profiles, and that the addition of profiles will likely be
+suggested for reasons other than the samples coming from more than one
+distribution (i.e., due to non-normality in the variables measured). Bauer also
+cautions that profiles should not be reified; that profiles do not necessarily
+exist outside of the analysis that they should be interpreted more as useful
+interpretative devices. These cautions suggest that, in general, parsimony,
+interpretability, and a general sense that the profiles are not necessarily
+real, but are rather helpful analytic tools, should be both priorities for the
+analyst and the reader of studies using this approach.
 
 # Specific Software Tools
 
 ## Other Tools
 
-SPSS is a common tool to carry out cluster analyses (but not LPA). While somewhat
-straightforward to carry out, particularly in SPSS’s graphical user interface
-(GUI), there are some challenges to use of this approach. The GUI in SPSS can be
-challenging, even for the most able analyst, to be able to document every step
-with syntax, and so reproducing the entire analysis efficiently can be a
-challenge, both for the analyst exploring various solutions and for the reviewer
-looking to replicate this work. Additionally, SPSS is commercial software (and
-is expensive), and so analysts without the software cannot carry out this
+SPSS is a common tool to carry out cluster analyses (but not LPA). While
+somewhat straightforward to carry out, particularly in SPSS’s graphical user
+interface (GUI), there are some challenges to use of this approach. The GUI in
+SPSS can be challenging, even for the most able analyst, to be able to document
+every step with syntax, and so reproducing the entire analysis efficiently can
+be a challenge, both for the analyst exploring various solutions and for the
+reviewer looking to replicate this work. Additionally, SPSS is commercial
+software (and is expensive), and so analysts access to it cannot carry out this
 analysis.
 
-Another common tool is MPlus (Muthen & Muthen, 20xx). MPlus is a commercial tool
+Another common tool is MPlus (Muthen & Muthen, 2019). MPlus is a commercial tool
 that provides functionality for many latent variable (and multi-level) models.
 We will speak more to MPlus in the section on tidyLPA, as our software provides
 an interface to both it and an open-source tool.
@@ -188,34 +191,27 @@ this purpose (and to specify almost any model possible to specify within a
 latent variable modeling approach). However, while OpenMx is very flexible, it
 can also be challenging to use. Other tools in R allow for estimating Gaussian
 mixture models, or models of multivariate Gaussian (or normal) distributions. In
-this framework, the term “mixture component” has a similar meaning to a profile.
-While much more constraining than the latent variable modeling framework, the
-approach is often similar or the same: the EM algorithm is used to (aim to)
-obtain the maximum likelihood estimates for the parameters being estimated. Like
-in the latent variable modeling framework, different models can be specified.
-
-In addition to following the same general approach, using tools that are
-designed for Gaussian mixture modeling have other benefits, some
-efficiency-related (see RMixMod, which uses compiled C++ code) and others in
-terms of ease-of-use (i.e., the plot methods built-in to RMixMod, mclust, and
-other tools). However, they also have some drawbacks, in that it can be
-difficult to translate between the model specifications, which are often
-described in terms of the geometric properties of the multivariate distributions
-being estimated (i.e., “spherical, equal volume”), rather than in terms of
-whether and how the means, variances, and covariances are estimated. They also
-may use different default settings (than those encountered in MPlus) in terms of
-the expectation-maximization algorithm, which can make comparing results across
-tools challenging.
+addition to following the same general approach, using tools that are designed
+for Gaussian mixture modeling have other benefits, some efficiency-related (see
+RMixMod, which uses compiled C++ code) and others in terms of ease-of-use (i.e.,
+the plot methods built-in to RMixMod, mclust, and other tools). However, they
+also have some drawbacks, in that it can be difficult to translate between the
+model specifications, which are often described in terms of the geometric
+properties of the multivariate distributions being estimated (i.e., “spherical,
+equal volume”), rather than in terms of whether and how the means, variances,
+and covariances are estimated. They also may use different default settings
+(than those encountered in MPlus) in terms of the expectation-maximization
+algorithm, which can make comparing results across tools challenging.
 
 ## tidyLPA
 
-Because of the limitations in other tools, we set out to develop a tool that a) 
-provided sensible defaults and were easy to use, but provided the option to access and modify all of the
-inputs to the model (i.e., low barrier, high ceiling), b) interfaced to existing
-tools,, and are able to translate between what existing tools are capable of and
-what researchers and analysts carrying-out person-oriented analyses would like
-to specify, c) made it easy to carry-out fully-reproducible analyses and d) were
-well-documented.
+Because of the limitations in other tools, we set out to develop a tool that a)
+provided sensible defaults and were easy to use, but provided the option to
+access and modify all of the inputs to the model (i.e., low barrier, high
+ceiling), b) interfaced to existing tools, and are able to translate between
+what existing tools are capable of and what researchers and analysts
+carrying-out person-oriented analyses would like to specify, c) made it easy to
+carry-out fully-reproducible analyses and d) were well-documented.
 
 This package focuses on models that are commonly specified as part of LPA.
 Because MPlus is so widely-used, it can be helpful to compare output from other
@@ -264,6 +260,11 @@ install.packages("devtools")
 devtools::install_github("data-edu/tidyLPA")
 ```
 
+``` {r, message = F}
+library(tidyLPA)
+library(dplyr)
+```
+
 ## Examples
 
 <!-- This is where we need to use an example from our own data -->
@@ -279,11 +280,6 @@ create the profiles. We also specify the number of profiles and the model. See
 In these examples, we pass the results of one function to the next by *piping*
 (using the `%>%` operator, loaded from the `dplyr` package). We pass the data to
 a function that selects relevant variables, and then to `estimate_profiles`:
-
-``` {r, message = F}
-library(tidyLPA)
-library(dplyr)
-```
 
 ``` {r}
 pisaUSA15[1:100, ] %>%
@@ -304,9 +300,9 @@ pisaUSA15[1:100, ] %>%
     estimate_profiles(3, package = "MplusAutomation")
 ```
 
-A simple summary of the analysis is printed to the console (and its posterior
-probability). The resulting object can be further passed down a pipeline to
-other functions, such as `plot`, `compare_solutions`, `get_data`, `get_fit`,
+A simple summary of the analysis is printed to the console. 
+The resulting object can be further passed down a pipeline to
+other functions, such as `compare_solutions`, `get_data`, `get_fit`,
 etc. This is the "tidy" part, in that the function can be embedded in a tidy
 analysis pipeline.
 
