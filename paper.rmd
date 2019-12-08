@@ -40,7 +40,7 @@ abstract: |
 keywords          : "Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust"
 wordcount         : "" 
 
-bibliography      : ["r-references.bib"]
+bibliography      : ["r-references.bib", "citations.bib"]
 
 floatsintext      : no
 figurelist        : no
@@ -88,8 +88,8 @@ dx <- genData(1000, def)
 
 Are their one distribution?
 
-```{r, echo - FALSe}
-library(ggplot2)
+```{r, echo - FALSE}
+library(tidyverse)
 ggplot(dx, aes(x = xMix)) +
   geom_density() +
   papaja::theme_apa() +
@@ -98,8 +98,7 @@ ggplot(dx, aes(x = xMix)) +
 
 Or two?
 
-```{r, echo - FALSe}
-library(tidyverse)
+```{r, echo = FALSE}
 dx %>% 
   gather(key, val, x1:x2) %>% 
   ggplot(aes(x = val, fill = key)) +
@@ -249,7 +248,8 @@ access and modify all of the inputs to the model (i.e., low barrier, high
 ceiling), b) interfaced to existing tools, and are able to translate between
 what existing tools are capable of and what researchers and analysts
 carrying-out person-oriented analyses would like to specify, c) made it easy to
-carry-out fully-reproducible analyses and d) were well-documented.
+carry-out fully-reproducible analyses and d) were well-documented. To do so, we 
+created tidyLPA [@R-tidyLPA].
 
 This package focuses on models that are commonly specified as part of LPA.
 Because MPlus is so widely-used, it can be helpful to compare output from other
@@ -600,28 +600,6 @@ the complexity of these experiences.
 ```{r create_r-references}
 r_refs(file = "r-references.bib")
 ```
-Bergman, L. R., & Magnusson, D. (1997). A person-oriented approach in research on developmental psychopathology. Development and psychopathology, 9(2), 291-319.  
-Bergman, L. R., & Trost, K. (2006). The person-oriented versus the variable-oriented approach: Are they complementary, opposites, or exploring different worlds?. Merrill-Palmer Quarterly, 52(3), 601-632.
-Collins, L. M., & Lanza, S. T. (2010). Latent class and latent transition analysis: With applications in the social, behavioral, and health sciences (Vol. 718). John Wiley & Sons.
-Corpus, J. H., & Wormington, S. V. (2014). Profiles of intrinsic and extrinsic motivations in elementary school: A longitudinal analysis. The Journal of Experimental Education, 82(4), 480-501.
-Corpus, J. H., & Wormington, S. V. (2014). Profiles of intrinsic and extrinsic motivations in elementary school: A longitudinal analysis. The Journal of Experimental Education, 82(4), 480-501.
-Harring, J. R., & Hodis, F. A. (2016). Mixture modeling: Applications in educational psychology. Educational Psychologist, 51(3-4), 354-367.
-Hayenga, A. O., & Corpus, J. H. (2010). Profiles of intrinsic and extrinsic motivations: A person-centered approach to motivation and achievement in middle school. Motivation and Emotion, 34(4), 371-383.
-Linnenbrink-Garcia, L., & Wormington, S. V. (2017). Key challenges and potential solutions for studying the complexity of motivation in schooling: An integrative, dynamic person-oriented perspective. British Journal of Educational Psychology monograph series II. Psychological aspects of education: Current trends—the role of competence beliefs in teaching and learning. Chichester, UK: Wiley.
-Magnusson, D., & Cairns, R. B. (1996). Developmental science: Toward a unified framework. Cambridge, England: Cambridge University Press.  
-Marsh, H. W., Lüdtke, O., Trautwein, U., & Morin, A. J. (2009). Classical latent profile analysis of academic self-concept dimensions: Synergy of person-and variable-centered approaches to theoretical models of self-concept. Structural Equation Modeling, 16(2), 191-225.
-McLachlan, G. J. (2011). Commentary on Steinley and Brusco (2011): Recommendations and cautions.
-Muthen, L. K., & Muthen, B. O. (1997-2017). Mplus User’s Guide. Los Angeles, CA: Muthén & Muthén.
-Rosenberg, J. M., Schmidt, J. A., Beymer, P. N., & Steingut, R. R. (2018). Interface to mclust to easily carry out Latent Profile Analysis [Statistical software for R]. https://github.com/jrosen48/tidyLPA
-Rosenberg, J. M., Schmidt, J. A., Beymer, P. N., & Steingut, R. R. (2017). prcr: Person-Centered Analysis. R package version 0.1.5. https://CRAN.R-project.org/package=prcr
-Scrucca L., Fop M., Murphy T. B. and Raftery A. E. (2017) mclust 5: clustering, classification and density estimation using Gaussian finite mixture models The R Journal 8/1, pp. 205-233
-Hennig, C., Meila, M., Murtagh, F., & Rocci, R. (Eds.). (2015). Handbook of cluster analysis. CRC Press.
-Steinley, D., & Brusco, M. J. (2011). Evaluating mixture modeling for clustering: Recommendations and cautions. Psychological Methods, 16(1), 63.
-Steinley, D., & Brusco, M. J. (2011). K-means clustering and mixture model clustering: Reply to McLachlan (2011) and Vermunt (2011).
-Trevors, G. J., Kendeou, P., Bråten, I., & Braasch, J. L. (2017). Adolescents’ epistemic profiles in the service of knowledge revision. Contemporary Educational Psychology, 49, 107-120.
-Vermunt, J. K. (2011). K-means may perform as well as mixture model clustering but may also be much worse: Comment on Steinley and Brusco (2011).
-West, B. T., Welch, K. B., & Galecki, A. T. (2014). Linear mixed models: a practical guide using statistical software. Chapman and Hall/CRC.
-Wickham, H. (2014). Tidy data. Journal of Statistical Software, 59(10), 1-23.
 
 \begingroup
 \setlength{\parindent}{-0.5in}
