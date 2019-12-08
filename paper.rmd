@@ -38,7 +38,7 @@ authornote: |
 abstract: |
   
 keywords          : "Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust"
-wordcount         : "4,882 (need to shorten to ~ 3,000)" 
+wordcount         : "" 
 
 bibliography      : ["r-references.bib"]
 
@@ -67,18 +67,56 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 
 # Introduction
 
-For teachers, psychologists, researchers, and friends and family member, people
-are highly-complex and not easily able to be characterized by a single
-characteristic or personality trait. In the social sciences, broadly, and in
-psychology, particularly, a statistical method that can be used to describe how
+In statistics classes, textbooks, and workshops, an example like the following is common:
+
+> Grades are normally distributed, with $\mu$ = 75, $\sigma$ = 5.
+
+Students, may (reasonably) ask, though, are grades *really* normally distributed? 
+
+```{r, include = FALSE}
+library(simstudy)
+
+def <- defData(varname = "x1", formula = 65, variance = 30)
+def <- defData(def, varname = "x2", formula = 85, variance = 23)
+def <- defData(def, varname = "xMix", 
+               formula = "x1 | .5 + x2 | .5", 
+               dist = "mixture")
+
+set.seed(2716)
+dx <- genData(1000, def)
+```
+
+Are their one distribution?
+
+```{r, echo - FALSe}
+library(ggplot2)
+ggplot(dx, aes(x = xMix)) +
+  geom_density() +
+  papaja::theme_apa() +
+  ylim(0, .10)
+```
+
+Or two?
+
+```{r, echo - FALSe}
+library(tidyverse)
+dx %>% 
+  gather(key, val, x1:x2) %>% 
+  ggplot(aes(x = val, fill = key)) +
+  geom_density(alpha = .3) +
+  papaja::theme_apa() +
+  ylim(0, .10)
+```
+
+This kind of distribution (that is *bimodal*) is not exclusive to grades. For teachers, psychologists, researchers, and friends and family members, people
+are highly-complex and not easily able to be characterized by *one*
+characteristic or personality trait--and its distribution. In the social sciences, broadly, and in psychology, particularly, a statistical method that can be used to describe how
 people, in their individual particularities, may have similarities on the basis
 of some set of measures through which they can be grouped in meaningful,
 distinctive ways. This approach, which has a provenance in developmental (or
 *person-oriented*) approaches (Bergman & El-Khouri, 1997; Magnusson &
-Cairns, 1996; see Linnenbrink-Garcia & Wormington, 2017, for a recent review),
-though is now widely used in educational, social, personality, and other domains
-of psychology, is an example of a general mixture model (Harring & Hodis, 2016;
-Pastor, Barron, Miller, & Davis, 2007).
+Cairns, 1996; see Linnenbrink-Garcia & Wormington, 2017, for a recent review) is
+an example of a general mixture model (Harring & Hodis, 2016; Pastor, Barron, Miller, & Davis, 2007).
 
 In this tutorial, we aim to describe one of the most commonly-used--and relevant
 to psychologists--application of the general mixture model, to cases for which
