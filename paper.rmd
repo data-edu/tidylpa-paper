@@ -449,6 +449,13 @@ get_data(m) %>%
 
 # Recommendations Regarding Analytic Choices
 
+## GRoLTs checklist
+
+```{r, echo = FALSE}
+t <- read_csv("GRoLTS-applicability-to-LPA.csv")
+t
+```
+
 There are a number of analytic choices that need to be made when carrying out
 person-oriented analyses. Because such person-oriented approaches are often more
 subjective (in practice) than other approaches (Linnenbrink-Garcia and
