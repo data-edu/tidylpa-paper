@@ -6,17 +6,17 @@ Number,Applicable to LPA,Question(s) for C.J.,Answers,Checklist Item,Reported?
 3c.,x,,,Is a description provided of how missing data in the analyses were dealt with?,Yes/No
 4,x,,,Is information about the distribution of the observed variables included?,Yes/No
 5,x,,,Is the software mentioned?,Yes/No
-6a.,?,Would this involve comparing any models to those with only a single class?,,"Are alternative specifications of within-class heterogeneity considered (e.g., LGCA vs. LGMM) and clearly documented? If not, was sufficient justification provided as to eliminate certain specifications from consideration?",Yes/No
-6b.,?,Does this have to do with the six different models?,,"Are alternative specifications of the between-class differences in variance–covariance matrix structure considered and clearly documented? If not, was sufficient justification provided as to eliminate certain specifications from consideration?",Yes/No
+6a.,?,"Would this involve comparing any models to those with only a single class? CJ: No, but this does relate to the arguments 'variance' and 'covariance'. Basically, users should examine the fit of models that allow variances or even covariances to vary between classes.",,"Are alternative specifications of within-class heterogeneity considered (e.g., LGCA vs. LGMM) and clearly documented? If not, was sufficient justification provided as to eliminate certain specifications from consideration?",Yes/No
+6b.,?,"Does this have to do with the six different models? CJ: Exactly, same as the preceding item. We can drop the preceding one and include this one",,"Are alternative specifications of the between-class differences in variance–covariance matrix structure considered and clearly documented? If not, was sufficient justification provided as to eliminate certain specifications from consideration?",Yes/No
 7,,,,Are alternative shape/functional forms of the trajectories described?,Yes/No
-8,?,Not sure if this is applicable,,"If covariates have been used, can analyses still be replicated?",Yes/No
-9,x,"for Mplus, yes; not applicable for mclust (right now, at least)",,Is information reported about the number of random start values and final iterations included?,Yes/No
+8,?,"Not sure if this is applicable. CJ: We can currently not include covariates, and I don't think it's essential, so drop this item. Although I guess we could allow LCA on the residuals in the future. Maybe add to issues list as a feature request?",,"If covariates have been used, can analyses still be replicated?",Yes/No
+9,x,"for Mplus, yes; not applicable for mclust (right now, at least). CJ: This one is pretty important, so we might want to add it before publishing this paper.",,Is information reported about the number of random start values and final iterations included?,Yes/No
 10,x,,,Are the model comparison (and selection) tools described from a statistical perspective?,Yes/No
-11,x,"total number' - does this mean every model compared (i.e., those considered with compare_solutions())?",,"Are the total number of fitted models reported, including a one-class solution?",Yes/No
+11,x,"total number' - does this mean every model compared (i.e., those considered with compare_solutions())? CJ: Yes",,"Are the total number of fitted models reported, including a one-class solution?",Yes/No
 12,x,,,"Are the number of cases per class reported for each model (absolute sample size, or proportion)?",Yes/No
-13,?,"entropy is reported regardless, correct?",,"If classification of cases in a trajectory is the goal, is entropy reported?",Yes/No
-14a.,x,nice plots! :),,Is a plot included with the estimated mean trajectories of the final solution?,Yes/No
-14b.,?,"hmm, this seem slike something folks would want to include in an appendix - any thoughts?",,Are plots included with the estimated mean trajectories for each model?,Yes/No
-14c.,?,"is this comparable to plotting the raw data with the estimates, as we do by default?",,Is a plot included of the combination of estimated means of the final model and the observed individual trajectories split out for each latent class?,Yes/No
+13,?,"entropy is reported regardless, correct? CJ: Yes!",,"If classification of cases in a trajectory is the goal, is entropy reported?",Yes/No
+14a.,x,"nice plots! :) CJ: Yeah, basically we can replace this with different plotting requirements, based on the mantra: Plot everything that's estimated (i.e., mean, variance, covariance)",,Is a plot included with the estimated mean trajectories of the final solution?,Yes/No
+14b.,?,"hmm, this seem slike something folks would want to include in an appendix - any thoughts? CJ: Trajectories are for growth models, so drop",,Are plots included with the estimated mean trajectories for each model?,Yes/No
+14c.,?,"is this comparable to plotting the raw data with the estimates, as we do by default? CJ: Exactly, we can adapt this point to emphasize that",,Is a plot included of the combination of estimated means of the final model and the observed individual trajectories split out for each latent class?,Yes/No
 15,x,,,"Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?",Yes/No
 16,x,,,"Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?",Yes/No
