@@ -294,7 +294,7 @@ install.packages("tidyLPA")
 You can also install the development version of tidyLPA from GitHub with:
 
 ``` {r gh-installation, eval = FALSE}
-install.packages("devtools")
+# install.packages("devtools")
 devtools::install_github("data-edu/tidyLPA")
 ```
 
@@ -428,9 +428,8 @@ m <- pisaUSA15[1:100, ] %>%
     estimate_profiles(3:4)
 ```
 
-get\_data(m)
-
-``` 
+```{r}
+get_data(m)
 ```
 
 We note that `get_data()` returns data in wide format when applied to an object
@@ -483,23 +482,7 @@ The data can be transformed by centering or scaling. Typically, these are done
 after the profiles are created, so that differences between profiles can be more
 easily explored. They can also be done prior to the analysis, which can be
 helpful for obtaining solutions when the variables are on very different
-scales..
-
-<!-- ## Whether to Use Cluster Analysis or LPA -->
-
-<!-- Whether to use cluster analysis or LPA depends in part on the nature of the data -->
-<!-- being investigated (cite the 2010 debate on this topic between Vermunt and -->
-<!-- others; MacLachlan, 2011; Steinley & Brusco, 2011a; Steinley & Brusco, 2011b; -->
-<!-- Vermunt, 2011). In some cases, cluster analysis and LPA solutions are very -->
-<!-- similar (when a constrained LPA model is fit). Broadly, if the variables used -->
-<!-- can be considered independent of one another, then cluster analysis may be -->
-<!-- justified in terms of reaching an optimal solution. However, LPA provides other -->
-<!-- benefits, such as the availability of information criteria (i.e., the Aikake -->
-<!-- Information Criteria [AIC] and the Bayesian Information Criteria [BIC] and -->
-<!-- statistical tests for the number of profiles (when a model is chosen, with a -->
-<!-- bootstrapped likelihood-ratio test). LPA also results in probabilistic -->
-<!-- assignments; this information can be used in subsequent analyses rather than the -->
-<!-- simple assignment (Collins & Lanza, 2010). -->
+scales.
 
 ## How to Choose the Number of Profiles/Classes
 
@@ -509,20 +492,19 @@ of variance explained are recommended for decision-making, but also
 interpretability in light of theory, parsimony, and evidence from
 cross-validation should be considered.
 
-<!-- ## How to Choose Options for the Clustering Procedure or to Select the Model Parameterization -->
+## How to Choose Options for the Clustering Procedure or to Select the Model Parameterization
 
-<!-- This applies most to LPA, but in cluster analysis, there are also options about -->
-<!-- the distance metric used. In LPA, we can determine which parameters - variance -->
-<!-- and covariance - are estimated to be the same or different across all profiles, -->
-<!-- and, in the case of covariance, whether it is fixed to zero. Of course, for the -->
-<!-- profiles we are most interested in, the mean is allowed to vary across profiles. -->
-<!-- The models with more parameters freely-estimated use more degrees of freedom; -->
-<!-- thus, similar to the number of profiles selected, the balance between adding -->
-<!-- more parameters (and having a more complex model) and interpretability and -->
-<!-- parsimony must be balanced. If a more complex model fits better and is -->
-<!-- interpretable and is justifiable in terms of the data collected, then it may be -->
-<!-- preferred to simpler models. If the two models are similar in terms of their -->
-<!-- fit, then the more simple, parsimonious model should be selected. -->
+In LPA, we can determine which parameters - variance
+and covariance - are estimated to be the same or different across all profiles,
+and, in the case of covariance, whether it is fixed to zero. Of course, for the
+profiles we are most interested in, the mean is allowed to vary across profiles.
+The models with more parameters freely-estimated use more degrees of freedom;
+thus, similar to the number of profiles selected, the balance between adding
+more parameters (and having a more complex model) and interpretability and
+parsimony must be balanced. If a more complex model fits better and is
+interpretable and is justifiable in terms of the data collected, then it may be
+preferred to simpler models. If the two models are similar in terms of their
+fit, then the more simple, parsimonious model should be selected.
 
 ## More General Recommendations
 
