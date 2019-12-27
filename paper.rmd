@@ -455,12 +455,45 @@ get_data(m) %>%
 
 ```{r, echo = FALSE}
 t <- read_csv("GRoLTS-applicability-to-LPA.csv")
-t %>% 
+tp <- t %>% 
   filter(use == 1) %>% 
-  mutate(Number = 1:nrow(.)) %>% 
-  select(`GRoLTS Number` = Number, `Number`, `Checklist Item`) %>% 
+  mutate(`LPA Number` = 1:nrow(.)) %>% 
+  select(`GRoLTS Number` = Number, `LPA Number`, `Checklist Item`)
+
+tp %>% 
   DT::datatable()
 ```
+
+We walk through each of these in turn.
+
+### Is the missing data mechanism reported?                                                                                                                                                                                                         
+### Is a description provided of what variables are related to attrition/missing data?                                      
+
+### Is a description provided of how missing data in the analyses were dealt with?
+ 
+### Is information about the distribution of the observed variables included?
+
+### Is the software mentioned?
+
+### Are alternative specifications of the between-class differences in variance–covariance matrix structure considered and clearly documented?
+
+### Is information reported about the number of random start values and final iterations included?
+
+### Are the model comparison (and selection) tools described from a statistical perspective?
+
+### Are the total number of fitted models reported, including a one-class solution?
+
+### Are the number of cases per class reported for each model (absolute sample size, or proportion)?
+
+### If classification of cases in a trajectory is the goal, is entropy reported?                                            
+
+### Are all of the estimates plotted?
+
+### Are the raw data plotted along with the estimates?
+
+### Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?
+
+### Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?
 
 There are a number of analytic choices that need to be made when carrying out
 person-oriented analyses. Because such person-oriented approaches are often more

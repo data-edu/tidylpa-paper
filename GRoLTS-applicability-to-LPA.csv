@@ -10,8 +10,8 @@ Number,use,Question(s) for C.J.,Answers,Checklist Item,Reported?
 11,1,"total number' - does this mean every model compared (i.e., those considered with compare_solutions())? CJ: Yes",,"Are the total number of fitted models reported, including a one-class solution?",Yes/No
 12,1,,,"Are the number of cases per class reported for each model (absolute sample size, or proportion)?",Yes/No
 13,1,"entropy is reported regardless, correct? CJ: Yes!",,"If classification of cases in a trajectory is the goal, is entropy reported?",Yes/No
-14a.,1,"nice plots! :) CJ: Yeah, basically we can replace this with different plotting requirements, based on the mantra: Plot everything that's estimated (i.e., mean, variance, covariance)",,Is a plot included with the estimated mean trajectories of the final solution?,Yes/No
-14c.,1,"is this comparable to plotting the raw data with the estimates, as we do by default? CJ: Exactly, we can adapt this point to emphasize that",,Is a plot included of the combination of estimated means of the final model and the observed individual trajectories split out for each latent class?,Yes/No
+14a.,1,"nice plots! :) CJ: Yeah, basically we can replace this with different plotting requirements, based on the mantra: Plot everything that's estimated (i.e., mean, variance, covariance)",,Are all of the coefficients plotted?,Yes/No
+14c.,1,"is this comparable to plotting the raw data with the estimates, as we do by default? CJ: Exactly, we can adapt this point to emphasize that",,Are the raw data plotted along with the estimates?,Yes/No
 15,1,,,"Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?",Yes/No
 16,1,,,"Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?",Yes/No
 1,0,,,Is the metric of time used in the statistical model reported?,Yes/No
