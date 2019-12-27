@@ -466,8 +466,9 @@ tp %>%
 
 We walk through each of these in turn.
 
-### Is the missing data mechanism reported?                                                                                                                                                                                                         
-### Is a description provided of what variables are related to attrition/missing data?                                      
+### Is the missing data mechanism reported?
+
+### Is a description provided of what variables are related to attrition/missing data?
 
 ### Is a description provided of how missing data in the analyses were dealt with?
  
@@ -485,7 +486,7 @@ We walk through each of these in turn.
 
 ### Are the number of cases per class reported for each model (absolute sample size, or proportion)?
 
-### If classification of cases in a trajectory is the goal, is entropy reported?                                            
+### If classification of cases in a trajectory is the goal, is entropy reported?
 
 ### Are all of the estimates plotted?
 
@@ -584,6 +585,24 @@ nested as in very common uses of multi-level models, but rather are
 cross-classified. West, Welch, & Galecki (2014) have a description of the use of
 multi-level models with cross-classified data and tools (including those freely
 available through R) that can be used to estimate them.
+
+# Implications
+
+A step away from the tutorial side of this work, we wish to note some implications 
+for the developers of statistical software for psychological scientists. 
+
+First, we note that developing a tool that emphasized both rigor and access has
+been, so far, well-received. This suggests that there is an audience (or a
+market) for tools to carry out sophisticated tools that may be otherwise
+out-of-reach. Tools do not need to be hard to use, a point made by developers
+of, for example, tools to carry out highly-sophisticated Bayesian methods using
+the most cutting-edge tools (Makowski et al., 2019, Burkner, 2018). We think
+that tidyLPA speaks to this, too.
+
+Another implication concerns how we developed tidyLPA. We used a modern software
+development workflow, including git/GitHub, a suite of tests, and continuous
+integration tools. We also note that we emphasized communicating that we were
+developing the software; when it was updated; and how we made major updates.
 
 # Conclusion
 
