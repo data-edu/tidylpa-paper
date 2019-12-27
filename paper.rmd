@@ -107,15 +107,18 @@ dx %>%
   ylim(0, .10)
 ```
 
-This kind of distribution (that is *bimodal*) is not exclusive to grades. For teachers, psychologists, researchers, and friends and family members, people
-are highly-complex and not easily able to be characterized by *one*
-characteristic or personality trait--and its distribution. In the social sciences, broadly, and in psychology, particularly, a statistical method that can be used to describe how
-people, in their individual particularities, may have similarities on the basis
-of some set of measures through which they can be grouped in meaningful,
+This kind of distribution (that is *bimodal*) is not exclusive to grades. For
+teachers, psychologists, researchers, and friends and family members, people are
+highly-complex and not easily able to be characterized by *one* characteristic
+or personality trait--and its distribution. In the social sciences, broadly, and
+in psychology, particularly, a statistical method that can be used to describe
+how people, in their individual particularities, may have similarities on the
+basis of some set of measures through which they can be grouped in meaningful,
 distinctive ways. This approach, which has a provenance in developmental (or
 *person-oriented*) approaches (Bergman & El-Khouri, 1997; Magnusson &
 Cairns, 1996; see Linnenbrink-Garcia & Wormington, 2017, for a recent review) is
-an example of a general mixture model (Harring & Hodis, 2016; Pastor, Barron, Miller, & Davis, 2007).
+an example of a general mixture model (Harring & Hodis, 2016; Pastor, Barron,
+Miller, & Davis, 2007).
 
 In this tutorial, we aim to describe one of the most commonly-used--and relevant
 to psychologists--application of the general mixture model, to cases for which
@@ -452,7 +455,11 @@ get_data(m) %>%
 
 ```{r, echo = FALSE}
 t <- read_csv("GRoLTS-applicability-to-LPA.csv")
-t
+t %>% 
+  filter(use == 1) %>% 
+  mutate(Number = 1:nrow(.)) %>% 
+  select(`GRoLTS Number` = Number, `Number`, `Checklist Item`) %>% 
+  DT::datatable()
 ```
 
 There are a number of analytic choices that need to be made when carrying out
