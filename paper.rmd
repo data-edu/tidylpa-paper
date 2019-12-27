@@ -596,7 +596,7 @@ been, so far, well-received. This suggests that there is an audience (or a
 market) for tools to carry out sophisticated tools that may be otherwise
 out-of-reach. Tools do not need to be hard to use, a point made by developers
 of, for example, tools to carry out highly-sophisticated Bayesian methods using
-the most cutting-edge tools (Makowski et al., 2019, Burkner, 2018). We think
+the most cutting-edge tools [@burkner2017, @makowski2019]. We think
 that tidyLPA speaks to this, too.
 
 Another implication concerns how we developed tidyLPA. We used a modern software
