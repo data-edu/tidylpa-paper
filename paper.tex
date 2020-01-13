@@ -1,134 +1,133 @@
----
-title             : "Carrying out Latent Profile Analysis in Accordance With Best Practices: A Tutorial Using the tidyLPA R package"
-shorttitle        : "tidyLPA"
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[man]{apa6}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Carrying out Latent Profile Analysis in Accordance With Best Practices: A Tutorial Using the tidyLPA R package},
+            pdfauthor={Joshua Rosenberg, Caspar van Lissa, Jennifer Schmidt, Patrick Beymer, Daniel Anderson, \& Matthew Schell},
+            pdfkeywords={Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 
-author: 
-  - name          : "Joshua Rosenberg"
-    affiliation   : "1"
-    corresponding : yes
-    address       : "1122 Volunteer Blvd., Knoxville, TN, 37996"
-    email         : "jmrosenberg@utk.edu"
-  - name          : "Caspar van Lissa"
-    affiliation   : "2"
-  - name          : "Jennifer Schmidt"
-    affiliation   : "3"
-  - name          : "Patrick Beymer"
-    affiliation   : "3"
-  - name          : "Daniel Anderson"
-    affiliation   : "4"
-  - name          : "Matthew Schell"
-    affiliation   : "3"
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
 
-affiliation:
-  - id            : "1"
-    institution   : "University of Tennessee, Knoxville"
-  - id            : "2"
-    institution   : "Utrecht University"
-  - id            : "3"
-    institution   : "Michigan State University"
-  - id            : "4"
-    institution   : "University of Oregon"
-  - id            : "5"
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
 
-authornote: |
-  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
+\title{Carrying out Latent Profile Analysis in Accordance With Best Practices: A Tutorial Using the tidyLPA R package}
+\author{Joshua Rosenberg\textsuperscript{1}, Caspar van Lissa\textsuperscript{2}, Jennifer Schmidt\textsuperscript{3}, Patrick Beymer\textsuperscript{3}, Daniel Anderson\textsuperscript{4}, \& Matthew Schell\textsuperscript{3}}
+\date{}
 
-  Enter author note here.
+\authornote{Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
 
-abstract: |
-  
-keywords          : "Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust"
-wordcount         : "" 
+Enter author note here.
 
-bibliography      : ["r-references.bib", "citations.bib"]
+Correspondence concerning this article should be addressed to Joshua Rosenberg, 1122 Volunteer Blvd., Knoxville, TN, 37996. E-mail: \href{mailto:jmrosenberg@utk.edu}{\nolinkurl{jmrosenberg@utk.edu}}}
 
-floatsintext      : no
-figurelist        : no
-tablelist         : no
-footnotelist      : no
-linenumbers       : no
-mask              : no
-draft             : no
+\abstract{
 
-documentclass     : "apa6"
-classoption       : "man"
-output            : papaja::apa6_pdf
----
+}
 
-```{r setup, include = FALSE}
-library("papaja")
-```
+\begin{document}
+\maketitle
 
-```{r analysis-preferences}
-# Seed for random number generation
-set.seed(42)
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
-```
-
-# Introduction
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
 
 In statistics classes, textbooks, and workshops, an example like the following is common:
 
-> Grades are normally distributed, with $\mu$ = 75, $\sigma$ = 5.
+\begin{quote}
+Grades are normally distributed, with \(\mu\) = 75, \(\sigma\) = 5.
+\end{quote}
 
-Students, may (reasonably) ask, though, are grades *really* normally distributed? 
-
-```{r, include = FALSE}
-library(simstudy)
-
-def <- defData(varname = "x1", formula = 65, variance = 30)
-def <- defData(def, varname = "x2", formula = 85, variance = 23)
-def <- defData(def, varname = "xMix", 
-               formula = "x1 | .5 + x2 | .5", 
-               dist = "mixture")
-
-set.seed(2716)
-dx <- genData(1000, def)
-```
+Students, may (reasonably) ask, though, are grades \emph{really} normally distributed?
 
 Are their one distribution?
 
-```{r, echo - FALSE}
-library(tidyverse)
-ggplot(dx, aes(x = xMix)) +
-  geom_density() +
-  papaja::theme_apa() +
-  ylim(0, .10)
-```
+\includegraphics{paper_files/figure-latex/echo - FALSE-1.pdf}
 
 Or two?
 
-```{r, echo = FALSE}
-dx %>% 
-  gather(key, val, x1:x2) %>% 
-  ggplot(aes(x = val, fill = key)) +
-  geom_density(alpha = .3) +
-  papaja::theme_apa() +
-  ylim(0, .10)
-```
+\includegraphics{paper_files/figure-latex/unnamed-chunk-2-1.pdf}
 
-This kind of distribution (that is *bimodal*) is not exclusive to grades. For
+This kind of distribution (that is \emph{bimodal}) is not exclusive to grades. For
 teachers, psychologists, researchers, and friends and family members, people are
-highly-complex and not easily able to be characterized by *one* characteristic
+highly-complex and not easily able to be characterized by \emph{one} characteristic
 or personality trait--and its distribution. In the social sciences, broadly, and
 in psychology, particularly, a statistical method that can be used to describe
 how people, in their individual particularities, may have similarities on the
 basis of some set of measures through which they can be grouped in meaningful,
 distinctive ways. This approach, which has a provenance in developmental (or
-*person-oriented*) approaches (Bergman & El-Khouri, 1997; Magnusson &
-Cairns, 1996; see Linnenbrink-Garcia & Wormington, 2017, for a recent review) is
-an example of a general mixture model (Harring & Hodis, 2016; Pastor, Barron,
-Miller, & Davis, 2007).
+\emph{person-oriented}) approaches (Bergman \& El-Khouri, 1997; Magnusson \&
+Cairns, 1996; see Linnenbrink-Garcia \& Wormington, 2017, for a recent review) is
+an example of a general mixture model (Harring \& Hodis, 2016; Pastor, Barron,
+Miller, \& Davis, 2007).
 
 In this tutorial, we aim to describe one of the most commonly-used--and relevant
 to psychologists--application of the general mixture model, to cases for which
 all of the variables for which (relatively) homogeneous groups are identified
-from among a (relatively) heterogeneous sample are continuos, *latent profile
-analysis* (LPA). We note that scholars using the approach, especially in
+from among a (relatively) heterogeneous sample are continuos, \emph{latent profile
+analysis} (LPA). We note that scholars using the approach, especially in
 developmental and educational psychology, use cluster analytic methods. Such an
 approach has some similarities with LPA (CITE paper showing how k-means is
 similar to the simplest model specification of LPA?), though LPA also has a
-number of benefits (Linnenbrink-Garcia & Wormington, 2017), and we we focus on
+number of benefits (Linnenbrink-Garcia \& Wormington, 2017), and we we focus on
 LPA in this paper.
 
 After describing the method and some examples of its use, we provide a tutorial
@@ -140,12 +139,13 @@ reflections on the role of statistical software--especially software that is
 freely-available, open-source, and highly-performant--in the psychological
 sciences.
 
-# Latent Profile Analysis
+\hypertarget{latent-profile-analysis}{%
+\section{Latent Profile Analysis}\label{latent-profile-analysis}}
 
 The goal of LPA is estimate the parameters for a number of distributions
 (typically multivariate) from a single dataset. Thus, such an approach is
 model-based, and some descriptions in the literature refer to it as model-based
-clustering (Hennig, Meila, Murtagh, & Rocci, 2015; Scrucca, Fop, Murphy, &
+clustering (Hennig, Meila, Murtagh, \& Rocci, 2015; Scrucca, Fop, Murphy, \&
 Raftery, 2017). Thus, one distinction between LPA and other, similar cluster
 analytic approaches is that LPA is model-based; instead of using algorithms to
 group together cases, LPA seeks to estimate parameters - in terms of variances
@@ -171,7 +171,7 @@ rather in terms of the geometric properties of the distributions that result
 from particular parameterizations. Muthen and Muthen (1997-2017) and others
 (Pastor et al., 2007) commonly refer to local independence to mean that the
 covariances are fixed to zero (also described as the specification of the
-covariance matrix as “diagonal,” because only the diagonal components, or the
+covariance matrix as ``diagonal,'' because only the diagonal components, or the
 variances, are estimated).
 
 In general, as more parameters are estimated (i.e., those that are fixed to zero
@@ -193,8 +193,6 @@ are more likely to fit the data better. More information on the model
 parameterizations are discussed in the context of the software tool tidyLPA that
 we have developed.
 
-<!-- I think we move this to the discussion in light of best practices -->
-
 A note of caution is warranted about LPA in the context of their characteristics
 and strengths. Bauer (2007) notes that many samples of data can be usefully
 broken down into profiles, and that the addition of profiles will likely be
@@ -207,12 +205,14 @@ interpretability, and a general sense that the profiles are not necessarily
 real, but are rather helpful analytic tools, should be both priorities for the
 analyst and the reader of studies using this approach.
 
-# Specific Software Tools
+\hypertarget{specific-software-tools}{%
+\section{Specific Software Tools}\label{specific-software-tools}}
 
-## Other Tools
+\hypertarget{other-tools}{%
+\subsection{Other Tools}\label{other-tools}}
 
 SPSS is a common tool to carry out cluster analyses (but not LPA). While
-somewhat straightforward to carry out, particularly in SPSS’s graphical user
+somewhat straightforward to carry out, particularly in SPSS's graphical user
 interface (GUI), there are some challenges to use of this approach. The GUI in
 SPSS can be challenging, even for the most able analyst, to be able to document
 every step with syntax, and so reproducing the entire analysis efficiently can
@@ -221,12 +221,12 @@ reviewer looking to replicate this work. Additionally, SPSS is commercial
 software (and is expensive), and so analysts access to it cannot carry out this
 analysis.
 
-Another common tool is MPlus (Muthen & Muthen, 2019). MPlus is a commercial tool
+Another common tool is MPlus (Muthen \& Muthen, 2019). MPlus is a commercial tool
 that provides functionality for many latent variable (and multi-level) models.
 We will speak more to MPlus in the section on tidyLPA, as our software provides
 an interface to both it and an open-source tool.
 
-In R, a number of tools *can* be used to carry out LPA. OpenMx can be used for
+In R, a number of tools \emph{can} be used to carry out LPA. OpenMx can be used for
 this purpose (and to specify almost any model possible to specify within a
 latent variable modeling approach). However, while OpenMx is very flexible, it
 can also be challenging to use. Other tools in R allow for estimating Gaussian
@@ -237,13 +237,14 @@ RMixMod, which uses compiled C++ code) and others in terms of ease-of-use (i.e.,
 the plot methods built-in to RMixMod, mclust, and other tools). However, they
 also have some drawbacks, in that it can be difficult to translate between the
 model specifications, which are often described in terms of the geometric
-properties of the multivariate distributions being estimated (i.e., “spherical,
-equal volume”), rather than in terms of whether and how the means, variances,
+properties of the multivariate distributions being estimated (i.e., ``spherical,
+equal volume''), rather than in terms of whether and how the means, variances,
 and covariances are estimated. They also may use different default settings
 (than those encountered in MPlus) in terms of the expectation-maximization
 algorithm, which can make comparing results across tools challenging.
 
-## tidyLPA
+\hypertarget{tidylpa}{%
+\subsection{tidyLPA}\label{tidylpa}}
 
 Because of the limitations in other tools, we set out to develop a tool that a)
 provided sensible defaults and were easy to use, but provided the option to
@@ -251,8 +252,8 @@ access and modify all of the inputs to the model (i.e., low barrier, high
 ceiling), b) interfaced to existing tools, and are able to translate between
 what existing tools are capable of and what researchers and analysts
 carrying-out person-oriented analyses would like to specify, c) made it easy to
-carry-out fully-reproducible analyses and d) were well-documented. To do so, we 
-created tidyLPA [@R-tidyLPA].
+carry-out fully-reproducible analyses and d) were well-documented. To do so, we
+created tidyLPA (Rosenberg, Beymer, Anderson, Lissa, \& Schmidt, 2018).
 
 This package focuses on models that are commonly specified as part of LPA.
 Because MPlus is so widely-used, it can be helpful to compare output from other
@@ -266,9 +267,9 @@ benchmark. Note that most of the output is identical, though there are some
 differences in the hundreths decimal places for some. Because of differences in
 settings for the EM algorithm and particularly for the start values (random
 starts for MPlus and starting values from hierarchical clustering for mclust),
-differences may be expected for more complex data and models. 
+differences may be expected for more complex data and models.
 
-One way that tidyLPA is designed to be easy to use is that it assumes a “tidy”
+One way that tidyLPA is designed to be easy to use is that it assumes a ``tidy''
 data structure (Wickham, 2014). This means that it emphasizes the use of a data
 frame as both the primary input and output of functions for the package. Because
 data is passed to and returned (in amended form, i.e., with the latent profile
@@ -277,7 +278,7 @@ easy to create plots or use results in subsequent analyses. Another noteworthy
 feature of tidyLPA is that it provides the same functionality through two
 different tools, one that is open-source and available through R, the mclust
 package (Scrucca et al., 2017) and one that is available through the commercial
-software MPlus (Muthen & Muthen, 1997-2017). Moreover, as both tools use the
+software MPlus (Muthen \& Muthen, 1997-2017). Moreover, as both tools use the
 same maximum likelihood estimation procedure, they are benchmarked to produce
 the same output. Also, note that we have described the model
 specifications with descriptions of what is estimated in terms of the variances
@@ -286,94 +287,75 @@ unrestricted), and the covariance matrix associated with the parameterizationfor
 the six models that are possible to be estimated on the website for tidyLPA (see
 here).
 
-## Installation
+\hypertarget{installation}{%
+\subsection{Installation}\label{installation}}
 
 You can install tidyLPA from CRAN with:
 
-``` {r, eval = F}
-install.packages("tidyLPA")
-```
-
 You can also install the development version of tidyLPA from GitHub with:
 
-``` {r gh-installation, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("data-edu/tidyLPA")
-```
+\hypertarget{examples}{%
+\subsection{Examples}\label{examples}}
 
-``` {r, message = F}
-library(tidyLPA)
-library(dplyr)
-```
+\hypertarget{mclust-via-tidylpa}{%
+\subsubsection{Mclust via tidyLPA}\label{mclust-via-tidylpa}}
 
-## Examples
-
-<!-- This is where we need to use an example from our own data -->
-
-### Mclust via tidyLPA
-
-Here is a brief example using the built-in `pisaUSA15` data set and variables
+Here is a brief example using the built-in \texttt{pisaUSA15} data set and variables
 for broad interest, enjoyment, and self-efficacy. Note that we first type the
 name of the data frame, followed by the unquoted names of the variables used to
 create the profiles. We also specify the number of profiles and the model. See
-`?estimate_profiles` for more details.
+\texttt{?estimate\_profiles} for more details.
 
-In these examples, we pass the results of one function to the next by *piping*
-(using the `%>%` operator, loaded from the `dplyr` package). We pass the data to
-a function that selects relevant variables, and then to `estimate_profiles`:
+In these examples, we pass the results of one function to the next by \emph{piping}
+(using the \texttt{\%\textgreater{}\%} operator, loaded from the \texttt{dplyr} package). We pass the data to
+a function that selects relevant variables, and then to \texttt{estimate\_profiles}:
 
-``` {r}
-pisaUSA15[1:100, ] %>%
-    select(broad_interest, enjoyment, self_efficacy) %>%
-    single_imputation() %>%
-    estimate_profiles(3)
-```
+\begin{verbatim}
+## tidyLPA analysis using mclust: 
+## 
+##  Model Classes AIC    BIC    Entropy prob_min prob_max n_min n_max BLRT_p
+##  1     3       629.10 665.57 0.82    0.83     0.96     0.03  0.70  0.01
+\end{verbatim}
 
-### Mplus via tidyLPA
+\hypertarget{mplus-via-tidylpa}{%
+\subsubsection{Mplus via tidyLPA}\label{mplus-via-tidylpa}}
 
 We can use Mplus simply by changing the package argument for
-`estimate_profiles()`:
+\texttt{estimate\_profiles()}:
 
-``` {r, eval = FALSE}
-pisaUSA15[1:100, ] %>%
-    select(broad_interest, enjoyment, self_efficacy) %>%
-    single_imputation() %>%
-    estimate_profiles(3, package = "MplusAutomation")
-```
-
-A simple summary of the analysis is printed to the console. 
+A simple summary of the analysis is printed to the console.
 The resulting object can be further passed down a pipeline to
-other functions, such as `compare_solutions`, `get_data`, `get_fit`,
-etc. This is the "tidy" part, in that the function can be embedded in a tidy
+other functions, such as \texttt{compare\_solutions}, \texttt{get\_data}, \texttt{get\_fit},
+etc. This is the ``tidy'' part, in that the function can be embedded in a tidy
 analysis pipeline.
 
 If you have Mplus installed, you can call the version of this function that uses
-MPlus in the same way, by adding the argument `package = "MplusAutomation`.
+MPlus in the same way, by adding the argument \texttt{package\ =\ "MplusAutomation}.
 
-### Plotting the profiles
+\hypertarget{plotting-the-profiles}{%
+\subsubsection{Plotting the profiles}\label{plotting-the-profiles}}
 
-We can plot the profiles by piping the output to `plot_profiles()`.
+We can plot the profiles by piping the output to \texttt{plot\_profiles()}.
 
-``` {r}
-pisaUSA15[1:100, ] %>%
-    select(broad_interest, enjoyment, self_efficacy) %>%
-    single_imputation() %>%
-    scale() %>%
-    estimate_profiles(3) %>% 
-    plot_profiles()
-```
+\includegraphics{paper_files/figure-latex/unnamed-chunk-7-1.pdf}
 
-## Model specification
+\hypertarget{model-specification}{%
+\subsection{Model specification}\label{model-specification}}
 
-In addition to the number of profiles (specified with the `n_profiles`
+In addition to the number of profiles (specified with the \texttt{n\_profiles}
 argument), the model can be specified in terms of whether and how the variable
 variances and covariances are estimated.
 
-The models are specified by passing arguments to the `variance` and `covariance`
+The models are specified by passing arguments to the \texttt{variance} and \texttt{covariance}
 arguments. The possible values for these arguments are:
 
-  - `variances`: "equal" and "zero"
-  - `covariances`: "varying", "equal", and "zero"
+\begin{itemize}
+\tightlist
+\item
+  \texttt{variances}: ``equal'' and ``zero''
+\item
+  \texttt{covariances}: ``varying'', ``equal'', and ``zero''
+\end{itemize}
 
 If no values are specified for these, then the variances are constrained to be
 equal across classes, and covariances are fixed to 0 (conditional independence
@@ -381,120 +363,138 @@ of the indicators).
 
 These arguments allow for four models to be specified:
 
-  - Equal variances and covariances fixed to 0 (Model 1)
-  - Varying variances and covariances fixed to 0 (Model 2)
-  - Equal variances and equal covariances (Model 3)
-  - Varying variances and varying covariances (Model 6)
+\begin{itemize}
+\tightlist
+\item
+  Equal variances and covariances fixed to 0 (Model 1)
+\item
+  Varying variances and covariances fixed to 0 (Model 2)
+\item
+  Equal variances and equal covariances (Model 3)
+\item
+  Varying variances and varying covariances (Model 6)
+\end{itemize}
 
 Two additional models (Models 4 and 5) can be fit using MPlus. More information
 on the models can be found in the
-[vignette](https://data-edu.github.io/tidyLPA/articles/Introduction_to_tidyLPA.html).
+\href{https://data-edu.github.io/tidyLPA/articles/Introduction_to_tidyLPA.html}{vignette}.
 
 Here is an example of specifying a model with varying variances and covariances
 (Model 6; not run here):
 
-``` {r, eval = F}
-pisaUSA15[1:100, ] %>%
-    select(broad_interest, enjoyment, self_efficacy) %>%
-    single_imputation() %>%
-    estimate_profiles(3, 
-                      variances = "varying",
-                      covariances = "varying")
-```
+\hypertarget{comparing-a-wide-range-of-solutions}{%
+\subsection{Comparing a wide range of solutions}\label{comparing-a-wide-range-of-solutions}}
 
-## Comparing a wide range of solutions
-
-The function `compare_solutions()` compares the fit of several estimated models,
+The function \texttt{compare\_solutions()} compares the fit of several estimated models,
 with varying numbers of profiles and model specifications:
 
-``` {r, eval = FALSE}
-pisaUSA15[1:100, ] %>%
-    select(broad_interest, enjoyment, self_efficacy) %>%
-    single_imputation() %>%
-    estimate_profiles(1:3, 
-                      variances = c("equal", "varying"),
-                      covariances = c("zero", "varying")) %>%
-    compare_solutions(statistics = c("AIC", "BIC"))
-```
-
-## Accessing values in the output
+\hypertarget{accessing-values-in-the-output}{%
+\subsection{Accessing values in the output}\label{accessing-values-in-the-output}}
 
 A few helper functions are available to make it easier to work with the output
 of an analysis.
 
-`get_data()` returns the data:
+\texttt{get\_data()} returns the data:
 
-``` {r}
-m <- pisaUSA15[1:100, ] %>%
-    select(broad_interest, enjoyment, self_efficacy) %>%
-    single_imputation() %>%
-    estimate_profiles(3:4)
-```
+\begin{verbatim}
+## # A tibble: 700 x 9
+##    model_number classes_number broad_interest enjoyment self_efficacy Class
+##           <dbl>          <int>          <dbl>     <dbl>         <dbl> <dbl>
+##  1            1              3            3.8       4            1        1
+##  2            1              3            3         3            2.75     3
+##  3            1              3            1.8       2.8          3.38     3
+##  4            1              3            1.4       1            2.75     2
+##  5            1              3            1.8       2.2          2        3
+##  6            1              3            1.6       1.6          1.88     3
+##  7            1              3            3         3.8          2.25     1
+##  8            1              3            2.6       2.2          2        3
+##  9            1              3            1         2.8          2.62     3
+## 10            1              3            2.2       2            1.75     3
+## # … with 690 more rows, and 3 more variables: Class_prob <int>,
+## #   Probability <dbl>, id <int>
+\end{verbatim}
 
-```{r}
-get_data(m)
-```
-
-We note that `get_data()` returns data in wide format when applied to an object
+We note that \texttt{get\_data()} returns data in wide format when applied to an object
 of class tidyProfile (one element of a tidyLPA object), or when applied to a
-tidyLPA object of length one. `get_data()` returns long format when applied to a
+tidyLPA object of length one. \texttt{get\_data()} returns long format when applied to a
 tidyLPA object containing multiple tidyProfile analyses (because then the wide
 format does not make sense).
 
-To transform data in the wide format into the long format, the `gather()`
-function from the **tidyr** package can be used, e.g.:
+To transform data in the wide format into the long format, the \texttt{gather()}
+function from the \textbf{tidyr} package can be used, e.g.:
 
-``` {r}
-get_data(m) %>% 
-    tidyr::gather(Class_prob, Probability, contains("CPROB"))
-```
+\begin{verbatim}
+## # A tibble: 700 x 9
+##    model_number classes_number broad_interest enjoyment self_efficacy Class
+##           <dbl>          <int>          <dbl>     <dbl>         <dbl> <dbl>
+##  1            1              3            3.8       4            1        1
+##  2            1              3            3         3            2.75     3
+##  3            1              3            1.8       2.8          3.38     3
+##  4            1              3            1.4       1            2.75     2
+##  5            1              3            1.8       2.2          2        3
+##  6            1              3            1.6       1.6          1.88     3
+##  7            1              3            3         3.8          2.25     1
+##  8            1              3            2.6       2.2          2        3
+##  9            1              3            1         2.8          2.62     3
+## 10            1              3            2.2       2            1.75     3
+## # … with 690 more rows, and 3 more variables: Class_prob <int>,
+## #   Probability <dbl>, id <int>
+\end{verbatim}
 
-# Recommendations Regarding Analytic Choices
+\hypertarget{recommendations-regarding-analytic-choices}{%
+\section{Recommendations Regarding Analytic Choices}\label{recommendations-regarding-analytic-choices}}
 
-## GRoLTs checklist
+\hypertarget{grolts-checklist}{%
+\subsection{GRoLTs checklist}\label{grolts-checklist}}
 
-```{r, echo = FALSE}
-t <- read_csv("GRoLTS-applicability-to-LPA.csv")
-tp <- t %>% 
-  filter(use == 1) %>% 
-  mutate(`LPA Number` = 1:nrow(.)) %>% 
-  select(`GRoLTS Number` = Number, `LPA Number`, `Checklist Item`)
-
-tp %>% 
-  DT::datatable()
-```
+\includegraphics{paper_files/figure-latex/unnamed-chunk-13-1.pdf}
 
 We walk through each of these in turn.
 
-### Is the missing data mechanism reported?
+\hypertarget{is-the-missing-data-mechanism-reported}{%
+\subsubsection{Is the missing data mechanism reported?}\label{is-the-missing-data-mechanism-reported}}
 
-### Is a description provided of what variables are related to attrition/missing data?
+\hypertarget{is-a-description-provided-of-what-variables-are-related-to-attritionmissing-data}{%
+\subsubsection{Is a description provided of what variables are related to attrition/missing data?}\label{is-a-description-provided-of-what-variables-are-related-to-attritionmissing-data}}
 
-### Is a description provided of how missing data in the analyses were dealt with?
- 
-### Is information about the distribution of the observed variables included?
+\hypertarget{is-a-description-provided-of-how-missing-data-in-the-analyses-were-dealt-with}{%
+\subsubsection{Is a description provided of how missing data in the analyses were dealt with?}\label{is-a-description-provided-of-how-missing-data-in-the-analyses-were-dealt-with}}
 
-### Is the software mentioned?
+\hypertarget{is-information-about-the-distribution-of-the-observed-variables-included}{%
+\subsubsection{Is information about the distribution of the observed variables included?}\label{is-information-about-the-distribution-of-the-observed-variables-included}}
 
-### Are alternative specifications of the between-class differences in variance–covariance matrix structure considered and clearly documented?
+\hypertarget{is-the-software-mentioned}{%
+\subsubsection{Is the software mentioned?}\label{is-the-software-mentioned}}
 
-### Is information reported about the number of random start values and final iterations included?
+\hypertarget{are-alternative-specifications-of-the-between-class-differences-in-variancecovariance-matrix-structure-considered-and-clearly-documented}{%
+\subsubsection{Are alternative specifications of the between-class differences in variance--covariance matrix structure considered and clearly documented?}\label{are-alternative-specifications-of-the-between-class-differences-in-variancecovariance-matrix-structure-considered-and-clearly-documented}}
 
-### Are the model comparison (and selection) tools described from a statistical perspective?
+\hypertarget{is-information-reported-about-the-number-of-random-start-values-and-final-iterations-included}{%
+\subsubsection{Is information reported about the number of random start values and final iterations included?}\label{is-information-reported-about-the-number-of-random-start-values-and-final-iterations-included}}
 
-### Are the total number of fitted models reported, including a one-class solution?
+\hypertarget{are-the-model-comparison-and-selection-tools-described-from-a-statistical-perspective}{%
+\subsubsection{Are the model comparison (and selection) tools described from a statistical perspective?}\label{are-the-model-comparison-and-selection-tools-described-from-a-statistical-perspective}}
 
-### Are the number of cases per class reported for each model (absolute sample size, or proportion)?
+\hypertarget{are-the-total-number-of-fitted-models-reported-including-a-one-class-solution}{%
+\subsubsection{Are the total number of fitted models reported, including a one-class solution?}\label{are-the-total-number-of-fitted-models-reported-including-a-one-class-solution}}
 
-### If classification of cases in a trajectory is the goal, is entropy reported?
+\hypertarget{are-the-number-of-cases-per-class-reported-for-each-model-absolute-sample-size-or-proportion}{%
+\subsubsection{Are the number of cases per class reported for each model (absolute sample size, or proportion)?}\label{are-the-number-of-cases-per-class-reported-for-each-model-absolute-sample-size-or-proportion}}
 
-### Are all of the estimates plotted?
+\hypertarget{if-classification-of-cases-in-a-trajectory-is-the-goal-is-entropy-reported}{%
+\subsubsection{If classification of cases in a trajectory is the goal, is entropy reported?}\label{if-classification-of-cases-in-a-trajectory-is-the-goal-is-entropy-reported}}
 
-### Are the raw data plotted along with the estimates?
+\hypertarget{are-all-of-the-estimates-plotted}{%
+\subsubsection{Are all of the estimates plotted?}\label{are-all-of-the-estimates-plotted}}
 
-### Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?
+\hypertarget{are-the-raw-data-plotted-along-with-the-estimates}{%
+\subsubsection{Are the raw data plotted along with the estimates?}\label{are-the-raw-data-plotted-along-with-the-estimates}}
 
-### Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?
+\hypertarget{are-characteristics-of-the-final-class-solution-numerically-described-i.e.-means-sdse-n-ci-etc.}{%
+\subsubsection{Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?}\label{are-characteristics-of-the-final-class-solution-numerically-described-i.e.-means-sdse-n-ci-etc.}}
+
+\hypertarget{are-the-syntax-files-available-either-in-the-appendix-supplementary-materials-or-from-the-authors}{%
+\subsubsection{Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?}\label{are-the-syntax-files-available-either-in-the-appendix-supplementary-materials-or-from-the-authors}}
 
 There are a number of analytic choices that need to be made when carrying out
 person-oriented analyses. Because such person-oriented approaches are often more
@@ -503,7 +503,7 @@ Wormington, 2017), there is no one rule for determining the solution obtained.
 This solution is obtained on the basis of multiple decisions, such as the number
 of profiles selected or the modeling decisions such as what specific options are
 used for the cluster analysis (i.e., the distance metric used to calculate the
-similarity of the observations as part of the Ward’s hierarchical clustering) or
+similarity of the observations as part of the Ward's hierarchical clustering) or
 what parameters are estimated and how as part of LPA.
 
 Given the subjectivity involved, it is important that researchers be transparent
@@ -517,7 +517,8 @@ such as over-fitting or under-fitting the model to the data. Each decision
 depends on multiple factors and balancing tensions. We discuss each of the key
 decisions listed in an analysis.
 
-## How the Data are Centering or Scaled
+\hypertarget{how-the-data-are-centering-or-scaled}{%
+\subsection{How the Data are Centering or Scaled}\label{how-the-data-are-centering-or-scaled}}
 
 The data can be transformed by centering or scaling. Typically, these are done
 after the profiles are created, so that differences between profiles can be more
@@ -525,7 +526,8 @@ easily explored. They can also be done prior to the analysis, which can be
 helpful for obtaining solutions when the variables are on very different
 scales.
 
-## How to Choose the Number of Profiles/Classes
+\hypertarget{how-to-choose-the-number-of-profilesclasses}{%
+\subsection{How to Choose the Number of Profiles/Classes}\label{how-to-choose-the-number-of-profilesclasses}}
 
 In the case of choosing the number of profiles (and the specification of the
 model / profile solution), multiple criteria, such as the BIC or the proportion
@@ -533,7 +535,8 @@ of variance explained are recommended for decision-making, but also
 interpretability in light of theory, parsimony, and evidence from
 cross-validation should be considered.
 
-## How to Choose Options for the Clustering Procedure or to Select the Model Parameterization
+\hypertarget{how-to-choose-options-for-the-clustering-procedure-or-to-select-the-model-parameterization}{%
+\subsection{How to Choose Options for the Clustering Procedure or to Select the Model Parameterization}\label{how-to-choose-options-for-the-clustering-procedure-or-to-select-the-model-parameterization}}
 
 In LPA, we can determine which parameters - variance
 and covariance - are estimated to be the same or different across all profiles,
@@ -547,7 +550,8 @@ interpretable and is justifiable in terms of the data collected, then it may be
 preferred to simpler models. If the two models are similar in terms of their
 fit, then the more simple, parsimonious model should be selected.
 
-## More General Recommendations
+\hypertarget{more-general-recommendations}{%
+\subsection{More General Recommendations}\label{more-general-recommendations}}
 
 This section highlights three general recommendations. First, scholars taking a
 person-oriented approach should emphasize reproducibility in carrying out
@@ -562,10 +566,10 @@ researchers should consider how profiles are replicated across samples.
 
 A second general recommendation considers more flexibly incorporating time, when
 data are collected across multiple time points, into analyses. ISOA groups all
-time points and doesn’t make distinctions. Other approaches perform analysis
-separately at different timepoints (Corpus & Wormington, 2014). Some integrate
-time as a part of the profiles, i.e. growth mixture modeling (groups of
-patterns), i.e. within-person growth modeling, where there are individual growth
+time points and doesn't make distinctions. Other approaches perform analysis
+separately at different timepoints (Corpus \& Wormington, 2014). Some integrate
+time as a part of the profiles, i.e.~growth mixture modeling (groups of
+patterns), i.e.~within-person growth modeling, where there are individual growth
 patterns. Research to date has yet to consider additional challenges in applying
 person centered approaches to longitudinal data. For instance, Schmidt et al
 (2018) use an Experience Sampling Method (ESM) approach to collecting data and
@@ -582,35 +586,18 @@ of, for example, individuals responding to (ESM) surveys at the same time and
 repeated responses being associated with the same individuals can both be
 modeled, although the effects of these two sources of dependencies are not
 nested as in very common uses of multi-level models, but rather are
-cross-classified. West, Welch, & Galecki (2014) have a description of the use of
+cross-classified. West, Welch, \& Galecki (2014) have a description of the use of
 multi-level models with cross-classified data and tools (including those freely
 available through R) that can be used to estimate them.
 
-# Implications
-
-A step away from the tutorial side of this work, we wish to note some implications 
-for the developers of statistical software for psychological scientists. 
-
-First, we note that developing a tool that emphasized both rigor and access has
-been, so far, well-received. This suggests that there is an audience (or a
-market) for tools to carry out sophisticated tools that may be otherwise
-out-of-reach. Tools do not need to be hard to use, a point made by developers
-of, for example, tools to carry out highly-sophisticated Bayesian methods using
-the most cutting-edge tools [@burkner2017, @makowski2019]. We think
-that tidyLPA speaks to this, too.
-
-Another implication concerns how we developed tidyLPA. We used a modern software
-development workflow, including git/GitHub, a suite of tests, and continuous
-integration tools. We also note that we emphasized communicating that we were
-developing the software; when it was updated; and how we made major updates.
-
-# Conclusion
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
 
 Person-oriented analysis ia way to consider how psychological constructs are
 experienced (and can be analyzed) together and at once. Though described in
 contrast to a variable-centered approach, scholars have pointed out how
 person-oriented approaches are complementary to variable-centered analyses
-(Marsh, Ludtke, Trautwein, & Morin, 2009). A person-oriented approach can help
+(Marsh, Ludtke, Trautwein, \& Morin, 2009). A person-oriented approach can help
 us to consider multiple variables together and at once and in a more dynamic
 way, reflected in the methodological approaches for cluster analysis and LPA
 that identify profiles of individuals responses.
@@ -644,14 +631,17 @@ the complexity of these experiences.
 
 \newpage
 
-# References
-```{r create_r-references}
-r_refs(file = "r-references.bib")
-```
+\hypertarget{references}{%
+\section{References}\label{references}}
 
 \begingroup
 \setlength{\parindent}{-0.5in}
 \setlength{\leftskip}{0.5in}
 
-<div id = "refs"></div>
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-R-tidyLPA}{}%
+Rosenberg, J. M., Beymer, P. N., Anderson, D. J., Lissa, C. van, \& Schmidt, J. A. (2018). TidyLPA: An r package to easily carry out latent profile analysis (lpa) using open-source or commercial software. \emph{Journal of Open Source Software}, \emph{3}(30), 978. doi:\href{https://doi.org/10.21105/joss.00978}{10.21105/joss.00978}
+
 \endgroup
+
+\end{document}
