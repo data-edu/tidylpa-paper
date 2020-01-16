@@ -74,9 +74,7 @@
 \author{Joshua Rosenberg\textsuperscript{1}, Caspar van Lissa\textsuperscript{2}, Jennifer Schmidt\textsuperscript{3}, Patrick Beymer\textsuperscript{3}, Daniel Anderson\textsuperscript{4}, \& Matthew Schell\textsuperscript{3}}
 \date{}
 
-\authornote{Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
-
-Enter author note here.
+\authornote{
 
 Correspondence concerning this article should be addressed to Joshua Rosenberg, 1122 Volunteer Blvd., Knoxville, TN, 37996. E-mail: \href{mailto:jmrosenberg@utk.edu}{\nolinkurl{jmrosenberg@utk.edu}}}
 
@@ -100,11 +98,7 @@ Students, may (reasonably) ask, though, are grades \emph{really} normally distri
 
 Are their one distribution?
 
-\includegraphics{paper_files/figure-latex/echo - FALSE-1.pdf}
-
 Or two?
-
-\includegraphics{paper_files/figure-latex/unnamed-chunk-2-1.pdf}
 
 This kind of distribution (that is \emph{bimodal}) is not exclusive to grades. For
 teachers, psychologists, researchers, and friends and family members, people are
@@ -297,14 +291,10 @@ You can also install the development version of tidyLPA from GitHub with:
 \hypertarget{examples}{%
 \subsection{Examples}\label{examples}}
 
+Here, we use a simulated dataset, based on Curry et al., 2019, contains data on moral relevance and judgment across the seven domains of the \emph{Morality As Cooperation} scale.
+
 \hypertarget{mclust-via-tidylpa}{%
 \subsubsection{Mclust via tidyLPA}\label{mclust-via-tidylpa}}
-
-Here is a brief example using the built-in \texttt{pisaUSA15} data set and variables
-for broad interest, enjoyment, and self-efficacy. Note that we first type the
-name of the data frame, followed by the unquoted names of the variables used to
-create the profiles. We also specify the number of profiles and the model. See
-\texttt{?estimate\_profiles} for more details.
 
 In these examples, we pass the results of one function to the next by \emph{piping}
 (using the \texttt{\%\textgreater{}\%} operator, loaded from the \texttt{dplyr} package). We pass the data to
@@ -313,8 +303,8 @@ a function that selects relevant variables, and then to \texttt{estimate\_profil
 \begin{verbatim}
 ## tidyLPA analysis using mclust: 
 ## 
-##  Model Classes AIC    BIC    Entropy prob_min prob_max n_min n_max BLRT_p
-##  1     3       629.10 665.57 0.82    0.83     0.96     0.03  0.70  0.01
+##  Model Classes AIC       BIC       Entropy prob_min prob_max n_min n_max BLRT_p
+##  1     3       158594.55 158898.38 0.82    0.91     0.92     0.15  0.53  0.01
 \end{verbatim}
 
 \hypertarget{mplus-via-tidylpa}{%
@@ -337,7 +327,7 @@ MPlus in the same way, by adding the argument \texttt{package\ =\ "MplusAutomati
 
 We can plot the profiles by piping the output to \texttt{plot\_profiles()}.
 
-\includegraphics{paper_files/figure-latex/unnamed-chunk-7-1.pdf}
+\includegraphics{paper_files/figure-latex/unnamed-chunk-8-1.pdf}
 
 \hypertarget{model-specification}{%
 \subsection{Model specification}\label{model-specification}}
@@ -387,6 +377,8 @@ Here is an example of specifying a model with varying variances and covariances
 
 The function \texttt{compare\_solutions()} compares the fit of several estimated models,
 with varying numbers of profiles and model specifications:
+
+We can also run the same process using mplus:
 
 \hypertarget{accessing-values-in-the-output}{%
 \subsection{Accessing values in the output}\label{accessing-values-in-the-output}}
@@ -447,7 +439,7 @@ function from the \textbf{tidyr} package can be used, e.g.:
 \hypertarget{grolts-checklist}{%
 \subsection{GRoLTs checklist}\label{grolts-checklist}}
 
-\includegraphics{paper_files/figure-latex/unnamed-chunk-13-1.pdf}
+\hypertarget{htmlwidget-a6cf205f9fe062a59d12}{}
 
 We walk through each of these in turn.
 
@@ -590,6 +582,25 @@ cross-classified. West, Welch, \& Galecki (2014) have a description of the use o
 multi-level models with cross-classified data and tools (including those freely
 available through R) that can be used to estimate them.
 
+\hypertarget{implications}{%
+\section{Implications}\label{implications}}
+
+A step away from the tutorial side of this work, we wish to note some implications
+for the developers of statistical software for psychological scientists.
+
+First, we note that developing a tool that emphasized both rigor and access has
+been, so far, well-received. This suggests that there is an audience (or a
+market) for tools to carry out sophisticated tools that may be otherwise
+out-of-reach. Tools do not need to be hard to use, a point made by developers
+of, for example, tools to carry out highly-sophisticated Bayesian methods using
+the most cutting-edge tools (Bürkner \& others, 2017, @makowski2019). We think
+that tidyLPA speaks to this, too.
+
+Another implication concerns how we developed tidyLPA. We used a modern software
+development workflow, including git/GitHub, a suite of tests, and continuous
+integration tools. We also note that we emphasized communicating that we were
+developing the software; when it was updated; and how we made major updates.
+
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
@@ -639,6 +650,12 @@ the complexity of these experiences.
 \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
+\leavevmode\hypertarget{ref-burkner2017}{}%
+Bürkner, P.-C., \& others. (2017). Brms: An r package for bayesian multilevel models using stan. \emph{Journal of Statistical Software}, \emph{80}(1), 1--28.
+
+\leavevmode\hypertarget{ref-makowski2019}{}%
+Makowski, D., Ben-Shachar, M. S., Chen, S., \& Lüdecke, D. (2019). Indices of effect existence and significance in the bayesian framework. \emph{Frontiers in Psychology}, \emph{10}, 2767.
+
 \leavevmode\hypertarget{ref-R-tidyLPA}{}%
 Rosenberg, J. M., Beymer, P. N., Anderson, D. J., Lissa, C. van, \& Schmidt, J. A. (2018). TidyLPA: An r package to easily carry out latent profile analysis (lpa) using open-source or commercial software. \emph{Journal of Open Source Software}, \emph{3}(30), 978. doi:\href{https://doi.org/10.21105/joss.00978}{10.21105/joss.00978}
 
