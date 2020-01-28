@@ -312,7 +312,7 @@ In these examples, we pass the results of one function to the next by *piping*
 (using the `%>%` operator, loaded from the `dplyr` package). We pass the data to
 a function that selects relevant variables, and then to `estimate_profiles`:
 
-``` {r}
+``` {r, curry-mac-mclust}
 curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -324,7 +324,7 @@ curry_mac %>%
 We can use Mplus simply by changing the package argument for
 `estimate_profiles()`:
 
-``` {r, eval = FALSE}
+``` {r, eval = FALSE, curry-mac-mplus}
 curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -344,12 +344,15 @@ MPlus in the same way, by adding the argument `package = "MplusAutomation`.
 
 We can plot the profiles by piping the output to `plot_profiles()`.
 
-```{r}
-curry_mac %>% 
+```{r, curry_mac_p3}
+curry_mac_three <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
   estimate_profiles(3) %>% 
   plot_profiles()
+
+curry_mac_three +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ## Model specification
@@ -397,7 +400,7 @@ The function `compare_solutions()` compares the fit of several estimated models,
 with varying numbers of profiles and model specifications:
 
 ``` {r, compare-mclust, eval = FALSE}
-curry_mac %>% 
+curry_mac_solutions <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
@@ -405,9 +408,33 @@ curry_mac %>%
   compare_solutions(statistics = c("AIC", "BIC"))
 ```
 
+The results of this analysis suggests that the Model 6, two or seven class models are best.
+
+```{r, m6p7-solution}
+curry_mac_m6p7 <- curry_mac %>% 
+  select(KinshipR:PossessionR, 
+         KinshipJ:PossessionJ) %>% 
+  estimate_profiles(3, 
+                    variances = "varying",
+                    covariances = "varying")
+
+plot_profiles(curry_mac_m6p7)
+```
+
+```{r, m6p2-solution}
+curry_mac_m6p2 <- curry_mac %>% 
+  select(KinshipR:PossessionR, 
+         KinshipJ:PossessionJ) %>% 
+  estimate_profiles(3, 
+                    variances = "varying",
+                    covariances = "varying")
+
+plot_profiles(curry_mac_m6p7)
+```
+
 We can also run the same process using mplus:
 
-``` {r, compare-mplus, eval = FALSE}
+``` {r, compare-mplus, eval = TRUE}
 curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -423,7 +450,7 @@ of an analysis.
 
 `get_data()` returns the data:
 
-``` {r}
+``` {r, pisa-get-data}
 m <- pisaUSA15[1:100, ] %>%
   select(broad_interest, enjoyment, self_efficacy) %>%
   single_imputation() %>%
