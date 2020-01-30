@@ -406,6 +406,11 @@ curry_mac_solutions <- curry_mac %>%
   estimate_profiles(models = c(1, 2, 3, 6),
                     n_profiles = 1:9) %>%
   compare_solutions(statistics = c("AIC", "BIC"))
+ 
+3Best model according to AIC is Model 6 with 7 classes.
+# Best model according to BIC is Model 6 with 2 classes.
+
+#An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 6 with 2 classes.
 ```
 
 The results of this analysis suggests that the Model 6, two or seven class models are best.
@@ -441,6 +446,15 @@ curry_mac %>%
   estimate_profiles(models = c(1, 2, 3, 6),
                     n_profiles = 1:9, package = "mplus") %>%
   compare_solutions(statistics = c("AIC", "BIC"))
+
+# Best model according to AIC is Model 6 with 4 classes.
+# Best model according to BIC is Model 6 with 2 classes.
+
+# An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 6 with 2 classes.
+```
+
+```{r}
+
 ```
 
 ## Accessing values in the output
