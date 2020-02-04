@@ -324,7 +324,7 @@ curry_mac %>%
 We can use Mplus simply by changing the package argument for
 `estimate_profiles()`:
 
-``` {r, eval = FALSE, curry-mac-mplus}
+``` {r, curry-mac-mplus, eval = FALSE}
 curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -385,7 +385,7 @@ on the models can be found in the
 Here is an example of specifying a model with varying variances and covariances
 (Model 6; not run here):
 
-``` {r, eval = F}
+``` {r, curry-mac-m6, eval = F}
 curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -400,17 +400,55 @@ The function `compare_solutions()` compares the fit of several estimated models,
 with varying numbers of profiles and model specifications:
 
 ``` {r, compare-mclust, eval = FALSE}
-curry_mac_solutions <- curry_mac %>% 
+curry_mac_mclust_solutions <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
                     n_profiles = 1:9) %>%
   compare_solutions(statistics = c("AIC", "BIC"))
  
-3Best model according to AIC is Model 6 with 7 classes.
+write_rds(curry_mac_mclust_solutions, "cm_mclust.rds")
+
+# Best model according to AIC is Model 6 with 7 classes.
 # Best model according to BIC is Model 6 with 2 classes.
 
 #An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 6 with 2 classes.
+```
+
+````{r, just-one}
+curry_mac_mclust_j <- curry_mac %>% 
+  select(KinshipR:PossessionR) %>% 
+  estimate_profiles(models = c(1, 2, 3, 6),
+                    n_profiles = 1:9) %>%
+  compare_solutions(statistics = c("AIC", "BIC"))
+ 
+write_rds(curry_mac_mclust_j, "cm_mclust_r.rds")
+
+curry_mac_mclust_j <- curry_mac %>% 
+  select(KinshipJ:PossessionJ) %>% 
+  estimate_profiles(models = c(1, 2, 3, 6),
+                    n_profiles = 1:9) %>%
+  compare_solutions(statistics = c("AIC", "BIC"))
+ 
+write_rds(curry_mac_mclust_j, "cm_mclust_j.rds")
+
+curry_mac_mclust_j <- curry_mac %>% 
+  select(KinshipR:PossessionR) %>% 
+  estimate_profiles(models = c(1, 2, 3, 6),
+                    n_profiles = 1:9,
+                    package = "mplus") %>%
+  compare_solutions(statistics = c("AIC", "BIC"))
+ 
+write_rds(curry_mac_mclust_j, "cm_mclust_r.rds")
+
+curry_mac_mclust_j <- curry_mac %>% 
+  select(KinshipJ:PossessionJ) %>% 
+  estimate_profiles(models = c(1, 2, 3, 6),
+                    n_profiles = 1:9,
+                    package = "mplus") %>%
+  compare_solutions(statistics = c("AIC", "BIC"))
+ 
+write_rds(curry_mac_mclust_j, "cm_mclust_j.rds")
 ```
 
 The results of this analysis suggests that the Model 6, two or seven class models are best.
@@ -440,12 +478,14 @@ plot_profiles(curry_mac_m6p7)
 We can also run the same process using mplus:
 
 ``` {r, compare-mplus, eval = TRUE}
-curry_mac %>% 
+curry_mac_mplus_solutions <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
                     n_profiles = 1:9, package = "mplus") %>%
   compare_solutions(statistics = c("AIC", "BIC"))
+
+write_rds(curry_mac_mplus_solutions, "cm_mplus.rds")
 
 # Best model according to AIC is Model 6 with 4 classes.
 # Best model according to BIC is Model 6 with 2 classes.
@@ -453,8 +493,29 @@ curry_mac %>%
 # An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 6 with 2 classes.
 ```
 
-```{r}
+```{r, m6ps-mplus, error = TRUE}
+curry_mac_m6p2_mplus <- curry_mac %>% 
+  select(KinshipR:PossessionR, 
+         KinshipJ:PossessionJ) %>% 
+  estimate_profiles(n_profiles = 2, 
+                    variances = "varying",
+                    covariances = "varying", 
+                    package = "mplus")
 
+# equivalent to model 6
+
+plot_profiles(curry_mac_m6p2_mplus)
+```
+
+```{r, m6p2-mclust}
+curry_mac_m6p2 <- curry_mac %>% 
+  select(KinshipR:PossessionR, 
+         KinshipJ:PossessionJ) %>% 
+  estimate_profiles(n_profiles = 2, 
+                    variances = "varying",
+                    covariances = "varying")
+
+plot_profiles(curry_mac_m6p2)
 ```
 
 ## Accessing values in the output
