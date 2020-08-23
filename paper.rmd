@@ -1,5 +1,5 @@
 ---
-title             : "Carrying out Latent Profile Analysis in Accordance With Best Practices: A Tutorial Using the tidyLPA R package"
+title             : "Decisions Decisions Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package"
 shorttitle        : "tidyLPA"
 
 author: 
@@ -312,33 +312,43 @@ In these examples, we pass the results of one function to the next by *piping*
 (using the `%>%` operator, loaded from the `dplyr` package). We pass the data to
 a function that selects relevant variables, and then to `estimate_profiles`:
 
+We can see a number of statistics for each of the models that were estimated, including the 
+AIC (Aikake information criterion; based on -2 log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are _penalized_ likelihood statistics; the log-likelihood will always decrease with the addition of additional 
+paremeters estimated by the model, whereas the AIC and BIC will account for the number of parameters; lower values of
+either indicate better fit. 
+
+Entropy. `prob_min` refers to the minimum of the diagonal of the average latent class probabilities for most likely class membership, by assigned class. The minimum should be as high as possible, reflecting greater classification certainty (cases are assigned to classes they have a high probability of belonging to; see Jung & Wickrama, 2008); `prob_max`
+refers to the maximum. Finally. `n_min` refers to the proportion of the sample assigned to the smallest class (based on most likely class membership); `n_max` to the largest. Finally, `BLRT_p` refers to the p-value for the bootstrapped likelihood ratio test; a value greater than .05 indicates that the model fit better than one with one fewer class. 
+
 ``` {r, curry-mac-mclust}
-curry_mac %>% 
+m1 <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
-  estimate_profiles(3)
+  estimate_profiles(1:10)
+```
+
+Additional fit statistics (other penalized likelihood values, such as the CAIC, SABIC, and ICL), and the bootstrapped LRT 
+test statistic, can be obtained with the `get_fit()` function:
+
+```{r}
+get_fit(m1)
 ```
 
 ### Mplus via tidyLPA
 
 We can use Mplus simply by changing the package argument for
-`estimate_profiles()`:
+`estimate_profiles()` to "mplus" or "MplusAutomation" (either will work):
 
 ``` {r, curry-mac-mplus, eval = FALSE}
 curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
-  estimate_profiles(3, package = "MplusAutomation")
+  estimate_profiles(3, package = "mplus")
 ```
 
 A simple summary of the analysis is printed to the console. 
 The resulting object can be further passed down a pipeline to
-other functions, such as `compare_solutions`, `get_data`, `get_fit`,
-etc. This is the "tidy" part, in that the function can be embedded in a tidy
-analysis pipeline.
-
-If you have Mplus installed, you can call the version of this function that uses
-MPlus in the same way, by adding the argument `package = "MplusAutomation`.
+other functions, such as `compare_solutions`, `get_data`, and `get_fit`.
 
 ### Plotting the profiles
 
