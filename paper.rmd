@@ -310,15 +310,11 @@ Here, we use a simulated dataset, based on Curry et al., 2019, contains data on 
 
 In these examples, we pass the results of one function to the next by *piping*
 (using the `%>%` operator, loaded from the `dplyr` package). We pass the data to
-a function that selects relevant variables, and then to `estimate_profiles`:
+a function that selects relevant variables, and then to `estimate_profiles`.
 
-We can see a number of statistics for each of the models that were estimated, including the 
-AIC (Aikake information criterion; based on -2 log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are _penalized_ likelihood statistics; the log-likelihood will always decrease with the addition of additional 
-paremeters estimated by the model, whereas the AIC and BIC will account for the number of parameters; lower values of
-either indicate better fit. 
-
-Entropy. `prob_min` refers to the minimum of the diagonal of the average latent class probabilities for most likely class membership, by assigned class. The minimum should be as high as possible, reflecting greater classification certainty (cases are assigned to classes they have a high probability of belonging to; see Jung & Wickrama, 2008); `prob_max`
-refers to the maximum. Finally. `n_min` refers to the proportion of the sample assigned to the smallest class (based on most likely class membership); `n_max` to the largest. Finally, `BLRT_p` refers to the p-value for the bootstrapped likelihood ratio test; a value greater than .05 indicates that the model fit better than one with one fewer class. 
+A simple summary of the analysis is printed to the console. 
+The resulting object can be further passed down a pipeline to
+other functions, such as `compare_solutions`, `get_data`, and `get_fit`.
 
 ``` {r, curry-mac-mclust}
 m1 <- curry_mac %>% 
@@ -327,6 +323,13 @@ m1 <- curry_mac %>%
   estimate_profiles(1:10)
 ```
 
+We can see a number of statistics for each of the models that were estimated, including the 
+AIC (Aikake information criterion; based on -2 log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are _penalized_ likelihood statistics; the log-likelihood will always decrease with the addition of additional 
+paremeters estimated by the model, whereas the AIC and BIC will account for the number of parameters; lower values of
+either indicate better fit. 
+
+Entropy. `prob_min` refers to the minimum of the diagonal of the average latent class probabilities for most likely class membership, by assigned class. The minimum should be as high as possible, reflecting greater classification certainty (cases are assigned to classes they have a high probability of belonging to; see Jung & Wickrama, 2008); `prob_max`
+refers to the maximum. Finally. `n_min` refers to the proportion of the sample assigned to the smallest class (based on most likely class membership); `n_max` to the largest. Finally, `BLRT_p` refers to the p-value for the bootstrapped likelihood ratio test; a value greater than .05 indicates that the model fit better than one with one fewer class. 
 Additional fit statistics (other penalized likelihood values, such as the CAIC, SABIC, and ICL), and the bootstrapped LRT 
 test statistic, can be obtained with the `get_fit()` function:
 
@@ -343,39 +346,103 @@ We can use Mplus simply by changing the package argument for
 curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
-  estimate_profiles(3, package = "mplus")
+  estimate_profiles(1:10, package = "mplus")
 ```
 
-A simple summary of the analysis is printed to the console. 
-The resulting object can be further passed down a pipeline to
-other functions, such as `compare_solutions`, `get_data`, and `get_fit`.
+These are the very basics; we will return to what we do with this output later in the tutorial.
 
-### Plotting the profiles
+### Specifying the _model_
 
-We can plot the profiles by piping the output to `plot_profiles()`.
+We passed the number of profiles, but no details about the model we wished to estimate. 
 
-```{r, curry_mac_p3}
-curry_mac_three <- curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(3) %>% 
-  plot_profiles()
+There are a number of different types of models for LPA that estimate different parameters; choosing 
+between them is an important consideration, and one that has a bearing on how we will interpret the results we saw above.
 
-curry_mac_three +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-## Model specification
-
-In addition to the number of profiles (specified with the `n_profiles`
+Thus, in addition to the number of profiles (specified with the `n_profiles`
 argument), the model can be specified in terms of whether and how the variable
-variances and covariances are estimated.
-
-The models are specified by passing arguments to the `variance` and `covariance`
+variances and covariances are estimated. The models are specified by passing arguments to the `variance` and `covariance`
 arguments. The possible values for these arguments are:
 
 - `variances`: "equal" and "zero"
 - `covariances`: "varying", "equal", and "zero"
+
+In general, the approach to choosing the model is similar to choosing the number of profiles, requiring **deciding on the basis of evidence from multiple sources**, including information criteria, statistical tests, and concerns of interpretability and parsimony. The article by [Pastor and colleagues (2007)](https://www.sciencedirect.com/science/article/pii/S0361476X06000543) has helpful information on the model specifications. Here, the six models that are possible to specify in LPA are described in terms of how the variables used to create the profiles are estimated. 
+
+Note that *p* represents different profiles and each parameterization is represented by a 4 x 4 covariance matrix and therefore would represent the parameterization for a four-profile solution. In all of the models, the means are estimated freely in the different profiles. Imagine that each row and column represents a different variable, i.e., the first row (and column) represents broad interest, the second enjoyment, the third self-efficacy, and the fourth another variable, i.e., future goals and plans.
+
+### 1. Equal variances, and covariances fixed to 0 (model 1)
+
+In this model, which corresponds to the mclust model wit the name "EEI", the variances are estimated to be equal across profiles, indicated by the absence of a p subscript for any of the diagonal elements of the matrix. The covariances are constrained to be zero, as indicated by the 0's between every combination of the variables. 
+
+It is specified with `variances = "equal"` and `covariances = "zero"`. 
+
+This model is highly constrained but also parsimonious: the profiles are estimated in such a way that the variables' variances are identical for each of the profiles, and the relationships between the variables are not estimated. In this way, less degrees of freedom are taken used to explain the observations that make up the data. However, estimating more parameters--as in the other models--may better explain the data, justifying the addition in complexity that their addition involves (and their reduction in degrees of freedom). This model is sometimes referred to as a *class-invariant* parameterization.
+
+$$
+\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & 0 & 0 & 0 \\ 0 & { \sigma  }_{ 2 }^{ 2 } & 0 & 0 \\ 0 & 0 & { \sigma  }_{ 3 }^{ 2 } & 0 \\ 0 & 0 & 0 & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] 
+$$
+
+### 2. Varying variances and covariances fixed to 0 (model 2)
+
+This model corresponds to the mclust model "VVI" and allows for the variances to be freely estimated across profiles. The covariances are constrained to zero. 
+
+It is specified with `variances = "varying"` and `covariances = "zero"`. 
+
+Thus, it is more flexible (and less parsimonious) than model 1, but in terms of the covariances, is more constrained than model 2. This model is sometimes referred to as a *class-varying diagonal* parameterization.
+
+$$ 
+\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & 0 & 0 & 0 \\ 0 & { \sigma  }_{ 2p }^{ 2 } & 0 & 0 \\ 0 & 0 & { \sigma  }_{ 3p }^{ 2 } & 0 \\ 0 & 0 & 0 & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
+$$
+
+
+### 3. Equal variances and equal covariances (model 3)
+
+This model corresponds to the mclust model "EEE". In this model, the variances are still constrained to be the same across the profiles, although now the covariances are estimated (but like the variances, are constrained to be the same across profiles). 
+
+It is specified with `variances = "equal"` and `covariances = "equal"`. 
+
+Thus, this model is the first to estimate the covariance (or correlations) of the variables used to create the profiles, thus adding more information that can be used to better understand the characteristics of the profiles (and, potentially, better explain the data). This model is sometimes referred to as a *class-invariant unrestricted* parameterization.
+
+$$
+\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & { \sigma  }_{ 21 } & { \sigma  }_{ 31 } & { \sigma  }_{ 41 } \\ { \sigma  }_{ 12 } & { \sigma  }_{ 2 }^{ 2 } & { \sigma  }_{ 23 } & { \sigma  }_{ 24 } \\ { \sigma  }_{ 13 } & { \sigma  }_{ 12 } & { \sigma  }_{ 3 }^{ 2 } & { \sigma  }_{ 33 } \\ { \sigma  }_{ 14 } & { \sigma  }_{ 12 } & { \sigma  }_{ 12 } & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] 
+$$
+
+
+### 4. Varying means, varying variances, and equal covariances (model 4)
+
+This model, which specifies for the variances to be freely estimated across the profiles and for the covariances to be estimated to be equal across profiles, extends model 3. 
+
+It is specified with `variances = "varying"` and `covariances = "equal"`. 
+
+Unfortunately, this model cannot be specified with mclust, though it can be with MPlus; this model *can* be used with the functions to interface to MPlus described below.
+
+$$
+\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & { \sigma  }_{ 21 } & { \sigma  }_{ 31 } & { \sigma  }_{ 41 } \\ { \sigma  }_{ 12 } & { \sigma  }_{ 2p }^{ 2 } & { \sigma  }_{ 23 } & { \sigma  }_{ 24 } \\ { \sigma  }_{ 13 } & { \sigma  }_{ 12 } & { \sigma  }_{ 3p }^{ 2 } & { \sigma  }_{ 33 } \\ { \sigma  }_{ 14 } & { \sigma  }_{ 12 } & { \sigma  }_{ 12 } & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
+$$
+
+### 5. Varying means, equal variances, and varying covariances (model 5)
+
+This model specifies the variances to be equal across the profiles, but allows the covariances to be freely estimated across the profiles. 
+
+It is specified with `variances = "equal"` and `covariances = "varying"`. 
+
+Like model 4, this model cannot be specified with mclust, though it can be with MPlus. Again, this model *can* be used with the functions to interface to MPlus described below.
+
+$$
+\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & { \sigma  }_{ 21p } & { \sigma  }_{ 31p } & { \sigma  }_{ 41p } \\ { \sigma  }_{ 12p } & { \sigma  }_{ 2 }^{ 2 } & { \sigma  }_{ 23p } & { \sigma  }_{ 24p } \\ { \sigma  }_{ 13p } & { \sigma  }_{ 12p } & { \sigma  }_{ 3 }^{ 2 } & { \sigma  }_{ 33p } \\ { \sigma  }_{ 14p } & { \sigma  }_{ 12p } & { \sigma  }_{ 12p } & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] \quad 
+$$
+
+### 6. Varying variances and varying covariances (model 6)
+
+This model corresponds to the mclust model "VVV". It allows the variances and the covariances to be freely estimated across profiles. 
+
+It is specified with `variances = "varying"` and `covariances = "varying"`. 
+
+Thus, it is the most complex model, with the potential to allow for understanding many aspects of the variables that are used to estimate the profiles and how they are related. However, it is less parsimonious than all of the other models, and the added parameters should be considered in light of how preferred this model is relative to those with more simple specifications. This model is sometimes referred to as a *class-varying unrestricted* parameterization.
+
+$$
+\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & { \sigma  }_{ 21p } & { \sigma  }_{ 31p } & { \sigma  }_{ 41p } \\ { \sigma  }_{ 12p } & { \sigma  }_{ 2p }^{ 2 } & { \sigma  }_{ 23p } & { \sigma  }_{ 24p } \\ { \sigma  }_{ 13p } & { \sigma  }_{ 12p } & { \sigma  }_{ 3p }^{ 2 } & { \sigma  }_{ 33p } \\ { \sigma  }_{ 14p } & { \sigma  }_{ 12p } & { \sigma  }_{ 12p } & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
+$$
 
 If no values are specified for these, then the variances are constrained to be
 equal across classes, and covariances are fixed to 0 (conditional independence
@@ -426,44 +493,32 @@ write_rds(curry_mac_mclust_solutions, "cm_mclust.rds")
 ```
 
 ````{r, just-one}
-curry_mac_mclust_j <- curry_mac %>% 
+urry_mac %>% 
   select(KinshipR:PossessionR) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
-                    n_profiles = 1:9) %>%
-  compare_solutions(statistics = c("AIC", "BIC"))
- 
-write_rds(curry_mac_mclust_j, "cm_mclust_r.rds")
+                    n_profiles = 1:9)
 
 curry_mac_mclust_j <- curry_mac %>% 
   select(KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
-                    n_profiles = 1:9) %>%
-  compare_solutions(statistics = c("AIC", "BIC"))
- 
-write_rds(curry_mac_mclust_j, "cm_mclust_j.rds")
+                    n_profiles = 1:9)
 
 curry_mac_mclust_j <- curry_mac %>% 
   select(KinshipR:PossessionR) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
                     n_profiles = 1:9,
-                    package = "mplus") %>%
-  compare_solutions(statistics = c("AIC", "BIC"))
- 
-write_rds(curry_mac_mclust_j, "cm_mclust_r.rds")
+                    package = "mplus")
 
-curry_mac_mclust_j <- curry_mac %>% 
+curry_mac %>% 
   select(KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
                     n_profiles = 1:9,
-                    package = "mplus") %>%
-  compare_solutions(statistics = c("AIC", "BIC"))
- 
-write_rds(curry_mac_mclust_j, "cm_mclust_j.rds")
+                    package = "mplus")
 ```
 
 The results of this analysis suggests that the Model 6, two or seven class models are best.
 
-```{r, m6p7-solution}
+```{r, m6p7-solution, eval = FALSE}
 curry_mac_m6p7 <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -474,7 +529,7 @@ curry_mac_m6p7 <- curry_mac %>%
 plot_profiles(curry_mac_m6p7)
 ```
 
-```{r, m6p2-solution}
+```{r, m6p2-solution, eval = FALSE}
 curry_mac_m6p2 <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -487,24 +542,17 @@ plot_profiles(curry_mac_m6p7)
 
 We can also run the same process using mplus:
 
-``` {r, compare-mplus, eval = TRUE}
-curry_mac_mplus_solutions <- curry_mac %>% 
+``` {r, compare-mplus, eval = FALSE}
+curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
                     n_profiles = 1:9, package = "mplus") %>%
   compare_solutions(statistics = c("AIC", "BIC"))
-
-write_rds(curry_mac_mplus_solutions, "cm_mplus.rds")
-
-# Best model according to AIC is Model 6 with 4 classes.
-# Best model according to BIC is Model 6 with 2 classes.
-
-# An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 6 with 2 classes.
 ```
 
-```{r, m6ps-mplus, error = TRUE}
-curry_mac_m6p2_mplus <- curry_mac %>% 
+```{r, m6ps-mplus, eval = FALSE}
+curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
   estimate_profiles(n_profiles = 2, 
@@ -512,20 +560,16 @@ curry_mac_m6p2_mplus <- curry_mac %>%
                     covariances = "varying", 
                     package = "mplus")
 
-# equivalent to model 6
-
-plot_profiles(curry_mac_m6p2_mplus)
 ```
 
-```{r, m6p2-mclust}
-curry_mac_m6p2 <- curry_mac %>% 
+```{r, m6p2-mclust, eval = FALSE}
+curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
   estimate_profiles(n_profiles = 2, 
                     variances = "varying",
                     covariances = "varying")
 
-plot_profiles(curry_mac_m6p2)
 ```
 
 ## Accessing values in the output
@@ -535,15 +579,8 @@ of an analysis.
 
 `get_data()` returns the data:
 
-``` {r, pisa-get-data}
-m <- pisaUSA15[1:100, ] %>%
-  select(broad_interest, enjoyment, self_efficacy) %>%
-  single_imputation() %>%
-  estimate_profiles(3:4)
-```
-
-```{r}
-get_data(m)
+``` {r}
+get_data()
 ```
 
 We note that `get_data()` returns data in wide format when applied to an object
