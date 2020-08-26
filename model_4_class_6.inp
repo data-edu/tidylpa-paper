@@ -1,0 +1,207 @@
+TITLE:
+model 4 with 6 classes
+DATA:
+FILE = "data_624dd70f9f561f2c8c991d291c51b950.dat";
+ 
+VARIABLE:
+NAMES = KinshipJ MutualismJ ExchangeJ HawkJ DoveJ DivisionJ PossessionJ; 
+ MISSING=.;
+ CLASSES = c1(6);
+
+ANALYSIS:
+TYPE = mixture;
+
+MODEL:
+%c1#1%
+KinshipJ (vKinshipJ1);
+MutualismJ (vMutualismJ1);
+ExchangeJ (vExchangeJ1);
+HawkJ (vHawkJ1);
+DoveJ (vDoveJ1);
+DivisionJ (vDivisionJ1);
+PossessionJ (vPossessionJ1);
+
+KinshipJ WITH MutualismJ (KinshipJWMutualismJ);
+KinshipJ WITH ExchangeJ (KinshipJWExchangeJ);
+KinshipJ WITH HawkJ (KinshipJWHawkJ);
+KinshipJ WITH DoveJ (KinshipJWDoveJ);
+KinshipJ WITH DivisionJ (KinshipJWDivisionJ);
+KinshipJ WITH PossessionJ (KinshipJWPossessionJ);
+MutualismJ WITH ExchangeJ (MutualismJWExchangeJ);
+MutualismJ WITH HawkJ (MutualismJWHawkJ);
+MutualismJ WITH DoveJ (MutualismJWDoveJ);
+MutualismJ WITH DivisionJ (MutualismJWDivisionJ);
+MutualismJ WITH PossessionJ (MutualismJWPossessionJ);
+ExchangeJ WITH HawkJ (ExchangeJWHawkJ);
+ExchangeJ WITH DoveJ (ExchangeJWDoveJ);
+ExchangeJ WITH DivisionJ (ExchangeJWDivisionJ);
+ExchangeJ WITH PossessionJ (ExchangeJWPossessionJ);
+HawkJ WITH DoveJ (HawkJWDoveJ);
+HawkJ WITH DivisionJ (HawkJWDivisionJ);
+HawkJ WITH PossessionJ (HawkJWPossessionJ);
+DoveJ WITH DivisionJ (DoveJWDivisionJ);
+DoveJ WITH PossessionJ (DoveJWPossessionJ);
+DivisionJ WITH PossessionJ (DivisionJWPossessionJ);
+
+%c1#2%
+KinshipJ (vKinshipJ2);
+MutualismJ (vMutualismJ2);
+ExchangeJ (vExchangeJ2);
+HawkJ (vHawkJ2);
+DoveJ (vDoveJ2);
+DivisionJ (vDivisionJ2);
+PossessionJ (vPossessionJ2);
+
+KinshipJ WITH MutualismJ (KinshipJWMutualismJ);
+KinshipJ WITH ExchangeJ (KinshipJWExchangeJ);
+KinshipJ WITH HawkJ (KinshipJWHawkJ);
+KinshipJ WITH DoveJ (KinshipJWDoveJ);
+KinshipJ WITH DivisionJ (KinshipJWDivisionJ);
+KinshipJ WITH PossessionJ (KinshipJWPossessionJ);
+MutualismJ WITH ExchangeJ (MutualismJWExchangeJ);
+MutualismJ WITH HawkJ (MutualismJWHawkJ);
+MutualismJ WITH DoveJ (MutualismJWDoveJ);
+MutualismJ WITH DivisionJ (MutualismJWDivisionJ);
+MutualismJ WITH PossessionJ (MutualismJWPossessionJ);
+ExchangeJ WITH HawkJ (ExchangeJWHawkJ);
+ExchangeJ WITH DoveJ (ExchangeJWDoveJ);
+ExchangeJ WITH DivisionJ (ExchangeJWDivisionJ);
+ExchangeJ WITH PossessionJ (ExchangeJWPossessionJ);
+HawkJ WITH DoveJ (HawkJWDoveJ);
+HawkJ WITH DivisionJ (HawkJWDivisionJ);
+HawkJ WITH PossessionJ (HawkJWPossessionJ);
+DoveJ WITH DivisionJ (DoveJWDivisionJ);
+DoveJ WITH PossessionJ (DoveJWPossessionJ);
+DivisionJ WITH PossessionJ (DivisionJWPossessionJ);
+
+%c1#3%
+KinshipJ (vKinshipJ3);
+MutualismJ (vMutualismJ3);
+ExchangeJ (vExchangeJ3);
+HawkJ (vHawkJ3);
+DoveJ (vDoveJ3);
+DivisionJ (vDivisionJ3);
+PossessionJ (vPossessionJ3);
+
+KinshipJ WITH MutualismJ (KinshipJWMutualismJ);
+KinshipJ WITH ExchangeJ (KinshipJWExchangeJ);
+KinshipJ WITH HawkJ (KinshipJWHawkJ);
+KinshipJ WITH DoveJ (KinshipJWDoveJ);
+KinshipJ WITH DivisionJ (KinshipJWDivisionJ);
+KinshipJ WITH PossessionJ (KinshipJWPossessionJ);
+MutualismJ WITH ExchangeJ (MutualismJWExchangeJ);
+MutualismJ WITH HawkJ (MutualismJWHawkJ);
+MutualismJ WITH DoveJ (MutualismJWDoveJ);
+MutualismJ WITH DivisionJ (MutualismJWDivisionJ);
+MutualismJ WITH PossessionJ (MutualismJWPossessionJ);
+ExchangeJ WITH HawkJ (ExchangeJWHawkJ);
+ExchangeJ WITH DoveJ (ExchangeJWDoveJ);
+ExchangeJ WITH DivisionJ (ExchangeJWDivisionJ);
+ExchangeJ WITH PossessionJ (ExchangeJWPossessionJ);
+HawkJ WITH DoveJ (HawkJWDoveJ);
+HawkJ WITH DivisionJ (HawkJWDivisionJ);
+HawkJ WITH PossessionJ (HawkJWPossessionJ);
+DoveJ WITH DivisionJ (DoveJWDivisionJ);
+DoveJ WITH PossessionJ (DoveJWPossessionJ);
+DivisionJ WITH PossessionJ (DivisionJWPossessionJ);
+
+%c1#4%
+KinshipJ (vKinshipJ4);
+MutualismJ (vMutualismJ4);
+ExchangeJ (vExchangeJ4);
+HawkJ (vHawkJ4);
+DoveJ (vDoveJ4);
+DivisionJ (vDivisionJ4);
+PossessionJ (vPossessionJ4);
+
+KinshipJ WITH MutualismJ (KinshipJWMutualismJ);
+KinshipJ WITH ExchangeJ (KinshipJWExchangeJ);
+KinshipJ WITH HawkJ (KinshipJWHawkJ);
+KinshipJ WITH DoveJ (KinshipJWDoveJ);
+KinshipJ WITH DivisionJ (KinshipJWDivisionJ);
+KinshipJ WITH PossessionJ (KinshipJWPossessionJ);
+MutualismJ WITH ExchangeJ (MutualismJWExchangeJ);
+MutualismJ WITH HawkJ (MutualismJWHawkJ);
+MutualismJ WITH DoveJ (MutualismJWDoveJ);
+MutualismJ WITH DivisionJ (MutualismJWDivisionJ);
+MutualismJ WITH PossessionJ (MutualismJWPossessionJ);
+ExchangeJ WITH HawkJ (ExchangeJWHawkJ);
+ExchangeJ WITH DoveJ (ExchangeJWDoveJ);
+ExchangeJ WITH DivisionJ (ExchangeJWDivisionJ);
+ExchangeJ WITH PossessionJ (ExchangeJWPossessionJ);
+HawkJ WITH DoveJ (HawkJWDoveJ);
+HawkJ WITH DivisionJ (HawkJWDivisionJ);
+HawkJ WITH PossessionJ (HawkJWPossessionJ);
+DoveJ WITH DivisionJ (DoveJWDivisionJ);
+DoveJ WITH PossessionJ (DoveJWPossessionJ);
+DivisionJ WITH PossessionJ (DivisionJWPossessionJ);
+
+%c1#5%
+KinshipJ (vKinshipJ5);
+MutualismJ (vMutualismJ5);
+ExchangeJ (vExchangeJ5);
+HawkJ (vHawkJ5);
+DoveJ (vDoveJ5);
+DivisionJ (vDivisionJ5);
+PossessionJ (vPossessionJ5);
+
+KinshipJ WITH MutualismJ (KinshipJWMutualismJ);
+KinshipJ WITH ExchangeJ (KinshipJWExchangeJ);
+KinshipJ WITH HawkJ (KinshipJWHawkJ);
+KinshipJ WITH DoveJ (KinshipJWDoveJ);
+KinshipJ WITH DivisionJ (KinshipJWDivisionJ);
+KinshipJ WITH PossessionJ (KinshipJWPossessionJ);
+MutualismJ WITH ExchangeJ (MutualismJWExchangeJ);
+MutualismJ WITH HawkJ (MutualismJWHawkJ);
+MutualismJ WITH DoveJ (MutualismJWDoveJ);
+MutualismJ WITH DivisionJ (MutualismJWDivisionJ);
+MutualismJ WITH PossessionJ (MutualismJWPossessionJ);
+ExchangeJ WITH HawkJ (ExchangeJWHawkJ);
+ExchangeJ WITH DoveJ (ExchangeJWDoveJ);
+ExchangeJ WITH DivisionJ (ExchangeJWDivisionJ);
+ExchangeJ WITH PossessionJ (ExchangeJWPossessionJ);
+HawkJ WITH DoveJ (HawkJWDoveJ);
+HawkJ WITH DivisionJ (HawkJWDivisionJ);
+HawkJ WITH PossessionJ (HawkJWPossessionJ);
+DoveJ WITH DivisionJ (DoveJWDivisionJ);
+DoveJ WITH PossessionJ (DoveJWPossessionJ);
+DivisionJ WITH PossessionJ (DivisionJWPossessionJ);
+
+%c1#6%
+KinshipJ (vKinshipJ6);
+MutualismJ (vMutualismJ6);
+ExchangeJ (vExchangeJ6);
+HawkJ (vHawkJ6);
+DoveJ (vDoveJ6);
+DivisionJ (vDivisionJ6);
+PossessionJ (vPossessionJ6);
+
+KinshipJ WITH MutualismJ (KinshipJWMutualismJ);
+KinshipJ WITH ExchangeJ (KinshipJWExchangeJ);
+KinshipJ WITH HawkJ (KinshipJWHawkJ);
+KinshipJ WITH DoveJ (KinshipJWDoveJ);
+KinshipJ WITH DivisionJ (KinshipJWDivisionJ);
+KinshipJ WITH PossessionJ (KinshipJWPossessionJ);
+MutualismJ WITH ExchangeJ (MutualismJWExchangeJ);
+MutualismJ WITH HawkJ (MutualismJWHawkJ);
+MutualismJ WITH DoveJ (MutualismJWDoveJ);
+MutualismJ WITH DivisionJ (MutualismJWDivisionJ);
+MutualismJ WITH PossessionJ (MutualismJWPossessionJ);
+ExchangeJ WITH HawkJ (ExchangeJWHawkJ);
+ExchangeJ WITH DoveJ (ExchangeJWDoveJ);
+ExchangeJ WITH DivisionJ (ExchangeJWDivisionJ);
+ExchangeJ WITH PossessionJ (ExchangeJWPossessionJ);
+HawkJ WITH DoveJ (HawkJWDoveJ);
+HawkJ WITH DivisionJ (HawkJWDivisionJ);
+HawkJ WITH PossessionJ (HawkJWPossessionJ);
+DoveJ WITH DivisionJ (DoveJWDivisionJ);
+DoveJ WITH PossessionJ (DoveJWPossessionJ);
+DivisionJ WITH PossessionJ (DivisionJWPossessionJ);
+
+
+OUTPUT:
+TECH14;
+
+SAVEDATA:
+FILE IS model_4_class_6.dat;
+SAVE = cprobabilities;

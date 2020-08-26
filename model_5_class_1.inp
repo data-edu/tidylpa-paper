@@ -1,0 +1,52 @@
+TITLE:
+model 5 with 1 classes
+DATA:
+FILE = "data_624dd70f9f561f2c8c991d291c51b950.dat";
+ 
+VARIABLE:
+NAMES = KinshipJ MutualismJ ExchangeJ HawkJ DoveJ DivisionJ PossessionJ; 
+ MISSING=.;
+ CLASSES = c1(1);
+
+ANALYSIS:
+TYPE = mixture;
+
+MODEL:
+%c1#1%
+KinshipJ (vKinshipJ);
+MutualismJ (vMutualismJ);
+ExchangeJ (vExchangeJ);
+HawkJ (vHawkJ);
+DoveJ (vDoveJ);
+DivisionJ (vDivisionJ);
+PossessionJ (vPossessionJ);
+
+KinshipJ WITH MutualismJ (KinshipJWMutualismJ1);
+KinshipJ WITH ExchangeJ (KinshipJWExchangeJ1);
+KinshipJ WITH HawkJ (KinshipJWHawkJ1);
+KinshipJ WITH DoveJ (KinshipJWDoveJ1);
+KinshipJ WITH DivisionJ (KinshipJWDivisionJ1);
+KinshipJ WITH PossessionJ (KinshipJWPossessionJ1);
+MutualismJ WITH ExchangeJ (MutualismJWExchangeJ1);
+MutualismJ WITH HawkJ (MutualismJWHawkJ1);
+MutualismJ WITH DoveJ (MutualismJWDoveJ1);
+MutualismJ WITH DivisionJ (MutualismJWDivisionJ1);
+MutualismJ WITH PossessionJ (MutualismJWPossessionJ1);
+ExchangeJ WITH HawkJ (ExchangeJWHawkJ1);
+ExchangeJ WITH DoveJ (ExchangeJWDoveJ1);
+ExchangeJ WITH DivisionJ (ExchangeJWDivisionJ1);
+ExchangeJ WITH PossessionJ (ExchangeJWPossessionJ1);
+HawkJ WITH DoveJ (HawkJWDoveJ1);
+HawkJ WITH DivisionJ (HawkJWDivisionJ1);
+HawkJ WITH PossessionJ (HawkJWPossessionJ1);
+DoveJ WITH DivisionJ (DoveJWDivisionJ1);
+DoveJ WITH PossessionJ (DoveJWPossessionJ1);
+DivisionJ WITH PossessionJ (DivisionJWPossessionJ1);
+
+
+OUTPUT:
+TECH14;
+
+SAVEDATA:
+FILE IS model_5_class_1.dat;
+SAVE = cprobabilities;

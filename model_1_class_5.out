@@ -1,0 +1,798 @@
+Mplus VERSION 8.2 (Mac)
+MUTHEN & MUTHEN
+08/26/2020   9:48 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  model 1 with 5 classes
+  DATA:
+  FILE = "data_624dd70f9f561f2c8c991d291c51b950.dat";
+
+  VARIABLE:
+  NAMES = KinshipJ MutualismJ ExchangeJ HawkJ DoveJ DivisionJ PossessionJ;
+   MISSING=.;
+   CLASSES = c1(5);
+
+  ANALYSIS:
+  TYPE = mixture;
+
+  MODEL:
+  %c1#1%
+  KinshipJ (vKinshipJ);
+  MutualismJ (vMutualismJ);
+  ExchangeJ (vExchangeJ);
+  HawkJ (vHawkJ);
+  DoveJ (vDoveJ);
+  DivisionJ (vDivisionJ);
+  PossessionJ (vPossessionJ);
+
+  KinshipJ WITH MutualismJ@0;
+  KinshipJ WITH ExchangeJ@0;
+  KinshipJ WITH HawkJ@0;
+  KinshipJ WITH DoveJ@0;
+  KinshipJ WITH DivisionJ@0;
+  KinshipJ WITH PossessionJ@0;
+  MutualismJ WITH ExchangeJ@0;
+  MutualismJ WITH HawkJ@0;
+  MutualismJ WITH DoveJ@0;
+  MutualismJ WITH DivisionJ@0;
+  MutualismJ WITH PossessionJ@0;
+  ExchangeJ WITH HawkJ@0;
+  ExchangeJ WITH DoveJ@0;
+  ExchangeJ WITH DivisionJ@0;
+  ExchangeJ WITH PossessionJ@0;
+  HawkJ WITH DoveJ@0;
+  HawkJ WITH DivisionJ@0;
+  HawkJ WITH PossessionJ@0;
+  DoveJ WITH DivisionJ@0;
+  DoveJ WITH PossessionJ@0;
+  DivisionJ WITH PossessionJ@0;
+
+  %c1#2%
+  KinshipJ (vKinshipJ);
+  MutualismJ (vMutualismJ);
+  ExchangeJ (vExchangeJ);
+  HawkJ (vHawkJ);
+  DoveJ (vDoveJ);
+  DivisionJ (vDivisionJ);
+  PossessionJ (vPossessionJ);
+
+  KinshipJ WITH MutualismJ@0;
+  KinshipJ WITH ExchangeJ@0;
+  KinshipJ WITH HawkJ@0;
+  KinshipJ WITH DoveJ@0;
+  KinshipJ WITH DivisionJ@0;
+  KinshipJ WITH PossessionJ@0;
+  MutualismJ WITH ExchangeJ@0;
+  MutualismJ WITH HawkJ@0;
+  MutualismJ WITH DoveJ@0;
+  MutualismJ WITH DivisionJ@0;
+  MutualismJ WITH PossessionJ@0;
+  ExchangeJ WITH HawkJ@0;
+  ExchangeJ WITH DoveJ@0;
+  ExchangeJ WITH DivisionJ@0;
+  ExchangeJ WITH PossessionJ@0;
+  HawkJ WITH DoveJ@0;
+  HawkJ WITH DivisionJ@0;
+  HawkJ WITH PossessionJ@0;
+  DoveJ WITH DivisionJ@0;
+  DoveJ WITH PossessionJ@0;
+  DivisionJ WITH PossessionJ@0;
+
+  %c1#3%
+  KinshipJ (vKinshipJ);
+  MutualismJ (vMutualismJ);
+  ExchangeJ (vExchangeJ);
+  HawkJ (vHawkJ);
+  DoveJ (vDoveJ);
+  DivisionJ (vDivisionJ);
+  PossessionJ (vPossessionJ);
+
+  KinshipJ WITH MutualismJ@0;
+  KinshipJ WITH ExchangeJ@0;
+  KinshipJ WITH HawkJ@0;
+  KinshipJ WITH DoveJ@0;
+  KinshipJ WITH DivisionJ@0;
+  KinshipJ WITH PossessionJ@0;
+  MutualismJ WITH ExchangeJ@0;
+  MutualismJ WITH HawkJ@0;
+  MutualismJ WITH DoveJ@0;
+  MutualismJ WITH DivisionJ@0;
+  MutualismJ WITH PossessionJ@0;
+  ExchangeJ WITH HawkJ@0;
+  ExchangeJ WITH DoveJ@0;
+  ExchangeJ WITH DivisionJ@0;
+  ExchangeJ WITH PossessionJ@0;
+  HawkJ WITH DoveJ@0;
+  HawkJ WITH DivisionJ@0;
+  HawkJ WITH PossessionJ@0;
+  DoveJ WITH DivisionJ@0;
+  DoveJ WITH PossessionJ@0;
+  DivisionJ WITH PossessionJ@0;
+
+  %c1#4%
+  KinshipJ (vKinshipJ);
+  MutualismJ (vMutualismJ);
+  ExchangeJ (vExchangeJ);
+  HawkJ (vHawkJ);
+  DoveJ (vDoveJ);
+  DivisionJ (vDivisionJ);
+  PossessionJ (vPossessionJ);
+
+  KinshipJ WITH MutualismJ@0;
+  KinshipJ WITH ExchangeJ@0;
+  KinshipJ WITH HawkJ@0;
+  KinshipJ WITH DoveJ@0;
+  KinshipJ WITH DivisionJ@0;
+  KinshipJ WITH PossessionJ@0;
+  MutualismJ WITH ExchangeJ@0;
+  MutualismJ WITH HawkJ@0;
+  MutualismJ WITH DoveJ@0;
+  MutualismJ WITH DivisionJ@0;
+  MutualismJ WITH PossessionJ@0;
+  ExchangeJ WITH HawkJ@0;
+  ExchangeJ WITH DoveJ@0;
+  ExchangeJ WITH DivisionJ@0;
+  ExchangeJ WITH PossessionJ@0;
+  HawkJ WITH DoveJ@0;
+  HawkJ WITH DivisionJ@0;
+  HawkJ WITH PossessionJ@0;
+  DoveJ WITH DivisionJ@0;
+  DoveJ WITH PossessionJ@0;
+  DivisionJ WITH PossessionJ@0;
+
+  %c1#5%
+  KinshipJ (vKinshipJ);
+  MutualismJ (vMutualismJ);
+  ExchangeJ (vExchangeJ);
+  HawkJ (vHawkJ);
+  DoveJ (vDoveJ);
+  DivisionJ (vDivisionJ);
+  PossessionJ (vPossessionJ);
+
+  KinshipJ WITH MutualismJ@0;
+  KinshipJ WITH ExchangeJ@0;
+  KinshipJ WITH HawkJ@0;
+  KinshipJ WITH DoveJ@0;
+  KinshipJ WITH DivisionJ@0;
+  KinshipJ WITH PossessionJ@0;
+  MutualismJ WITH ExchangeJ@0;
+  MutualismJ WITH HawkJ@0;
+  MutualismJ WITH DoveJ@0;
+  MutualismJ WITH DivisionJ@0;
+  MutualismJ WITH PossessionJ@0;
+  ExchangeJ WITH HawkJ@0;
+  ExchangeJ WITH DoveJ@0;
+  ExchangeJ WITH DivisionJ@0;
+  ExchangeJ WITH PossessionJ@0;
+  HawkJ WITH DoveJ@0;
+  HawkJ WITH DivisionJ@0;
+  HawkJ WITH PossessionJ@0;
+  DoveJ WITH DivisionJ@0;
+  DoveJ WITH PossessionJ@0;
+  DivisionJ WITH PossessionJ@0;
+
+
+  OUTPUT:
+  TECH14;
+
+  SAVEDATA:
+  FILE IS model_1_class_5.dat;
+  SAVE = cprobabilities;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+model 1 with 5 classes
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1392
+
+Number of dependent variables                                    7
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   KINSHIPJ    MUTUALISMJ  EXCHANGEJ   HAWKJ       DOVEJ       DIVISIONJ
+   POSSESSION
+
+Categorical latent variables
+   C1
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                         20
+  Number of final stage optimizations                            4
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  data_624dd70f9f561f2c8c991d291c51b950.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of y missing data patterns           1
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              KINSHIPJ      MUTUALIS      EXCHANGE      HAWKJ         DOVEJ
+              ________      ________      ________      ________      ________
+ KINSHIPJ       1.000
+ MUTUALIS       1.000         1.000
+ EXCHANGE       1.000         1.000         1.000
+ HAWKJ          1.000         1.000         1.000         1.000
+ DOVEJ          1.000         1.000         1.000         1.000         1.000
+ DIVISION       1.000         1.000         1.000         1.000         1.000
+ POSSESSI       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              DIVISION      POSSESSI
+              ________      ________
+ DIVISION       1.000
+ POSSESSI       1.000         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     KINSHIPJ             68.142      -0.400      12.667    0.07%      55.333     64.667     69.000
+            1392.000     243.252      -0.028      99.333    0.07%      73.000     82.000
+     MUTUALISMJ           64.403      -0.398      11.000    0.07%      53.000     61.667     65.000
+            1392.000     184.479       0.162      96.000    0.07%      68.333     76.333
+     EXCHANGEJ            71.836      -0.357      32.667    0.07%      62.667     69.667     72.667
+            1392.000     127.269       0.056      98.000    0.14%      75.333     81.333
+     HAWKJ                65.577      -0.286      11.000    0.07%      52.333     61.667     66.000
+            1392.000     250.911      -0.258      99.667    0.14%      70.333     80.000
+     DOVEJ                54.086      -0.377       2.000    0.07%      41.000     51.333     55.167
+            1392.000     244.615      -0.092      92.333    0.07%      59.000     68.000
+     DIVISIONJ            69.860      -0.574       6.333    0.07%      57.333     67.000     71.333
+            1392.000     243.008       0.243     100.000    0.29%      75.333     83.000
+     POSSESSIONJ          39.164       0.105       1.667    0.07%      26.000     35.000     39.333
+            1392.000     234.437      -0.117      95.333    0.07%      43.000     52.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+          -39515.497  285380           1
+          -39515.497  399671           13
+          -39544.444  573096           20
+          -39545.928  637345           19
+
+
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       46
+
+Loglikelihood
+
+          H0 Value                      -39515.497
+          H0 Scaling Correction Factor      1.2493
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   79122.994
+          Bayesian (BIC)                 79363.965
+          Sample-Size Adjusted BIC       79217.841
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        181.01293          0.13004
+       2         84.11943          0.06043
+       3        648.82491          0.46611
+       4         79.10283          0.05683
+       5        398.93990          0.28659
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        181.01293          0.13004
+       2         84.11943          0.06043
+       3        648.82491          0.46611
+       4         79.10283          0.05683
+       5        398.93990          0.28659
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              168          0.12069
+       2               67          0.04813
+       3              705          0.50647
+       4               64          0.04598
+       5              388          0.27874
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.642
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3        4        5
+
+    1   0.763    0.057    0.169    0.011    0.000
+    2   0.082    0.756    0.158    0.001    0.002
+    3   0.066    0.033    0.748    0.029    0.123
+    4   0.011    0.003    0.135    0.774    0.077
+    5   0.000    0.000    0.190    0.018    0.792
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3        4        5
+
+    1   0.708    0.031    0.257    0.004    0.000
+    2   0.114    0.602    0.281    0.002    0.001
+    3   0.044    0.016    0.813    0.013    0.113
+    4   0.023    0.001    0.262    0.626    0.088
+    5   0.000    0.000    0.217    0.012    0.770
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3        4        5
+
+    1      7.519    4.376    6.508    2.326    0.000
+    2      4.477    6.144    5.381    0.468    0.000
+    3     -0.950   -1.939    1.969   -2.144    0.000
+    4     -1.354   -4.406    1.095    1.966    0.000
+    5     -8.555   -7.690   -1.267   -4.131    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ KINSHIPJ WITH
+    MUTUALISMJ         0.000      0.000    999.000    999.000
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ MUTUALIS WITH
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ EXCHANGE WITH
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ HAWKJ    WITH
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DOVEJ    WITH
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DIVISION WITH
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ Means
+    KINSHIPJ          57.420      1.937     29.650      0.000
+    MUTUALISMJ        51.614      1.848     27.934      0.000
+    EXCHANGEJ         56.269      1.890     29.777      0.000
+    HAWKJ             55.801      1.609     34.671      0.000
+    DOVEJ             47.645      2.147     22.187      0.000
+    DIVISIONJ         62.177      2.641     23.546      0.000
+    POSSESSION        38.905      1.270     30.631      0.000
+
+ Variances
+    KINSHIPJ         143.008      9.718     14.715      0.000
+    MUTUALISMJ       140.143      7.700     18.200      0.000
+    EXCHANGEJ         74.473      7.740      9.621      0.000
+    HAWKJ            203.724      9.744     20.907      0.000
+    DOVEJ            202.274      8.975     22.538      0.000
+    DIVISIONJ        174.653     11.411     15.306      0.000
+    POSSESSION       229.231      8.641     26.529      0.000
+
+Latent Class 2
+
+ KINSHIPJ WITH
+    MUTUALISMJ         0.000      0.000    999.000    999.000
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ MUTUALIS WITH
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ EXCHANGE WITH
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ HAWKJ    WITH
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DOVEJ    WITH
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DIVISION WITH
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ Means
+    KINSHIPJ          40.926      5.672      7.216      0.000
+    MUTUALISMJ        59.379      3.167     18.752      0.000
+    EXCHANGEJ         70.734      3.614     19.572      0.000
+    HAWKJ             51.082      5.876      8.694      0.000
+    DOVEJ             38.266      3.175     12.053      0.000
+    DIVISIONJ         70.865      3.582     19.785      0.000
+    POSSESSION        42.273      1.998     21.162      0.000
+
+ Variances
+    KINSHIPJ         143.008      9.718     14.715      0.000
+    MUTUALISMJ       140.143      7.700     18.200      0.000
+    EXCHANGEJ         74.473      7.740      9.621      0.000
+    HAWKJ            203.724      9.744     20.907      0.000
+    DOVEJ            202.274      8.975     22.538      0.000
+    DIVISIONJ        174.653     11.411     15.306      0.000
+    POSSESSION       229.231      8.641     26.529      0.000
+
+Latent Class 3
+
+ KINSHIPJ WITH
+    MUTUALISMJ         0.000      0.000    999.000    999.000
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ MUTUALIS WITH
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ EXCHANGE WITH
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ HAWKJ    WITH
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DOVEJ    WITH
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DIVISION WITH
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ Means
+    KINSHIPJ          66.787      2.529     26.410      0.000
+    MUTUALISMJ        63.737      1.453     43.881      0.000
+    EXCHANGEJ         70.668      1.024     69.027      0.000
+    HAWKJ             64.656      1.522     42.493      0.000
+    DOVEJ             52.278      1.923     27.182      0.000
+    DIVISIONJ         70.588      1.115     63.307      0.000
+    POSSESSION        39.424      0.900     43.810      0.000
+
+ Variances
+    KINSHIPJ         143.008      9.718     14.715      0.000
+    MUTUALISMJ       140.143      7.700     18.200      0.000
+    EXCHANGEJ         74.473      7.740      9.621      0.000
+    HAWKJ            203.724      9.744     20.907      0.000
+    DOVEJ            202.274      8.975     22.538      0.000
+    DIVISIONJ        174.653     11.411     15.306      0.000
+    POSSESSION       229.231      8.641     26.529      0.000
+
+Latent Class 4
+
+ KINSHIPJ WITH
+    MUTUALISMJ         0.000      0.000    999.000    999.000
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ MUTUALIS WITH
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ EXCHANGE WITH
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ HAWKJ    WITH
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DOVEJ    WITH
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DIVISION WITH
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ Means
+    KINSHIPJ          76.290      2.515     30.334      0.000
+    MUTUALISMJ        61.462      3.631     16.929      0.000
+    EXCHANGEJ         77.257      1.616     47.813      0.000
+    HAWKJ             67.216      2.959     22.714      0.000
+    DOVEJ             62.731      2.569     24.422      0.000
+    DIVISIONJ         42.086      3.221     13.064      0.000
+    POSSESSION        30.360      2.514     12.075      0.000
+
+ Variances
+    KINSHIPJ         143.008      9.718     14.715      0.000
+    MUTUALISMJ       140.143      7.700     18.200      0.000
+    EXCHANGEJ         74.473      7.740      9.621      0.000
+    HAWKJ            203.724      9.744     20.907      0.000
+    DOVEJ            202.274      8.975     22.538      0.000
+    DIVISIONJ        174.653     11.411     15.306      0.000
+    POSSESSION       229.231      8.641     26.529      0.000
+
+Latent Class 5
+
+ KINSHIPJ WITH
+    MUTUALISMJ         0.000      0.000    999.000    999.000
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ MUTUALIS WITH
+    EXCHANGEJ          0.000      0.000    999.000    999.000
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ EXCHANGE WITH
+    HAWKJ              0.000      0.000    999.000    999.000
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ HAWKJ    WITH
+    DOVEJ              0.000      0.000    999.000    999.000
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DOVEJ    WITH
+    DIVISIONJ          0.000      0.000    999.000    999.000
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ DIVISION WITH
+    POSSESSION         0.000      0.000    999.000    999.000
+
+ Means
+    KINSHIPJ          79.335      1.150     68.997      0.000
+    MUTUALISMJ        72.931      1.214     60.059      0.000
+    EXCHANGEJ         79.957      1.426     56.087      0.000
+    HAWKJ             74.242      1.273     58.338      0.000
+    DOVEJ             61.570      1.163     52.924      0.000
+    DIVISIONJ         77.456      1.223     63.328      0.000
+    POSSESSION        39.950      1.173     34.045      0.000
+
+ Variances
+    KINSHIPJ         143.008      9.718     14.715      0.000
+    MUTUALISMJ       140.143      7.700     18.200      0.000
+    EXCHANGEJ         74.473      7.740      9.621      0.000
+    HAWKJ            203.724      9.744     20.907      0.000
+    DOVEJ            202.274      8.975     22.538      0.000
+    DIVISIONJ        174.653     11.411     15.306      0.000
+    POSSESSION       229.231      8.641     26.529      0.000
+
+Categorical Latent Variables
+
+ Means
+    C1#1              -0.790      0.428     -1.845      0.065
+    C1#2              -1.557      0.623     -2.499      0.012
+    C1#3               0.486      0.277      1.756      0.079
+    C1#4              -1.618      0.337     -4.797      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.568E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 14 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                  20
+        Number of final stage optimizations                     4
+
+     Random Starts Specification for the k-1 Class Model for Generated Data
+        Number of initial stage random starts                   0
+        Number of final stage optimizations for the
+           initial stage random starts                          0
+     Random Starts Specification for the k Class Model for Generated Data
+        Number of initial stage random starts                  40
+        Number of final stage optimizations                     8
+     Number of bootstrap draws requested                   Varies
+
+
+     PARAMETRIC BOOTSTRAPPED LIKELIHOOD RATIO TEST FOR 4 (H0) VERSUS 5 CLASSES
+
+          H0 Loglikelihood Value                       -39554.719
+          2 Times the Loglikelihood Difference             78.443
+          Difference in the Number of Parameters                8
+          Approximate P-Value                              0.0000
+          Successful Bootstrap Draws                            5
+
+     WARNING:  OF THE 5 BOOTSTRAP DRAWS, 5 DRAWS HAD BOTH A SMALLER LRT VALUE THAN THE
+     OBSERVED LRT VALUE AND NOT A REPLICATED BEST LOGLIKELIHOOD VALUE FOR THE 5-CLASS MODEL.
+     THIS MEANS THAT THE P-VALUE MAY NOT BE TRUSTWORTHY DUE TO LOCAL MAXIMA.
+     INCREASE THE NUMBER OF RANDOM STARTS USING THE LRTSTARTS OPTION.
+
+
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    model_1_class_5.dat
+
+  Order and format of variables
+
+    KINSHIPJ       F10.3
+    MUTUALIS       F10.3
+    EXCHANGE       F10.3
+    HAWKJ          F10.3
+    DOVEJ          F10.3
+    DIVISION       F10.3
+    POSSESSI       F10.3
+    CPROB1         F10.3
+    CPROB2         F10.3
+    CPROB3         F10.3
+    CPROB4         F10.3
+    CPROB5         F10.3
+    C1             F10.3
+
+  Save file format
+    13F10.3
+
+  Save file record length    10000
+
+
+     Beginning Time:  09:48:14
+        Ending Time:  09:48:25
+       Elapsed Time:  00:00:11
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2018 Muthen & Muthen

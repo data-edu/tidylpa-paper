@@ -1,0 +1,372 @@
+Mplus VERSION 8.2 (Mac)
+MUTHEN & MUTHEN
+08/26/2020  10:08 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  model 3 with 1 classes
+  DATA:
+  FILE = "data_624dd70f9f561f2c8c991d291c51b950.dat";
+
+  VARIABLE:
+  NAMES = KinshipJ MutualismJ ExchangeJ HawkJ DoveJ DivisionJ PossessionJ;
+   MISSING=.;
+   CLASSES = c1(1);
+
+  ANALYSIS:
+  TYPE = mixture;
+
+  MODEL:
+  %c1#1%
+  KinshipJ (vKinshipJ);
+  MutualismJ (vMutualismJ);
+  ExchangeJ (vExchangeJ);
+  HawkJ (vHawkJ);
+  DoveJ (vDoveJ);
+  DivisionJ (vDivisionJ);
+  PossessionJ (vPossessionJ);
+
+  KinshipJ WITH MutualismJ (KinshipJWMutualismJ);
+  KinshipJ WITH ExchangeJ (KinshipJWExchangeJ);
+  KinshipJ WITH HawkJ (KinshipJWHawkJ);
+  KinshipJ WITH DoveJ (KinshipJWDoveJ);
+  KinshipJ WITH DivisionJ (KinshipJWDivisionJ);
+  KinshipJ WITH PossessionJ (KinshipJWPossessionJ);
+  MutualismJ WITH ExchangeJ (MutualismJWExchangeJ);
+  MutualismJ WITH HawkJ (MutualismJWHawkJ);
+  MutualismJ WITH DoveJ (MutualismJWDoveJ);
+  MutualismJ WITH DivisionJ (MutualismJWDivisionJ);
+  MutualismJ WITH PossessionJ (MutualismJWPossessionJ);
+  ExchangeJ WITH HawkJ (ExchangeJWHawkJ);
+  ExchangeJ WITH DoveJ (ExchangeJWDoveJ);
+  ExchangeJ WITH DivisionJ (ExchangeJWDivisionJ);
+  ExchangeJ WITH PossessionJ (ExchangeJWPossessionJ);
+  HawkJ WITH DoveJ (HawkJWDoveJ);
+  HawkJ WITH DivisionJ (HawkJWDivisionJ);
+  HawkJ WITH PossessionJ (HawkJWPossessionJ);
+  DoveJ WITH DivisionJ (DoveJWDivisionJ);
+  DoveJ WITH PossessionJ (DoveJWPossessionJ);
+  DivisionJ WITH PossessionJ (DivisionJWPossessionJ);
+
+
+  OUTPUT:
+  TECH14;
+
+  SAVEDATA:
+  FILE IS model_3_class_1.dat;
+  SAVE = cprobabilities;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING in OUTPUT command
+  TECH14 option is not available for TYPE=MIXTURE with only one class.
+  Request for TECH14 is ignored.
+   3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+model 3 with 1 classes
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1392
+
+Number of dependent variables                                    7
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   KINSHIPJ    MUTUALISMJ  EXCHANGEJ   HAWKJ       DOVEJ       DIVISIONJ
+   POSSESSION
+
+Categorical latent variables
+   C1
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  data_624dd70f9f561f2c8c991d291c51b950.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of y missing data patterns           1
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              KINSHIPJ      MUTUALIS      EXCHANGE      HAWKJ         DOVEJ
+              ________      ________      ________      ________      ________
+ KINSHIPJ       1.000
+ MUTUALIS       1.000         1.000
+ EXCHANGE       1.000         1.000         1.000
+ HAWKJ          1.000         1.000         1.000         1.000
+ DOVEJ          1.000         1.000         1.000         1.000         1.000
+ DIVISION       1.000         1.000         1.000         1.000         1.000
+ POSSESSI       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              DIVISION      POSSESSI
+              ________      ________
+ DIVISION       1.000
+ POSSESSI       1.000         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     KINSHIPJ             68.142      -0.400      12.667    0.07%      55.333     64.667     69.000
+            1392.000     243.252      -0.028      99.333    0.07%      73.000     82.000
+     MUTUALISMJ           64.403      -0.398      11.000    0.07%      53.000     61.667     65.000
+            1392.000     184.479       0.162      96.000    0.07%      68.333     76.333
+     EXCHANGEJ            71.836      -0.357      32.667    0.07%      62.667     69.667     72.667
+            1392.000     127.269       0.056      98.000    0.14%      75.333     81.333
+     HAWKJ                65.577      -0.286      11.000    0.07%      52.333     61.667     66.000
+            1392.000     250.911      -0.258      99.667    0.14%      70.333     80.000
+     DOVEJ                54.086      -0.377       2.000    0.07%      41.000     51.333     55.167
+            1392.000     244.615      -0.092      92.333    0.07%      59.000     68.000
+     DIVISIONJ            69.860      -0.574       6.333    0.07%      57.333     67.000     71.333
+            1392.000     243.008       0.243     100.000    0.29%      75.333     83.000
+     POSSESSIONJ          39.164       0.105       1.667    0.07%      26.000     35.000     39.333
+            1392.000     234.437      -0.117      95.333    0.07%      43.000     52.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       35
+
+Loglikelihood
+
+          H0 Value                      -39543.816
+          H0 Scaling Correction Factor      1.0444
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   79157.632
+          Bayesian (BIC)                 79340.980
+          Sample-Size Adjusted BIC       79229.798
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1       1392.00000          1.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1       1392.00000          1.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1             1392          1.00000
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1
+
+    1   1.000
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1
+
+    1   1.000
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1
+
+    1      0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ KINSHIPJ WITH
+    MUTUALISMJ        48.802      5.760      8.472      0.000
+    EXCHANGEJ         55.386      4.760     11.635      0.000
+    HAWKJ             69.449      7.398      9.388      0.000
+    DOVEJ             75.028      6.753     11.110      0.000
+    DIVISIONJ         21.305      6.945      3.068      0.002
+    POSSESSION        -7.099      6.277     -1.131      0.258
+
+ MUTUALIS WITH
+    EXCHANGEJ         53.537      4.387     12.203      0.000
+    HAWKJ             39.852      5.886      6.771      0.000
+    DOVEJ             38.967      6.045      6.447      0.000
+    DIVISIONJ         48.338      6.196      7.801      0.000
+    POSSESSION        -6.422      5.415     -1.186      0.236
+
+ EXCHANGE WITH
+    HAWKJ             39.438      4.974      7.929      0.000
+    DOVEJ             29.014      4.943      5.869      0.000
+    DIVISIONJ         23.282      4.889      4.762      0.000
+    POSSESSION        -1.008      4.436     -0.227      0.820
+
+ HAWKJ    WITH
+    DOVEJ             58.652      6.875      8.531      0.000
+    DIVISIONJ         26.089      6.692      3.898      0.000
+    POSSESSION         0.090      6.449      0.014      0.989
+
+ DOVEJ    WITH
+    DIVISIONJ          3.605      7.025      0.513      0.608
+    POSSESSION       -11.069      6.297     -1.758      0.079
+
+ DIVISION WITH
+    POSSESSION        25.382      6.411      3.959      0.000
+
+ Means
+    KINSHIPJ          68.142      0.418    163.008      0.000
+    MUTUALISMJ        64.403      0.364    176.910      0.000
+    EXCHANGEJ         71.836      0.302    237.576      0.000
+    HAWKJ             65.577      0.425    154.458      0.000
+    DOVEJ             54.086      0.419    129.021      0.000
+    DIVISIONJ         69.860      0.418    167.200      0.000
+    POSSESSION        39.164      0.410     95.432      0.000
+
+ Variances
+    KINSHIPJ         243.252      9.156     26.568      0.000
+    MUTUALISMJ       184.479      7.271     25.372      0.000
+    EXCHANGEJ        127.269      4.891     26.020      0.000
+    HAWKJ            250.912      8.876     28.268      0.000
+    DOVEJ            244.616      9.056     27.011      0.000
+    DIVISIONJ        243.007      9.754     24.915      0.000
+    POSSESSION       234.436      8.623     27.188      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.109E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    model_3_class_1.dat
+
+  Order and format of variables
+
+    KINSHIPJ       F10.3
+    MUTUALIS       F10.3
+    EXCHANGE       F10.3
+    HAWKJ          F10.3
+    DOVEJ          F10.3
+    DIVISION       F10.3
+    POSSESSI       F10.3
+    CPROB1         F10.3
+    C1             F10.3
+
+  Save file format
+    9F10.3
+
+  Save file record length    10000
+
+
+     Beginning Time:  10:08:41
+        Ending Time:  10:08:41
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2018 Muthen & Muthen

@@ -58,7 +58,8 @@ library(papaja)
 # Seed for random number generation
 set.seed(42)
 library(tidyverse)
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed, cache = TRUE)
+knitr::clean_cache()
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 ```
 
 # Introduction
@@ -316,7 +317,7 @@ A simple summary of the analysis is printed to the console.
 The resulting object can be further passed down a pipeline to
 other functions, such as `compare_solutions`, `get_data`, and `get_fit`.
 
-``` {r, curry-mac-mclust}
+``` {r, curry-mac-mclust-example}
 m1 <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -333,14 +334,14 @@ refers to the maximum. Finally. `n_min` refers to the proportion of the sample a
 Additional fit statistics (other penalized likelihood values, such as the CAIC, SABIC, and ICL), and the bootstrapped LRT 
 test statistic, can be obtained with the `get_fit()` function:
 
-```{r}
+```{r, get-fit-m1}
 get_fit(m1)
 ```
 
 ### Mplus via tidyLPA
 
 We can use Mplus simply by changing the package argument for
-`estimate_profiles()` to "mplus" or "MplusAutomation" (either will work):
+`estimate_profiles()` to "mplus" or "MplusAutomation" (either will work; not run here):
 
 ``` {r, curry-mac-mplus, eval = FALSE}
 curry_mac %>% 
@@ -476,101 +477,44 @@ curry_mac %>%
 The function `compare_solutions()` compares the fit of several estimated models,
 with varying numbers of profiles and model specifications:
 
-``` {r, compare-mclust, eval = FALSE}
-curry_mac_mclust_solutions <- curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
+````{r, compare-mclust}
+compare_solutions_mclust <- curry_mac %>% 
+  select(KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
-                    n_profiles = 1:9) %>%
-  compare_solutions(statistics = c("AIC", "BIC"))
- 
-write_rds(curry_mac_mclust_solutions, "cm_mclust.rds")
-
-# Best model according to AIC is Model 6 with 7 classes.
-# Best model according to BIC is Model 6 with 2 classes.
-
-#An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 6 with 2 classes.
+                    n_profiles = 1:9,
+                    package = "mclust")
 ```
 
-````{r, just-one}
-urry_mac %>% 
-  select(KinshipR:PossessionR) %>% 
-  estimate_profiles(models = c(1, 2, 3, 6),
-                    n_profiles = 1:9)
+```{r, eval = FALSE}
+write_rds(compare_solutions_mclust, "compare_solutions_mclust.rds")
+````
 
-curry_mac_mclust_j <- curry_mac %>% 
+```{r, compare-mplus}
+compare_solutions_mplus <- curry_mac %>% 
   select(KinshipJ:PossessionJ) %>% 
-  estimate_profiles(models = c(1, 2, 3, 6),
-                    n_profiles = 1:9)
-
-curry_mac_mclust_j <- curry_mac %>% 
-  select(KinshipR:PossessionR) %>% 
-  estimate_profiles(models = c(1, 2, 3, 6),
+  estimate_profiles(models = c(1, 2, 3, 4, 5, 6),
                     n_profiles = 1:9,
                     package = "mplus")
+```
 
-curry_mac %>% 
+```{r, echo = FALSE}
+write_rds(compare_solutions_mplus, "compare_solutions_mplus.rds")
+```
+
+```{r, compare-mplus-starts}
+compare_solutions_mplus_starts <- curry_mac %>% 
   select(KinshipJ:PossessionJ) %>% 
-  estimate_profiles(models = c(1, 2, 3, 6),
+  estimate_profiles(models = c(1, 2, 3, 4, 5, 6),
                     n_profiles = 1:9,
-                    package = "mplus")
+                    package = "mplus",
+                    ANALYSIS = "starts = 100, 20;")
+```
+
+```{r, echo = FALSE}
+write_rds(compare_solutions_mplus_starts, "compare_solutions_mplus_starts.rds")
 ```
 
 The results of this analysis suggests that the Model 6, two or seven class models are best.
-
-```{r, m6p7-solution, eval = FALSE}
-curry_mac_m6p7 <- curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(3, 
-                    variances = "varying",
-                    covariances = "varying")
-
-plot_profiles(curry_mac_m6p7)
-```
-
-```{r, m6p2-solution, eval = FALSE}
-curry_mac_m6p2 <- curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(3, 
-                    variances = "varying",
-                    covariances = "varying")
-
-plot_profiles(curry_mac_m6p7)
-```
-
-We can also run the same process using mplus:
-
-``` {r, compare-mplus, eval = FALSE}
-curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(models = c(1, 2, 3, 6),
-                    n_profiles = 1:9, package = "mplus") %>%
-  compare_solutions(statistics = c("AIC", "BIC"))
-```
-
-```{r, m6ps-mplus, eval = FALSE}
-curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(n_profiles = 2, 
-                    variances = "varying",
-                    covariances = "varying", 
-                    package = "mplus")
-
-```
-
-```{r, m6p2-mclust, eval = FALSE}
-curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(n_profiles = 2, 
-                    variances = "varying",
-                    covariances = "varying")
-
-```
 
 ## Accessing values in the output
 
@@ -579,7 +523,7 @@ of an analysis.
 
 `get_data()` returns the data:
 
-``` {r}
+``` {r, eval = FALSE}
 get_data()
 ```
 
@@ -592,7 +536,7 @@ format does not make sense).
 To transform data in the wide format into the long format, the `gather()`
 function from the **tidyr** package can be used, e.g.:
 
-``` {r}
+``` {r, eval = FALSE}
 get_data(m) %>% 
   tidyr::gather(Class_prob, Probability, contains("CPROB"))
 ```
