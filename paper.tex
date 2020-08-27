@@ -29,7 +29,7 @@
 }
 \usepackage{hyperref}
 \hypersetup{
-            pdftitle={Carrying out Latent Profile Analysis in Accordance With Best Practices: A Tutorial Using the tidyLPA R package},
+            pdftitle={Decisions Decisions Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package},
             pdfauthor={Joshua Rosenberg, Caspar van Lissa, Jennifer Schmidt, Patrick Beymer, Daniel Anderson, \& Matthew Schell},
             pdfkeywords={Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust},
             pdfborder={0 0 0},
@@ -63,14 +63,39 @@
 \def\fps@figure{htbp}
 \makeatother
 
-\usepackage{etoolbox}
+\shorttitle{tidyLPA}
+\affiliation{
+\vspace{0.5cm}
+\textsuperscript{1} University of Tennessee, Knoxville\\\textsuperscript{2} Utrecht University\\\textsuperscript{3} Michigan State University\\\textsuperscript{4} University of Oregon\\\textsuperscript{5} }
+\keywords{Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust\newline\indent Word count: }
+\usepackage{csquotes}
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+\usepackage{longtable}
+\usepackage{lscape}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage[flushleft]{threeparttable}
+\usepackage{threeparttablex}
+
+\newenvironment{lltable}{\begin{landscape}\begin{center}\begin{ThreePartTable}}{\end{ThreePartTable}\end{center}\end{landscape}}
+
 \makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+
+
+\DeclareDelayedFloatFlavor{ThreePartTable}{table}
+\DeclareDelayedFloatFlavor{lltable}{table}
+\DeclareDelayedFloatFlavor*{longtable}{table}
+\makeatletter
+\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
 \makeatother
 
-\title{Carrying out Latent Profile Analysis in Accordance With Best Practices: A Tutorial Using the tidyLPA R package}
+\title{Decisions Decisions Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package}
 \author{Joshua Rosenberg\textsuperscript{1}, Caspar van Lissa\textsuperscript{2}, Jennifer Schmidt\textsuperscript{3}, Patrick Beymer\textsuperscript{3}, Daniel Anderson\textsuperscript{4}, \& Matthew Schell\textsuperscript{3}}
 \date{}
 
@@ -84,6 +109,22 @@ Correspondence concerning this article should be addressed to Joshua Rosenberg, 
 
 \begin{document}
 \maketitle
+
+\begin{verbatim}
+## Warning: package 'tibble' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'purrr' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'dplyr' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -165,7 +206,7 @@ rather in terms of the geometric properties of the distributions that result
 from particular parameterizations. Muthen and Muthen (1997-2017) and others
 (Pastor et al., 2007) commonly refer to local independence to mean that the
 covariances are fixed to zero (also described as the specification of the
-covariance matrix as ``diagonal,'' because only the diagonal components, or the
+covariance matrix as \enquote{diagonal,} because only the diagonal components, or the
 variances, are estimated).
 
 In general, as more parameters are estimated (i.e., those that are fixed to zero
@@ -231,8 +272,8 @@ RMixMod, which uses compiled C++ code) and others in terms of ease-of-use (i.e.,
 the plot methods built-in to RMixMod, mclust, and other tools). However, they
 also have some drawbacks, in that it can be difficult to translate between the
 model specifications, which are often described in terms of the geometric
-properties of the multivariate distributions being estimated (i.e., ``spherical,
-equal volume''), rather than in terms of whether and how the means, variances,
+properties of the multivariate distributions being estimated (i.e., \enquote{spherical,
+equal volume}), rather than in terms of whether and how the means, variances,
 and covariances are estimated. They also may use different default settings
 (than those encountered in MPlus) in terms of the expectation-maximization
 algorithm, which can make comparing results across tools challenging.
@@ -263,7 +304,7 @@ settings for the EM algorithm and particularly for the start values (random
 starts for MPlus and starting values from hierarchical clustering for mclust),
 differences may be expected for more complex data and models.
 
-One way that tidyLPA is designed to be easy to use is that it assumes a ``tidy''
+One way that tidyLPA is designed to be easy to use is that it assumes a \enquote{tidy}
 data structure (Wickham, 2014). This means that it emphasizes the use of a data
 frame as both the primary input and output of functions for the package. Because
 data is passed to and returned (in amended form, i.e., with the latent profile
@@ -288,6 +329,10 @@ You can install tidyLPA from CRAN with:
 
 You can also install the development version of tidyLPA from GitHub with:
 
+\begin{verbatim}
+## Warning: package 'tidyLPA' was built under R version 3.6.2
+\end{verbatim}
+
 \hypertarget{examples}{%
 \subsection{Examples}\label{examples}}
 
@@ -298,60 +343,150 @@ Here, we use a simulated dataset, based on Curry et al., 2019, contains data on 
 
 In these examples, we pass the results of one function to the next by \emph{piping}
 (using the \texttt{\%\textgreater{}\%} operator, loaded from the \texttt{dplyr} package). We pass the data to
-a function that selects relevant variables, and then to \texttt{estimate\_profiles}:
+a function that selects relevant variables, and then to \texttt{estimate\_profiles}.
+
+A simple summary of the analysis is printed to the console.
+The resulting object can be further passed down a pipeline to
+other functions, such as \texttt{compare\_solutions}, \texttt{get\_data}, and \texttt{get\_fit}.
+
+We can see a number of statistics for each of the models that were estimated, including the
+AIC (Aikake information criterion; based on -2 log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are \emph{penalized} likelihood statistics; the log-likelihood will always decrease with the addition of additional
+paremeters estimated by the model, whereas the AIC and BIC will account for the number of parameters; lower values of
+either indicate better fit.
+
+Entropy. \texttt{prob\_min} refers to the minimum of the diagonal of the average latent class probabilities for most likely class membership, by assigned class. The minimum should be as high as possible, reflecting greater classification certainty (cases are assigned to classes they have a high probability of belonging to; see Jung \& Wickrama, 2008); \texttt{prob\_max}
+refers to the maximum. Finally. \texttt{n\_min} refers to the proportion of the sample assigned to the smallest class (based on most likely class membership); \texttt{n\_max} to the largest. Finally, \texttt{BLRT\_p} refers to the p-value for the bootstrapped likelihood ratio test; a value greater than .05 indicates that the model fit better than one with one fewer class.
+Additional fit statistics (other penalized likelihood values, such as the CAIC, SABIC, and ICL), and the bootstrapped LRT
+test statistic, can be obtained with the \texttt{get\_fit()} function:
 
 \begin{verbatim}
-## tidyLPA analysis using mclust: 
-## 
-##  Model Classes AIC       BIC       Entropy prob_min prob_max n_min n_max BLRT_p
-##  1     3       158594.55 158898.38 0.82    0.91     0.92     0.15  0.53  0.01
+## # A tibble: 10 x 18
+##    Model Classes  LogLik    AIC    AWE    BIC   CAIC    CLC    KIC  SABIC
+##    <dbl>   <dbl>   <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
+##  1     1       1 -81245. 1.63e5 1.63e5 1.63e5 1.63e5 1.62e5 1.63e5 1.63e5
+##  2     1       2 -79727. 1.60e5 1.60e5 1.60e5 1.60e5 1.59e5 1.60e5 1.60e5
+##  3     1       3 -79239. 1.59e5 1.59e5 1.59e5 1.59e5 1.58e5 1.59e5 1.59e5
+##  4     1       4 -79091. 1.58e5 1.59e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
+##  5     1       5 -79029. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
+##  6     1       6 -78971. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
+##  7     1       7 -78930. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
+##  8     1       8 -78852. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
+##  9     1       9 -78822. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
+## 10     1      10 -78751. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
+## # ... with 8 more variables: ICL <dbl>, Entropy <dbl>, prob_min <dbl>,
+## #   prob_max <dbl>, n_min <dbl>, n_max <dbl>, BLRT_val <dbl>, BLRT_p <dbl>
 \end{verbatim}
 
 \hypertarget{mplus-via-tidylpa}{%
 \subsubsection{Mplus via tidyLPA}\label{mplus-via-tidylpa}}
 
 We can use Mplus simply by changing the package argument for
-\texttt{estimate\_profiles()}:
+\texttt{estimate\_profiles()} to \enquote{mplus} or \enquote{MplusAutomation} (either will work; not run here):
 
-A simple summary of the analysis is printed to the console.
-The resulting object can be further passed down a pipeline to
-other functions, such as \texttt{compare\_solutions}, \texttt{get\_data}, \texttt{get\_fit},
-etc. This is the ``tidy'' part, in that the function can be embedded in a tidy
-analysis pipeline.
+These are the very basics; we will return to what we do with this output later in the tutorial.
 
-If you have Mplus installed, you can call the version of this function that uses
-MPlus in the same way, by adding the argument \texttt{package\ =\ "MplusAutomation}.
+\hypertarget{specifying-the-model}{%
+\subsubsection{\texorpdfstring{Specifying the \emph{model}}{Specifying the model}}\label{specifying-the-model}}
 
-\hypertarget{plotting-the-profiles}{%
-\subsubsection{Plotting the profiles}\label{plotting-the-profiles}}
+We passed the number of profiles, but no details about the model we wished to estimate.
 
-We can plot the profiles by piping the output to \texttt{plot\_profiles()}.
+There are a number of different types of models for LPA that estimate different parameters; choosing
+between them is an important consideration, and one that has a bearing on how we will interpret the results we saw above.
 
-\includegraphics{paper_files/figure-latex/curry_mac_p3-1.pdf}
-
-\begin{verbatim}
-## Warning: Using shapes for an ordinal variable is not advised
-\end{verbatim}
-
-\includegraphics{paper_files/figure-latex/curry_mac_p3-2.pdf}
-
-\hypertarget{model-specification}{%
-\subsection{Model specification}\label{model-specification}}
-
-In addition to the number of profiles (specified with the \texttt{n\_profiles}
+Thus, in addition to the number of profiles (specified with the \texttt{n\_profiles}
 argument), the model can be specified in terms of whether and how the variable
-variances and covariances are estimated.
-
-The models are specified by passing arguments to the \texttt{variance} and \texttt{covariance}
+variances and covariances are estimated. The models are specified by passing arguments to the \texttt{variance} and \texttt{covariance}
 arguments. The possible values for these arguments are:
 
 \begin{itemize}
 \tightlist
 \item
-  \texttt{variances}: ``equal'' and ``zero''
+  \texttt{variances}: \enquote{equal} and \enquote{zero}
 \item
-  \texttt{covariances}: ``varying'', ``equal'', and ``zero''
+  \texttt{covariances}: \enquote{varying}, \enquote{equal}, and \enquote{zero}
 \end{itemize}
+
+In general, the approach to choosing the model is similar to choosing the number of profiles, requiring \textbf{deciding on the basis of evidence from multiple sources}, including information criteria, statistical tests, and concerns of interpretability and parsimony. The article by \href{https://www.sciencedirect.com/science/article/pii/S0361476X06000543}{Pastor and colleagues (2007)} has helpful information on the model specifications. Here, the six models that are possible to specify in LPA are described in terms of how the variables used to create the profiles are estimated.
+
+Note that \emph{p} represents different profiles and each parameterization is represented by a 4 x 4 covariance matrix and therefore would represent the parameterization for a four-profile solution. In all of the models, the means are estimated freely in the different profiles. Imagine that each row and column represents a different variable, i.e., the first row (and column) represents broad interest, the second enjoyment, the third self-efficacy, and the fourth another variable, i.e., future goals and plans.
+
+\hypertarget{equal-variances-and-covariances-fixed-to-0-model-1}{%
+\subsubsection{1. Equal variances, and covariances fixed to 0 (model 1)}\label{equal-variances-and-covariances-fixed-to-0-model-1}}
+
+In this model, which corresponds to the mclust model wit the name \enquote{EEI}, the variances are estimated to be equal across profiles, indicated by the absence of a p subscript for any of the diagonal elements of the matrix. The covariances are constrained to be zero, as indicated by the 0's between every combination of the variables.
+
+It is specified with \texttt{variances\ =\ "equal"} and \texttt{covariances\ =\ "zero"}.
+
+This model is highly constrained but also parsimonious: the profiles are estimated in such a way that the variables' variances are identical for each of the profiles, and the relationships between the variables are not estimated. In this way, less degrees of freedom are taken used to explain the observations that make up the data. However, estimating more parameters--as in the other models--may better explain the data, justifying the addition in complexity that their addition involves (and their reduction in degrees of freedom). This model is sometimes referred to as a \emph{class-invariant} parameterization.
+
+\[
+\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & 0 & 0 & 0 \\ 0 & { \sigma  }_{ 2 }^{ 2 } & 0 & 0 \\ 0 & 0 & { \sigma  }_{ 3 }^{ 2 } & 0 \\ 0 & 0 & 0 & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] 
+\]
+
+\hypertarget{varying-variances-and-covariances-fixed-to-0-model-2}{%
+\subsubsection{2. Varying variances and covariances fixed to 0 (model 2)}\label{varying-variances-and-covariances-fixed-to-0-model-2}}
+
+This model corresponds to the mclust model \enquote{VVI} and allows for the variances to be freely estimated across profiles. The covariances are constrained to zero.
+
+It is specified with \texttt{variances\ =\ "varying"} and \texttt{covariances\ =\ "zero"}.
+
+Thus, it is more flexible (and less parsimonious) than model 1, but in terms of the covariances, is more constrained than model 2. This model is sometimes referred to as a \emph{class-varying diagonal} parameterization.
+
+\[ 
+\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & 0 & 0 & 0 \\ 0 & { \sigma  }_{ 2p }^{ 2 } & 0 & 0 \\ 0 & 0 & { \sigma  }_{ 3p }^{ 2 } & 0 \\ 0 & 0 & 0 & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
+\]
+
+\hypertarget{equal-variances-and-equal-covariances-model-3}{%
+\subsubsection{3. Equal variances and equal covariances (model 3)}\label{equal-variances-and-equal-covariances-model-3}}
+
+This model corresponds to the mclust model \enquote{EEE}. In this model, the variances are still constrained to be the same across the profiles, although now the covariances are estimated (but like the variances, are constrained to be the same across profiles).
+
+It is specified with \texttt{variances\ =\ "equal"} and \texttt{covariances\ =\ "equal"}.
+
+Thus, this model is the first to estimate the covariance (or correlations) of the variables used to create the profiles, thus adding more information that can be used to better understand the characteristics of the profiles (and, potentially, better explain the data). This model is sometimes referred to as a \emph{class-invariant unrestricted} parameterization.
+
+\[
+\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & { \sigma  }_{ 21 } & { \sigma  }_{ 31 } & { \sigma  }_{ 41 } \\ { \sigma  }_{ 12 } & { \sigma  }_{ 2 }^{ 2 } & { \sigma  }_{ 23 } & { \sigma  }_{ 24 } \\ { \sigma  }_{ 13 } & { \sigma  }_{ 12 } & { \sigma  }_{ 3 }^{ 2 } & { \sigma  }_{ 33 } \\ { \sigma  }_{ 14 } & { \sigma  }_{ 12 } & { \sigma  }_{ 12 } & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] 
+\]
+
+\hypertarget{varying-means-varying-variances-and-equal-covariances-model-4}{%
+\subsubsection{4. Varying means, varying variances, and equal covariances (model 4)}\label{varying-means-varying-variances-and-equal-covariances-model-4}}
+
+This model, which specifies for the variances to be freely estimated across the profiles and for the covariances to be estimated to be equal across profiles, extends model 3.
+
+It is specified with \texttt{variances\ =\ "varying"} and \texttt{covariances\ =\ "equal"}.
+
+Unfortunately, this model cannot be specified with mclust, though it can be with MPlus; this model \emph{can} be used with the functions to interface to MPlus described below.
+
+\[
+\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & { \sigma  }_{ 21 } & { \sigma  }_{ 31 } & { \sigma  }_{ 41 } \\ { \sigma  }_{ 12 } & { \sigma  }_{ 2p }^{ 2 } & { \sigma  }_{ 23 } & { \sigma  }_{ 24 } \\ { \sigma  }_{ 13 } & { \sigma  }_{ 12 } & { \sigma  }_{ 3p }^{ 2 } & { \sigma  }_{ 33 } \\ { \sigma  }_{ 14 } & { \sigma  }_{ 12 } & { \sigma  }_{ 12 } & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
+\]
+
+\hypertarget{varying-means-equal-variances-and-varying-covariances-model-5}{%
+\subsubsection{5. Varying means, equal variances, and varying covariances (model 5)}\label{varying-means-equal-variances-and-varying-covariances-model-5}}
+
+This model specifies the variances to be equal across the profiles, but allows the covariances to be freely estimated across the profiles.
+
+It is specified with \texttt{variances\ =\ "equal"} and \texttt{covariances\ =\ "varying"}.
+
+Like model 4, this model cannot be specified with mclust, though it can be with MPlus. Again, this model \emph{can} be used with the functions to interface to MPlus described below.
+
+\[
+\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & { \sigma  }_{ 21p } & { \sigma  }_{ 31p } & { \sigma  }_{ 41p } \\ { \sigma  }_{ 12p } & { \sigma  }_{ 2 }^{ 2 } & { \sigma  }_{ 23p } & { \sigma  }_{ 24p } \\ { \sigma  }_{ 13p } & { \sigma  }_{ 12p } & { \sigma  }_{ 3 }^{ 2 } & { \sigma  }_{ 33p } \\ { \sigma  }_{ 14p } & { \sigma  }_{ 12p } & { \sigma  }_{ 12p } & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] \quad 
+\]
+
+\hypertarget{varying-variances-and-varying-covariances-model-6}{%
+\subsubsection{6. Varying variances and varying covariances (model 6)}\label{varying-variances-and-varying-covariances-model-6}}
+
+This model corresponds to the mclust model \enquote{VVV}. It allows the variances and the covariances to be freely estimated across profiles.
+
+It is specified with \texttt{variances\ =\ "varying"} and \texttt{covariances\ =\ "varying"}.
+
+Thus, it is the most complex model, with the potential to allow for understanding many aspects of the variables that are used to estimate the profiles and how they are related. However, it is less parsimonious than all of the other models, and the added parameters should be considered in light of how preferred this model is relative to those with more simple specifications. This model is sometimes referred to as a \emph{class-varying unrestricted} parameterization.
+
+\[
+\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & { \sigma  }_{ 21p } & { \sigma  }_{ 31p } & { \sigma  }_{ 41p } \\ { \sigma  }_{ 12p } & { \sigma  }_{ 2p }^{ 2 } & { \sigma  }_{ 23p } & { \sigma  }_{ 24p } \\ { \sigma  }_{ 13p } & { \sigma  }_{ 12p } & { \sigma  }_{ 3p }^{ 2 } & { \sigma  }_{ 33p } \\ { \sigma  }_{ 14p } & { \sigma  }_{ 12p } & { \sigma  }_{ 12p } & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
+\]
 
 If no values are specified for these, then the variances are constrained to be
 equal across classes, and covariances are fixed to 0 (conditional independence
@@ -386,54 +521,15 @@ with varying numbers of profiles and model specifications:
 
 \begin{verbatim}
 ## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_3_class_3, model_3_class_6, model_3_class_8
-
-## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_3_class_3, model_3_class_6, model_3_class_8
+## One or more analyses resulted in warnings! Examine these analyses carefully: model_1_class_6, model_1_class_7, model_1_class_8, model_1_class_9, model_2_class_5, model_2_class_6, model_2_class_7, model_2_class_8, model_2_class_9, model_3_class_1, model_3_class_2, model_3_class_3, model_3_class_4, model_3_class_5, model_3_class_6, model_3_class_7, model_3_class_8, model_3_class_9, model_4_class_1, model_4_class_2, model_4_class_3, model_4_class_4, model_4_class_5, model_4_class_6, model_4_class_7, model_4_class_8, model_4_class_9, model_5_class_1, model_5_class_2, model_5_class_3, model_5_class_4, model_5_class_5, model_5_class_6, model_5_class_7, model_5_class_8, model_5_class_9, model_6_class_3, model_6_class_4, model_6_class_5, model_6_class_6, model_6_class_7, model_6_class_8, model_6_class_9
 \end{verbatim}
 
 \begin{verbatim}
 ## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_1_class_5, model_1_class_6, model_1_class_8, model_1_class_9, model_2_class_6, model_2_class_7, model_2_class_8, model_2_class_9, model_3_class_1, model_3_class_2, model_3_class_3, model_3_class_4, model_3_class_5, model_3_class_6, model_3_class_7, model_3_class_8, model_3_class_9, model_6_class_1, model_6_class_2, model_6_class_3, model_6_class_4, model_6_class_5, model_6_class_6, model_6_class_7, model_6_class_8, model_6_class_9
-
-## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_1_class_5, model_1_class_6, model_1_class_8, model_1_class_9, model_2_class_6, model_2_class_7, model_2_class_8, model_2_class_9, model_3_class_1, model_3_class_2, model_3_class_3, model_3_class_4, model_3_class_5, model_3_class_6, model_3_class_7, model_3_class_8, model_3_class_9, model_6_class_1, model_6_class_2, model_6_class_3, model_6_class_4, model_6_class_5, model_6_class_6, model_6_class_7, model_6_class_8, model_6_class_9
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_1_class_6, model_1_class_7, model_1_class_8, model_1_class_9, model_2_class_5, model_2_class_6, model_2_class_7, model_2_class_8, model_2_class_9, model_3_class_1, model_3_class_2, model_3_class_3, model_3_class_4, model_3_class_5, model_3_class_6, model_3_class_7, model_3_class_8, model_3_class_9, model_6_class_1, model_6_class_2, model_6_class_3, model_6_class_4, model_6_class_5, model_6_class_6, model_6_class_7, model_6_class_8, model_6_class_9
-
-## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_1_class_6, model_1_class_7, model_1_class_8, model_1_class_9, model_2_class_5, model_2_class_6, model_2_class_7, model_2_class_8, model_2_class_9, model_3_class_1, model_3_class_2, model_3_class_3, model_3_class_4, model_3_class_5, model_3_class_6, model_3_class_7, model_3_class_8, model_3_class_9, model_6_class_1, model_6_class_2, model_6_class_3, model_6_class_4, model_6_class_5, model_6_class_6, model_6_class_7, model_6_class_8, model_6_class_9
+## One or more analyses resulted in warnings! Examine these analyses carefully: model_1_class_7, model_1_class_8, model_1_class_9, model_2_class_6, model_2_class_7, model_2_class_8, model_2_class_9, model_3_class_1, model_3_class_2, model_3_class_3, model_3_class_4, model_3_class_5, model_3_class_6, model_3_class_7, model_3_class_8, model_3_class_9, model_4_class_1, model_4_class_2, model_4_class_3, model_4_class_4, model_4_class_5, model_4_class_6, model_4_class_7, model_4_class_8, model_4_class_9, model_5_class_1, model_5_class_2, model_5_class_3, model_5_class_4, model_5_class_5, model_5_class_6, model_5_class_7, model_5_class_8, model_5_class_9, model_6_class_3, model_6_class_4, model_6_class_5, model_6_class_6, model_6_class_7, model_6_class_8, model_6_class_9
 \end{verbatim}
 
 The results of this analysis suggests that the Model 6, two or seven class models are best.
-
-\includegraphics{paper_files/figure-latex/m6p7-solution-1.pdf}
-
-\includegraphics{paper_files/figure-latex/m6p2-solution-1.pdf}
-
-We can also run the same process using mplus:
-
-\begin{verbatim}
-## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_1_class_5, model_1_class_6, model_1_class_7, model_1_class_8, model_1_class_9, model_2_class_5, model_2_class_8, model_2_class_9, model_3_class_1, model_3_class_2, model_3_class_3, model_3_class_4, model_3_class_5, model_3_class_6, model_3_class_7, model_3_class_8, model_3_class_9, model_6_class_1, model_6_class_2, model_6_class_3, model_6_class_4, model_6_class_5, model_6_class_6, model_6_class_7, model_6_class_8, model_6_class_9
-
-## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_1_class_5, model_1_class_6, model_1_class_7, model_1_class_8, model_1_class_9, model_2_class_5, model_2_class_8, model_2_class_9, model_3_class_1, model_3_class_2, model_3_class_3, model_3_class_4, model_3_class_5, model_3_class_6, model_3_class_7, model_3_class_8, model_3_class_9, model_6_class_1, model_6_class_2, model_6_class_3, model_6_class_4, model_6_class_5, model_6_class_6, model_6_class_7, model_6_class_8, model_6_class_9
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: 
-## One or more analyses resulted in warnings! Examine these analyses carefully: model_6_class_2
-\end{verbatim}
-
-\begin{verbatim}
-## Error in plot_profiles.default(x = list(df_plot = structure(list(Class = structure(c(1L, : Could not match raw data to model estimates.
-\end{verbatim}
-
-\includegraphics{paper_files/figure-latex/m6p2-mclust-1.pdf}
 
 \hypertarget{accessing-values-in-the-output}{%
 \subsection{Accessing values in the output}\label{accessing-values-in-the-output}}
@@ -442,24 +538,6 @@ A few helper functions are available to make it easier to work with the output
 of an analysis.
 
 \texttt{get\_data()} returns the data:
-
-\begin{verbatim}
-## # A tibble: 700 x 9
-##    model_number classes_number broad_interest enjoyment self_efficacy Class
-##           <dbl>          <int>          <dbl>     <dbl>         <dbl> <dbl>
-##  1            1              3            3.8       4            1        1
-##  2            1              3            3         3            2.75     3
-##  3            1              3            1.8       2.8          3.38     2
-##  4            1              3            1.4       1            2.75     2
-##  5            1              3            1.8       2.2          2        2
-##  6            1              3            1.6       1.6          1.88     2
-##  7            1              3            3         3.8          2.25     3
-##  8            1              3            2.6       2.2          2        3
-##  9            1              3            1         2.8          2.62     2
-## 10            1              3            2.2       2            1.75     2
-## # … with 690 more rows, and 3 more variables: Class_prob <int>,
-## #   Probability <dbl>, id <int>
-\end{verbatim}
 
 We note that \texttt{get\_data()} returns data in wide format when applied to an object
 of class tidyProfile (one element of a tidyLPA object), or when applied to a
@@ -470,31 +548,13 @@ format does not make sense).
 To transform data in the wide format into the long format, the \texttt{gather()}
 function from the \textbf{tidyr} package can be used, e.g.:
 
-\begin{verbatim}
-## # A tibble: 700 x 9
-##    model_number classes_number broad_interest enjoyment self_efficacy Class
-##           <dbl>          <int>          <dbl>     <dbl>         <dbl> <dbl>
-##  1            1              3            3.8       4            1        1
-##  2            1              3            3         3            2.75     3
-##  3            1              3            1.8       2.8          3.38     2
-##  4            1              3            1.4       1            2.75     2
-##  5            1              3            1.8       2.2          2        2
-##  6            1              3            1.6       1.6          1.88     2
-##  7            1              3            3         3.8          2.25     3
-##  8            1              3            2.6       2.2          2        3
-##  9            1              3            1         2.8          2.62     2
-## 10            1              3            2.2       2            1.75     2
-## # … with 690 more rows, and 3 more variables: Class_prob <int>,
-## #   Probability <dbl>, id <int>
-\end{verbatim}
-
 \hypertarget{recommendations-regarding-analytic-choices}{%
 \section{Recommendations Regarding Analytic Choices}\label{recommendations-regarding-analytic-choices}}
 
 \hypertarget{grolts-checklist}{%
 \subsection{GRoLTs checklist}\label{grolts-checklist}}
 
-\hypertarget{htmlwidget-5db543d8ea5b00cc330c}{}
+\hypertarget{htmlwidget-31a3e9100620ea87273d}{}
 
 We walk through each of these in turn.
 
@@ -648,7 +708,7 @@ been, so far, well-received. This suggests that there is an audience (or a
 market) for tools to carry out sophisticated tools that may be otherwise
 out-of-reach. Tools do not need to be hard to use, a point made by developers
 of, for example, tools to carry out highly-sophisticated Bayesian methods using
-the most cutting-edge tools (Bürkner \& others, 2017, @makowski2019). We think
+the most cutting-edge tools (Bürkner \& others, 2017, Makowski, Ben-Shachar, Chen, and Lüdecke (2019)). We think
 that tidyLPA speaks to this, too.
 
 Another implication concerns how we developed tidyLPA. We used a modern software
@@ -705,6 +765,15 @@ the complexity of these experiences.
 \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
+\leavevmode\hypertarget{ref-burkner2017}{}%
+Bürkner, P.-C., \& others. (2017). Brms: An r package for bayesian multilevel models using stan. \emph{Journal of Statistical Software}, \emph{80}(1), 1--28.
+
+\leavevmode\hypertarget{ref-makowski2019}{}%
+Makowski, D., Ben-Shachar, M. S., Chen, S., \& Lüdecke, D. (2019). Indices of effect existence and significance in the bayesian framework. \emph{Frontiers in Psychology}, \emph{10}, 2767.
+
+\leavevmode\hypertarget{ref-R-tidyLPA}{}%
+Rosenberg, J. M., Beymer, P. N., Anderson, D. J., Lissa, C. van, \& Schmidt, J. A. (2018). TidyLPA: An r package to easily carry out latent profile analysis (lpa) using open-source or commercial software. \emph{Journal of Open Source Software}, \emph{3}(30), 978. doi:\href{https://doi.org/10.21105/joss.00978}{10.21105/joss.00978}
+
 \leavevmode\hypertarget{ref-burkner2017}{}%
 Bürkner, P.-C., \& others. (2017). Brms: An r package for bayesian multilevel models using stan. \emph{Journal of Statistical Software}, \emph{80}(1), 1--28.
 
