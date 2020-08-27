@@ -485,7 +485,7 @@ compare_solutions_mclust <- curry_mac %>%
                     package = "mclust")
 ```
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 write_rds(compare_solutions_mclust, "compare_solutions_mclust.rds")
 ````
 
