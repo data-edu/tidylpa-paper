@@ -59,7 +59,7 @@ library(papaja)
 set.seed(42)
 library(tidyverse)
 knitr::clean_cache()
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed, warning = FALSE)
 ```
 
 # Introduction
@@ -317,11 +317,14 @@ A simple summary of the analysis is printed to the console.
 The resulting object can be further passed down a pipeline to
 other functions, such as `compare_solutions`, `get_data`, and `get_fit`.
 
+Note that here and throughout this paper we use the function `knitr::kable()` to format the output in an RMarkdown document, like the one we are using; this is not necessary to use unless you also wish to format the tidyLPA output in an RMarkdown document.
+
 ``` {r, curry-mac-mclust-example}
 m1 <- curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
-  estimate_profiles(1:10)
+  estimate_profiles(1:10) %>% 
+  knitr::kable()
 ```
 
 We can see a number of statistics for each of the models that were estimated, including the 
@@ -547,6 +550,7 @@ get_data(m) %>%
 
 ```{r, echo = FALSE}
 t <- read_csv("GRoLTS-applicability-to-LPA.csv")
+
 tp <- t %>% 
   filter(use == 1) %>% 
   mutate(`LPA Number` = 1:nrow(.)) %>% 
