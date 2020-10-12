@@ -1,6 +1,6 @@
 ---
 title             : "Decisions Decisions Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package"
-shorttitle        : "tidyLPA"
+shorttitle        : "LPA Best Practices"
 
 author: 
   - name          : "Joshua Rosenberg"
@@ -54,10 +54,12 @@ always_allow_html: true
 library(papaja)
 ```
 
-```{r analysis-preferences}
+```{r analysis-preferences, echo = FALSE}
 # Seed for random number generation
 set.seed(42)
 library(tidyverse)
+library(simstudy)
+
 knitr::clean_cache()
 knitr::opts_chunk$set(cache.extra = knitr::rand_seed, warning = FALSE)
 ```
@@ -70,9 +72,7 @@ In statistics classes, textbooks, and workshops, an example like the following i
 
 Students, may (reasonably) ask, though, are grades *really* normally distributed? 
 
-```{r, include = FALSE, eval = FALSE}
-library(simstudy)
-
+```{r, include = FALSE, eval = TRUE}
 def <- defData(varname = "x1", formula = 65, variance = 30)
 def <- defData(def, varname = "x2", formula = 85, variance = 23)
 def <- defData(def, varname = "xMix", 
@@ -85,8 +85,7 @@ dx <- genData(1000, def)
 
 Are their one distribution?
 
-```{r, echo = FALSE, eval = FALSE}
-
+```{r, include = FALSE, eval = TRUE}
 ggplot(dx, aes(x = xMix)) +
   geom_density() +
   papaja::theme_apa() +
@@ -95,7 +94,7 @@ ggplot(dx, aes(x = xMix)) +
 
 Or two?
 
-```{r, echo = FALSE, eval = FALSE}
+```{r, include = FALSE, eval = TRUE}
 dx %>% 
   gather(key, val, x1:x2) %>% 
   ggplot(aes(x = val, fill = key)) +
@@ -118,7 +117,7 @@ an example of a general mixture model (Harring & Hodis, 2016; Pastor, Barron,
 Miller, & Davis, 2007).
 
 In this tutorial, we aim to describe one of the most commonly-used--and relevant
-to psychologists--application of the general mixture model, to cases for which
+to psychologists---application of the general mixture model, to cases for which
 all of the variables for which (relatively) homogeneous groups are identified
 from among a (relatively) heterogeneous sample are continuos, *latent profile
 analysis* (LPA). We note that scholars using the approach, especially in
@@ -140,7 +139,7 @@ sciences.
 # Latent Profile Analysis
 
 The goal of LPA is estimate the parameters for a number of distributions
-(typically multivariate) from a single dataset. Thus, such an approach is
+(typically multivariate) from a single data set. Thus, such an approach is
 model-based, and some descriptions in the literature refer to it as model-based
 clustering (Hennig, Meila, Murtagh, & Rocci, 2015; Scrucca, Fop, Murphy, &
 Raftery, 2017). Thus, one distinction between LPA and other, similar cluster
@@ -160,7 +159,7 @@ be estimated freely or can be estimated to be the same, or equal, across
 profiles; and the covariances of the variables used to create the profiles,
 which can be freely-estimated, estimated to be equal, or fixed to be zero.
 
-We wish to note that challenge facing the analyst using LPA is that these
+We note that challenge facing the analyst using LPA is that these
 parameters and the distinct model parameterizations that can be estimated is the
 different terminology used. As one example, Scrucca et al. (2017) refer to these
 parameterizations not in terms of whether and how parameters are estimated, but
@@ -190,23 +189,9 @@ are more likely to fit the data better. More information on the model
 parameterizations are discussed in the context of the software tool tidyLPA that
 we have developed.
 
-<!-- I think we move this to the discussion in light of best practices -->
-
-A note of caution is warranted about LPA in the context of their characteristics
-and strengths. Bauer (2007) notes that many samples of data can be usefully
-broken down into profiles, and that the addition of profiles will likely be
-suggested for reasons other than the samples coming from more than one
-distribution (i.e., due to non-normality in the variables measured). Bauer also
-cautions that profiles should not be reified; that profiles do not necessarily
-exist outside of the analysis that they should be interpreted more as useful
-interpretative devices. These cautions suggest that, in general, parsimony,
-interpretability, and a general sense that the profiles are not necessarily
-real, but are rather helpful analytic tools, should be both priorities for the
-analyst and the reader of studies using this approach.
-
 # Specific Software Tools
 
-## Other Tools
+## Tools other than tidyLPA
 
 SPSS is a common tool to carry out cluster analyses (but not LPA). While
 somewhat straightforward to carry out, particularly in SPSS’s graphical user
@@ -285,13 +270,15 @@ here).
 
 ## Installation
 
-You can install tidyLPA from CRAN with:
+You can install tidyLPA from the Comprehensive R Archive Network, or CRAN, with:
 
 ``` {r, eval = F}
 install.packages("tidyLPA")
 ```
 
-You can also install the development version of tidyLPA from GitHub with:
+This is how we recommend most users install tidyLPA. 
+
+You can also install the development version of tidyLPA, which may have new features that are not yet availalble on CRAN (because the version on CRAN is periodically updated) from GitHub with:
 
 ``` {r gh-installation, eval = FALSE}
 # install.packages("devtools")
@@ -300,12 +287,14 @@ devtools::install_github("data-edu/tidyLPA")
 
 ``` {r, message = F}
 library(tidyLPA)
-library(dplyr)
+library(dplyr) # for preparing the data
 ```
 
 ## Examples
 
-Here, we use a simulated dataset, based on Curry et al., 2019, contains data on moral relevance and judgment across the seven domains of the *Morality As Cooperation* scale.
+Here, we use a simulated dataset contains data on moral relevance and judgment across the seven domains of the *Morality As Cooperation* scale. More on this scale can be found in Curry et al., (2019). 
+
+Add one or two sentences here on the dataset?
 
 ### Mclust via tidyLPA
 
@@ -313,11 +302,14 @@ In these examples, we pass the results of one function to the next by *piping*
 (using the `%>%` operator, loaded from the `dplyr` package). We pass the data to
 a function that selects relevant variables, and then to `estimate_profiles`.
 
-A simple summary of the analysis is printed to the console. 
-The resulting object can be further passed down a pipeline to
-other functions, such as `compare_solutions`, `get_data`, and `get_fit`.
+A simple summary of the analysis is printed to the console. The resulting object
+can be further passed down a pipeline to other functions, such as
+`compare_solutions`, `get_data`, and `get_fit`.
 
-Note that here and throughout this paper we use the function `knitr::kable()` to format the output in an RMarkdown document, like the one we are using; this is not necessary to use unless you also wish to format the tidyLPA output in an RMarkdown document.
+Note that here and throughout this paper we use the function `knitr::kable()` to
+format the output in an RMarkdown document, like the one we are using; this is
+not necessary to use unless you also wish to format the tidyLPA output in an
+RMarkdown document.
 
 ``` {r, curry-mac-mclust-example}
 m1 <- curry_mac %>% 
@@ -328,7 +320,7 @@ m1 <- curry_mac %>%
 ```
 
 We can see a number of statistics for each of the models that were estimated, including the 
-AIC (Aikake information criterion; based on -2 log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are _penalized_ likelihood statistics; the log-likelihood will always decrease with the addition of additional 
+AIC (Aikake information criterion; based on -2 * the log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are _penalized_ likelihood statistics; the log-likelihood will always decrease with the addition of additional 
 paremeters estimated by the model, whereas the AIC and BIC will account for the number of parameters; lower values of
 either indicate better fit. 
 
@@ -338,7 +330,8 @@ Additional fit statistics (other penalized likelihood values, such as the CAIC, 
 test statistic, can be obtained with the `get_fit()` function:
 
 ```{r, get-fit-m1}
-get_fit(m1)
+get_fit(m1) %>% 
+  knitr::kable()
 ```
 
 ### Mplus via tidyLPA
@@ -464,9 +457,9 @@ on the models can be found in the
 [vignette](https://data-edu.github.io/tidyLPA/articles/Introduction_to_tidyLPA.html).
 
 Here is an example of specifying a model with varying variances and covariances
-(Model 6; not run here):
+(Model 6)
 
-``` {r, curry-mac-m6, eval = F}
+``` {r, curry-mac-m6, eval = TRUE}
 curry_mac %>% 
   select(KinshipR:PossessionR, 
          KinshipJ:PossessionJ) %>% 
@@ -480,12 +473,13 @@ curry_mac %>%
 The function `compare_solutions()` compares the fit of several estimated models,
 with varying numbers of profiles and model specifications:
 
-````{r, compare-mclust, eval= FALSE}
+````{r, compare-mclust, eval= TRUE}
 compare_solutions_mclust <- curry_mac %>% 
   select(KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 6),
                     n_profiles = 1:9,
-                    package = "mclust")
+                    package = "mclust") %>% 
+  knitr::kable()
 ```
 
 ```{r, eval = FALSE, echo = FALSE}
@@ -502,7 +496,8 @@ compare_solutions_mplus <- curry_mac %>%
   select(KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 4, 5, 6),
                     n_profiles = 1:9,
-                    package = "mplus")
+                    package = "mplus") %>% 
+  knitr::kable()
 ```
 
 ```{r, echo = FALSE, eval = FALSE}
@@ -514,13 +509,14 @@ compare_solutions_mplus <- read_rds("compare_solutions_mplus.rds")
 compare_solutions_mplus
 ```
 
-```{r, compare-mplus-starts, eval = FALSE}
+```{r, compare-mplus-starts, eval = TRUE}
 compare_solutions_mplus_starts <- curry_mac %>% 
   select(KinshipJ:PossessionJ) %>% 
   estimate_profiles(models = c(1, 2, 3, 4, 5, 6),
                     n_profiles = 1:9,
                     package = "mplus",
-                    ANALYSIS = "starts = 100, 20;")
+                    ANALYSIS = "starts = 100, 20;") %>% 
+  knitr::kable()
 ```
 
 ```{r, echo = FALSE, eval = FALSE}
@@ -561,10 +557,25 @@ get_data(m) %>%
 
 # Recommendations Regarding Analytic Choices
 
+A note of caution is warranted about LPA in the context of their characteristics
+and strengths. Bauer (2007) notes that many samples of data can be usefully
+broken down into profiles, and that the addition of profiles will likely be
+suggested for reasons other than the samples coming from more than one
+distribution (i.e., due to non-normality in the variables measured). Bauer also
+cautions that profiles should not be reified; that profiles do not necessarily
+exist outside of the analysis that they should be interpreted more as useful
+interpretative devices. These cautions suggest that, in general, parsimony,
+interpretability, and a general sense that the profiles are not necessarily
+real, but are rather helpful analytic tools, should be both priorities for the
+analyst and the reader of studies using this approach.
+
+The GRoLTs checklist is a helpful way to think about how best practices for LPA;
+here, we show how to implement these using tidyLPA. First, here is the checklist:
+
 ## GRoLTs checklist
 
 ```{r, echo = FALSE}
-t <- read_csv("GRoLTS-applicability-to-LPA.csv")
+t <- readr::read_csv("GRoLTS-applicability-to-LPA.csv")
 
 tp <- t %>% 
   filter(use == 1) %>% 
