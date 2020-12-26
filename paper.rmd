@@ -61,7 +61,7 @@ library(tidyverse)
 library(simstudy)
 
 knitr::clean_cache()
-knitr::opts_chunk$set(cache.extra = knitr::rand_seed, warning = FALSE)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed, warning = FALSE, cache = TRUE)
 ```
 
 # Introduction
@@ -189,7 +189,12 @@ are more likely to fit the data better. More information on the model
 parameterizations are discussed in the context of the software tool tidyLPA that
 we have developed.
 
-# Specific Software Tools
+# Best Practices for Latent Profile Analysis
+
+
+
+
+# tidyLPA
 
 ## Tools other than tidyLPA
 
@@ -225,7 +230,7 @@ and covariances are estimated. They also may use different default settings
 (than those encountered in MPlus) in terms of the expectation-maximization
 algorithm, which can make comparing results across tools challenging.
 
-## tidyLPA
+## The tidyLPA R package
 
 Because of the limitations in other tools, we set out to develop a tool that a)
 provided sensible defaults and were easy to use, but provided the option to
@@ -292,7 +297,27 @@ library(dplyr) # for preparing the data
 
 ## Examples
 
-Here, we use a simulated dataset contains data on moral relevance and judgment across the seven domains of the *Morality As Cooperation* scale. More on this scale can be found in Curry et al., (2019). 
+Here, we use a simulated dataset contains data on broad interest, enjoyment, and self-efficacy from the PISA assessment.
+
+First, let's explore the data graphically using the {ggplot2} package:
+
+```{r}
+pisaUSA15 %>%
+  select(broad_interest, enjoyment, self_efficacy) %>% 
+  tidyr::gather(key, val) %>% 
+  ggplot(aes(x = val, group = key, fill = key)) + 
+  geom_density() + 
+  facet_wrap(~key) + 
+  theme_bw()
+```
+
+Here, we use the {psych} package to explore the distributional properties of the variables:
+
+```{r}
+pisaUSA15 %>%
+  select(broad_interest, enjoyment, self_efficacy) %>% 
+  psych::describe()
+```
 
 Add one or two sentences here on the dataset?
 
@@ -312,12 +337,27 @@ not necessary to use unless you also wish to format the tidyLPA output in an
 RMarkdown document.
 
 ``` {r, curry-mac-mclust-example}
-m1 <- curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(1:10) %>% 
-  knitr::kable()
+pisaUSA15 %>%
+  select(broad_interest, enjoyment, self_efficacy) %>%
+  single_imputation() %>%
+  estimate_profiles(3)
 ```
+
+### Mplus via tidyLPA
+
+We can use Mplus simply by changing the package argument for
+`estimate_profiles()` to "mplus" or "MplusAutomation" (either will work; not run here):
+
+``` {r, curry-mac-mplus, eval = FALSE}
+pisaUSA15 %>%
+  select(broad_interest, enjoyment, self_efficacy) %>%
+  single_imputation() %>%
+  estimate_profiles(3, package = "mplus")
+```
+
+These are the very basics; we will return to what we do with this output later in the tutorial.
+
+### Fit
 
 We can see a number of statistics for each of the models that were estimated, including the 
 AIC (Aikake information criterion; based on -2 * the log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are _penalized_ likelihood statistics; the log-likelihood will always decrease with the addition of additional 
@@ -330,23 +370,30 @@ Additional fit statistics (other penalized likelihood values, such as the CAIC, 
 test statistic, can be obtained with the `get_fit()` function:
 
 ```{r, get-fit-m1}
-get_fit(m1) %>% 
+pisaUSA15 %>%
+  select(broad_interest, enjoyment, self_efficacy) %>%
+  single_imputation() %>%
+  estimate_profiles(3) %>% 
+  get_fit(m1) %>% 
   knitr::kable()
 ```
 
-### Mplus via tidyLPA
+## Comparing a wide range of solutions
 
-We can use Mplus simply by changing the package argument for
-`estimate_profiles()` to "mplus" or "MplusAutomation" (either will work; not run here):
+The function `compare_solutions()` compares the fit of several estimated models,
+with varying numbers of profiles and model specifications:
 
-``` {r, curry-mac-mplus, eval = FALSE}
-curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(1:10, package = "mplus")
+````{r, compare-mclust, eval= TRUE}
+compare_solutions_results <- pisaUSA15 %>%
+  select(broad_interest, enjoyment, self_efficacy) %>%
+  single_imputation() %>%
+  estimate_profiles(models = c(1, 2, 3, 6),
+                    n_profiles = 1:9)
+
+compare_solutions_results
+
+compare_solutions(compare_solutions_results)
 ```
-
-These are the very basics; we will return to what we do with this output later in the tutorial.
 
 ### Specifying the _model_
 
@@ -456,80 +503,6 @@ Two additional models (Models 4 and 5) can be fit using MPlus. More information
 on the models can be found in the
 [vignette](https://data-edu.github.io/tidyLPA/articles/Introduction_to_tidyLPA.html).
 
-Here is an example of specifying a model with varying variances and covariances
-(Model 6)
-
-``` {r, curry-mac-m6, eval = TRUE}
-curry_mac %>% 
-  select(KinshipR:PossessionR, 
-         KinshipJ:PossessionJ) %>% 
-  estimate_profiles(3, 
-                    variances = "varying",
-                    covariances = "varying")
-```
-
-## Comparing a wide range of solutions
-
-The function `compare_solutions()` compares the fit of several estimated models,
-with varying numbers of profiles and model specifications:
-
-````{r, compare-mclust, eval= TRUE}
-compare_solutions_mclust <- curry_mac %>% 
-  select(KinshipJ:PossessionJ) %>% 
-  estimate_profiles(models = c(1, 2, 3, 6),
-                    n_profiles = 1:9,
-                    package = "mclust") %>% 
-  knitr::kable()
-```
-
-```{r, eval = FALSE, echo = FALSE}
-write_rds(compare_solutions_mclust, "compare_solutions_mclust.rds")
-```
-
-```{r, echo = FALSE}
-compare_solutions_mclust <- read_rds("compare_solutions_mclust.rds")
-compare_solutions_mclust
-```
-
-```{r, compare-mplus, eval = FALSE}
-compare_solutions_mplus <- curry_mac %>% 
-  select(KinshipJ:PossessionJ) %>% 
-  estimate_profiles(models = c(1, 2, 3, 4, 5, 6),
-                    n_profiles = 1:9,
-                    package = "mplus") %>% 
-  knitr::kable()
-```
-
-```{r, echo = FALSE, eval = FALSE}
-write_rds(compare_solutions_mplus, "compare_solutions_mplus.rds")
-```
-
-```{r, echo = FALSE}
-compare_solutions_mplus <- read_rds("compare_solutions_mplus.rds")
-compare_solutions_mplus
-```
-
-```{r, compare-mplus-starts, eval = TRUE}
-compare_solutions_mplus_starts <- curry_mac %>% 
-  select(KinshipJ:PossessionJ) %>% 
-  estimate_profiles(models = c(1, 2, 3, 4, 5, 6),
-                    n_profiles = 1:9,
-                    package = "mplus",
-                    ANALYSIS = "starts = 100, 20;") %>% 
-  knitr::kable()
-```
-
-```{r, echo = FALSE, eval = FALSE}
-write_rds(compare_solutions_mplus_starts, "compare_solutions_mplus_starts.rds")
-```
-
-```{r, echo = FALSE}
-compare_solutions_mplus <- read_rds("compare_solutions_mplus_starts.rds")
-compare_solutions_mplus
-```
-
-The results of this analysis suggests that the Model 6, two or seven class models are best.
-
 ## Accessing values in the output
 
 A few helper functions are available to make it easier to work with the output
@@ -537,8 +510,8 @@ of an analysis.
 
 `get_data()` returns the data:
 
-``` {r, eval = FALSE}
-get_data()
+``` {r, get-data-for-solution, eval = FALSE}
+get_data(compare_solutions_mclust[[32]])
 ```
 
 We note that `get_data()` returns data in wide format when applied to an object
@@ -550,8 +523,8 @@ format does not make sense).
 To transform data in the wide format into the long format, the `gather()`
 function from the **tidyr** package can be used, e.g.:
 
-``` {r, eval = FALSE}
-get_data(m) %>% 
+``` {r, process-data, eval = FALSE}
+get_data(compare_solutions_mclust[[32]]) %>% 
   tidyr::gather(Class_prob, Probability, contains("CPROB"))
 ```
 
@@ -600,23 +573,17 @@ We walk through each of these in turn.
 
 ### Are alternative specifications of the between-class differences in variance–covariance matrix structure considered and clearly documented?
 
-### Is information reported about the number of random start values and final iterations included?
-
-### Are the model comparison (and selection) tools described from a statistical perspective?
-
-### Are the total number of fitted models reported, including a one-class solution?
-
-### Are the number of cases per class reported for each model (absolute sample size, or proportion)?
-
-### If classification of cases in a trajectory is the goal, is entropy reported?
-
-### Are all of the estimates plotted?
-
-### Are the raw data plotted along with the estimates?
-
-### Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?
-
-### Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?
+In LPA, we can determine which parameters - variance
+and covariance - are estimated to be the same or different across all profiles,
+and, in the case of covariance, whether it is fixed to zero. Of course, for the
+profiles we are most interested in, the mean is allowed to vary across profiles.
+The models with more parameters freely-estimated use more degrees of freedom;
+thus, similar to the number of profiles selected, the balance between adding
+more parameters (and having a more complex model) and interpretability and
+parsimony must be balanced. If a more complex model fits better and is
+interpretable and is justifiable in terms of the data collected, then it may be
+preferred to simpler models. If the two models are similar in terms of their
+fit, then the more simple, parsimonious model should be selected.
 
 There are a number of analytic choices that need to be made when carrying out
 person-oriented analyses. Because such person-oriented approaches are often more
@@ -639,15 +606,9 @@ such as over-fitting or under-fitting the model to the data. Each decision
 depends on multiple factors and balancing tensions. We discuss each of the key
 decisions listed in an analysis.
 
-## How the Data are Centering or Scaled
+### Is information reported about the number of random start values and final iterations included?
 
-The data can be transformed by centering or scaling. Typically, these are done
-after the profiles are created, so that differences between profiles can be more
-easily explored. They can also be done prior to the analysis, which can be
-helpful for obtaining solutions when the variables are on very different
-scales.
-
-## How to Choose the Number of Profiles/Classes
+### Are the model comparison (and selection) tools described from a statistical perspective?
 
 In the case of choosing the number of profiles (and the specification of the
 model / profile solution), multiple criteria, such as the BIC or the proportion
@@ -655,23 +616,23 @@ of variance explained are recommended for decision-making, but also
 interpretability in light of theory, parsimony, and evidence from
 cross-validation should be considered.
 
-## How to Choose Options for the Clustering Procedure or to Select the Model Parameterization
+### Are the total number of fitted models reported, including a one-class solution?
 
-In LPA, we can determine which parameters - variance
-and covariance - are estimated to be the same or different across all profiles,
-and, in the case of covariance, whether it is fixed to zero. Of course, for the
-profiles we are most interested in, the mean is allowed to vary across profiles.
-The models with more parameters freely-estimated use more degrees of freedom;
-thus, similar to the number of profiles selected, the balance between adding
-more parameters (and having a more complex model) and interpretability and
-parsimony must be balanced. If a more complex model fits better and is
-interpretable and is justifiable in terms of the data collected, then it may be
-preferred to simpler models. If the two models are similar in terms of their
-fit, then the more simple, parsimonious model should be selected.
+### Are the number of cases per class reported for each model (absolute sample size, or proportion)?
 
-## More General Recommendations
+### If classification of cases in a trajectory is the goal, is entropy reported?
 
-This section highlights three general recommendations. First, scholars taking a
+### Are all of the estimates plotted?
+
+### Are the raw data plotted along with the estimates?
+
+### Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?
+
+### Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?
+
+# Future Directions and Extensions
+
+First, scholars taking a
 person-oriented approach should emphasize reproducibility in carrying out
 analyses. This is in part due to the exploratory and interpretative nature of
 person-oriented approaches. To this end, presenting multiple models, as in

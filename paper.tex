@@ -1,48 +1,40 @@
-% Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
 \PassOptionsToPackage{hyphens}{url}
 %
-\documentclass[
-  english,
-  man]{apa6}
+\documentclass[man]{apa6}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \fi
-% Use upquote if available, for straight quotes in verbatim environments
+% use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\IfFileExists{microtype.sty}{% use microtype if available
-  \usepackage[]{microtype}
-  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\makeatletter
-\@ifundefined{KOMAClassName}{% if non-KOMA class
-  \IfFileExists{parskip.sty}{%
-    \usepackage{parskip}
-  }{% else
-    \setlength{\parindent}{0pt}
-    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
-}{% if KOMA class
-  \KOMAoptions{parskip=half}}
-\makeatother
-\usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
 \hypersetup{
-  pdftitle={Decisions Decisions Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package},
-  pdflang={en-EN},
-  pdfkeywords={Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
+            pdftitle={Decisions Decisions Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package},
+            pdfauthor={Joshua Rosenberg, Caspar van Lissa, Jennifer Schmidt, Patrick Beymer, Daniel Anderson, \& Matthew Schell},
+            pdfkeywords={Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -52,90 +44,99 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Set default figure placement to htbp
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
-% Make \paragraph and \subparagraph free-standing
-\ifx\paragraph\undefined\else
-  \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-  \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-% Manuscript styling
+
+\shorttitle{LPA Best Practices}
+\affiliation{
+\vspace{0.5cm}
+\textsuperscript{1} University of Tennessee, Knoxville\\\textsuperscript{2} Utrecht University\\\textsuperscript{3} Michigan State University\\\textsuperscript{4} University of Oregon\\\textsuperscript{5} }
+\keywords{Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust\newline\indent Word count: }
+\usepackage{csquotes}
 \usepackage{upgreek}
 \captionsetup{font=singlespacing,justification=justified}
 
-% Table formatting
 \usepackage{longtable}
 \usepackage{lscape}
-% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
-\usepackage{multirow}		% Table styling
-\usepackage{tabularx}		% Control Column width
-\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
-\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage[flushleft]{threeparttable}
+\usepackage{threeparttablex}
 
-% Create new environments so endfloat can handle them
-% \newenvironment{ltable}
-%   {\begin{landscape}\begin{center}\begin{threeparttable}}
-%   {\end{threeparttable}\end{center}\end{landscape}}
 \newenvironment{lltable}{\begin{landscape}\begin{center}\begin{ThreePartTable}}{\end{ThreePartTable}\end{center}\end{landscape}}
 
-% Enables adjusting longtable caption width to table width
-% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
 \makeatletter
 \newcommand\LastLTentrywidth{1em}
 \newlength\longtablewidth
 \setlength{\longtablewidth}{1in}
 \newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
 
-% \setlength{\parindent}{0.5in}
-% \setlength{\parskip}{0pt plus 0pt minus 0pt}
 
-% \usepackage{etoolbox}
-\makeatletter
-\patchcmd{\HyOrg@maketitle}
-  {\section{\normalfont\normalsize\abstractname}}
-  {\section*{\normalfont\normalsize\abstractname}}
-  {}{\typeout{Failed to patch abstract.}}
-\makeatother
-\shorttitle{tidyLPA}
-\author{Joshua Rosenberg\textsuperscript{1}, Caspar van Lissa\textsuperscript{2}, Jennifer Schmidt\textsuperscript{3}, Patrick Beymer\textsuperscript{3}, Daniel Anderson\textsuperscript{4}, \& Matthew Schell\textsuperscript{3}}
-\affiliation{
-\vspace{0.5cm}
-\textsuperscript{1} University of Tennessee, Knoxville\\\textsuperscript{2} Utrecht University\\\textsuperscript{3} Michigan State University\\\textsuperscript{4} University of Oregon\\\textsuperscript{5} }
-\authornote{
-
-Correspondence concerning this article should be addressed to Joshua Rosenberg, 1122 Volunteer Blvd., Knoxville, TN, 37996. E-mail: jmrosenberg@utk.edu}
-\keywords{Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust\newline\indent Word count: }
 \DeclareDelayedFloatFlavor{ThreePartTable}{table}
 \DeclareDelayedFloatFlavor{lltable}{table}
 \DeclareDelayedFloatFlavor*{longtable}{table}
 \makeatletter
 \renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
 \makeatother
-\usepackage{csquotes}
-\ifxetex
-  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
-  \usepackage{polyglossia}
-  \setmainlanguage[]{english}
-\else
-  \usepackage[shorthands=off,main=english]{babel}
-\fi
 
 \title{Decisions Decisions Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package}
-
+\author{Joshua Rosenberg\textsuperscript{1}, Caspar van Lissa\textsuperscript{2}, Jennifer Schmidt\textsuperscript{3}, Patrick Beymer\textsuperscript{3}, Daniel Anderson\textsuperscript{4}, \& Matthew Schell\textsuperscript{3}}
 \date{}
+
+\authornote{
+
+Correspondence concerning this article should be addressed to Joshua Rosenberg, 1122 Volunteer Blvd., Knoxville, TN, 37996. E-mail: \href{mailto:jmrosenberg@utk.edu}{\nolinkurl{jmrosenberg@utk.edu}}}
+
+\abstract{
+
+}
 
 \begin{document}
 \maketitle
+
+\begin{verbatim}
+## Warning: package 'ggplot2' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tibble' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'tidyr' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'readr' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'purrr' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'dplyr' was built under R version 3.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: package 'simstudy' was built under R version 3.6.2
+\end{verbatim}
 
 \begin{verbatim}
 ## NULL
@@ -170,7 +171,7 @@ an example of a general mixture model (Harring \& Hodis, 2016; Pastor, Barron,
 Miller, \& Davis, 2007).
 
 In this tutorial, we aim to describe one of the most commonly-used--and relevant
-to psychologists--application of the general mixture model, to cases for which
+to psychologists---application of the general mixture model, to cases for which
 all of the variables for which (relatively) homogeneous groups are identified
 from among a (relatively) heterogeneous sample are continuos, \emph{latent profile
 analysis} (LPA). We note that scholars using the approach, especially in
@@ -193,7 +194,7 @@ sciences.
 \section{Latent Profile Analysis}\label{latent-profile-analysis}}
 
 The goal of LPA is estimate the parameters for a number of distributions
-(typically multivariate) from a single dataset. Thus, such an approach is
+(typically multivariate) from a single data set. Thus, such an approach is
 model-based, and some descriptions in the literature refer to it as model-based
 clustering (Hennig, Meila, Murtagh, \& Rocci, 2015; Scrucca, Fop, Murphy, \&
 Raftery, 2017). Thus, one distinction between LPA and other, similar cluster
@@ -213,9 +214,9 @@ be estimated freely or can be estimated to be the same, or equal, across
 profiles; and the covariances of the variables used to create the profiles,
 which can be freely-estimated, estimated to be equal, or fixed to be zero.
 
-We wish to note that challenge facing the analyst using LPA is that these
+We note that challenge facing the analyst using LPA is that these
 parameters and the distinct model parameterizations that can be estimated is the
-different terminology used. As one example, Scrucca et al.~(2017) refer to these
+different terminology used. As one example, Scrucca et al. (2017) refer to these
 parameterizations not in terms of whether and how parameters are estimated, but
 rather in terms of the geometric properties of the distributions that result
 from particular parameterizations. Muthen and Muthen (1997-2017) and others
@@ -243,23 +244,11 @@ are more likely to fit the data better. More information on the model
 parameterizations are discussed in the context of the software tool tidyLPA that
 we have developed.
 
-A note of caution is warranted about LPA in the context of their characteristics
-and strengths. Bauer (2007) notes that many samples of data can be usefully
-broken down into profiles, and that the addition of profiles will likely be
-suggested for reasons other than the samples coming from more than one
-distribution (i.e., due to non-normality in the variables measured). Bauer also
-cautions that profiles should not be reified; that profiles do not necessarily
-exist outside of the analysis that they should be interpreted more as useful
-interpretative devices. These cautions suggest that, in general, parsimony,
-interpretability, and a general sense that the profiles are not necessarily
-real, but are rather helpful analytic tools, should be both priorities for the
-analyst and the reader of studies using this approach.
-
 \hypertarget{specific-software-tools}{%
 \section{Specific Software Tools}\label{specific-software-tools}}
 
-\hypertarget{other-tools}{%
-\subsection{Other Tools}\label{other-tools}}
+\hypertarget{tools-other-than-tidylpa}{%
+\subsection{Tools other than tidyLPA}\label{tools-other-than-tidylpa}}
 
 SPSS is a common tool to carry out cluster analyses (but not LPA). While
 somewhat straightforward to carry out, particularly in SPSS's graphical user
@@ -340,14 +329,18 @@ here).
 \hypertarget{installation}{%
 \subsection{Installation}\label{installation}}
 
-You can install tidyLPA from CRAN with:
+You can install tidyLPA from the Comprehensive R Archive Network, or CRAN, with:
 
-You can also install the development version of tidyLPA from GitHub with:
+This is how we recommend most users install tidyLPA.
+
+You can also install the development version of tidyLPA, which may have new features that are not yet availalble on CRAN (because the version on CRAN is periodically updated) from GitHub with:
 
 \hypertarget{examples}{%
 \subsection{Examples}\label{examples}}
 
-Here, we use a simulated dataset, based on Curry et al., 2019, contains data on moral relevance and judgment across the seven domains of the \emph{Morality As Cooperation} scale.
+Here, we use a simulated dataset contains data on moral relevance and judgment across the seven domains of the \emph{Morality As Cooperation} scale. More on this scale can be found in Curry et al., (2019).
+
+Add one or two sentences here on the dataset?
 
 \hypertarget{mclust-via-tidylpa}{%
 \subsubsection{Mclust via tidyLPA}\label{mclust-via-tidylpa}}
@@ -356,12 +349,17 @@ In these examples, we pass the results of one function to the next by \emph{pipi
 (using the \texttt{\%\textgreater{}\%} operator, loaded from the \texttt{dplyr} package). We pass the data to
 a function that selects relevant variables, and then to \texttt{estimate\_profiles}.
 
-A simple summary of the analysis is printed to the console.
-The resulting object can be further passed down a pipeline to
-other functions, such as \texttt{compare\_solutions}, \texttt{get\_data}, and \texttt{get\_fit}.
+A simple summary of the analysis is printed to the console. The resulting object
+can be further passed down a pipeline to other functions, such as
+\texttt{compare\_solutions}, \texttt{get\_data}, and \texttt{get\_fit}.
+
+Note that here and throughout this paper we use the function \texttt{knitr::kable()} to
+format the output in an RMarkdown document, like the one we are using; this is
+not necessary to use unless you also wish to format the tidyLPA output in an
+RMarkdown document.
 
 We can see a number of statistics for each of the models that were estimated, including the
-AIC (Aikake information criterion; based on -2 log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are \emph{penalized} likelihood statistics; the log-likelihood will always decrease with the addition of additional
+AIC (Aikake information criterion; based on -2 * the log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are \emph{penalized} likelihood statistics; the log-likelihood will always decrease with the addition of additional
 paremeters estimated by the model, whereas the AIC and BIC will account for the number of parameters; lower values of
 either indicate better fit.
 
@@ -370,23 +368,31 @@ refers to the maximum. Finally. \texttt{n\_min} refers to the proportion of the 
 Additional fit statistics (other penalized likelihood values, such as the CAIC, SABIC, and ICL), and the bootstrapped LRT
 test statistic, can be obtained with the \texttt{get\_fit()} function:
 
-\begin{verbatim}
-## # A tibble: 10 x 18
-##    Model Classes  LogLik    AIC    AWE    BIC   CAIC    CLC    KIC  SABIC
-##    <dbl>   <dbl>   <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>
-##  1     1       1 -81245. 1.63e5 1.63e5 1.63e5 1.63e5 1.62e5 1.63e5 1.63e5
-##  2     1       2 -79727. 1.60e5 1.60e5 1.60e5 1.60e5 1.59e5 1.60e5 1.60e5
-##  3     1       3 -79239. 1.59e5 1.59e5 1.59e5 1.59e5 1.58e5 1.59e5 1.59e5
-##  4     1       4 -79091. 1.58e5 1.59e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
-##  5     1       5 -79029. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
-##  6     1       6 -78971. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
-##  7     1       7 -78930. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
-##  8     1       8 -78852. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
-##  9     1       9 -78822. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
-## 10     1      10 -78751. 1.58e5 1.60e5 1.59e5 1.59e5 1.58e5 1.58e5 1.58e5
-## # ... with 8 more variables: ICL <dbl>, Entropy <dbl>, prob_min <dbl>,
-## #   prob_max <dbl>, n_min <dbl>, n_max <dbl>, BLRT_val <dbl>, BLRT_p <dbl>
-\end{verbatim}
+\begin{tabular}{r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+Model & Classes & LogLik & AIC & AWE & BIC & CAIC & CLC & KIC & SABIC & ICL & Entropy & prob\_min & prob\_max & n\_min & n\_max & BLRT\_val & BLRT\_p\\
+\hline
+1 & 1 & -81245.00 & 162546.0 & 162977.4 & 162692.7 & 162720.7 & 162492.0 & 162577.0 & 162603.7 & -162692.7 & 1.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & NA & NA\\
+\hline
+1 & 2 & -79727.50 & 159541.0 & 160204.8 & 159766.3 & 159809.3 & 159456.7 & 159587.0 & 159629.7 & -159925.3 & 0.8369494 & 0.9296991 & 0.9637189 & 0.3441092 & 0.6558908 & 3035.00346 & 0.009901\\
+\hline
+1 & 3 & -79239.27 & 158594.5 & 159490.6 & 158898.4 & 158956.4 & 158480.2 & 158655.5 & 158714.1 & -159175.7 & 0.8188766 & 0.9053581 & 0.9222054 & 0.1465517 & 0.5272989 & 976.44661 & 0.009901\\
+\hline
+1 & 4 & -79090.59 & 158327.2 & 159455.5 & 158709.6 & 158782.6 & 158182.7 & 158403.2 & 158477.7 & -159150.2 & 0.7763719 & 0.8393595 & 0.9127306 & 0.0732759 & 0.4655172 & 297.35974 & 0.009901\\
+\hline
+1 & 5 & -79029.50 & 158235.0 & 159595.6 & 158696.0 & 158784.0 & 158060.4 & 158326.0 & 158416.4 & -159398.5 & 0.7012112 & 0.6979575 & 0.8987374 & 0.0675287 & 0.2406609 & 122.19715 & 0.009901\\
+\hline
+1 & 6 & -78971.30 & 158148.6 & 159741.3 & 158688.2 & 158791.2 & 157944.0 & 158254.6 & 158361.0 & -159456.7 & 0.6954594 & 0.6929238 & 0.9230731 & 0.0603448 & 0.3060345 & 116.39215 & 0.009901\\
+\hline
+1 & 7 & -78930.08 & 158096.2 & 159921.0 & 158714.3 & 158832.3 & 157861.5 & 158217.2 & 158339.5 & -159550.6 & 0.6933730 & 0.5964096 & 0.9236077 & 0.0610632 & 0.2550287 & 82.44963 & 0.009901\\
+\hline
+1 & 8 & -78851.80 & 157969.6 & 160026.5 & 158666.3 & 158799.3 & 157705.1 & 158105.6 & 158243.8 & -159391.4 & 0.7477064 & 0.6432919 & 0.9219048 & 0.0423851 & 0.2902299 & 156.55019 & 0.009901\\
+\hline
+1 & 9 & -78821.74 & 157939.5 & 160228.6 & 158714.8 & 158862.8 & 157645.0 & 158090.5 & 158244.6 & -159455.8 & 0.7515427 & 0.6071032 & 0.9456474 & 0.0402299 & 0.2938218 & 60.12578 & 0.009901\\
+\hline
+1 & 10 & -78751.27 & 157828.5 & 160349.8 & 158682.4 & 158845.4 & 157504.1 & 157994.5 & 158164.6 & -159420.9 & 0.7625067 & 0.6463008 & 0.9396876 & 0.0337644 & 0.2909483 & 140.92881 & 0.009901\\
+\hline
+\end{tabular}
 
 \hypertarget{mplus-via-tidylpa}{%
 \subsubsection{Mplus via tidyLPA}\label{mplus-via-tidylpa}}
@@ -522,7 +528,14 @@ on the models can be found in the
 \href{https://data-edu.github.io/tidyLPA/articles/Introduction_to_tidyLPA.html}{vignette}.
 
 Here is an example of specifying a model with varying variances and covariances
-(Model 6; not run here):
+(Model 6)
+
+\begin{verbatim}
+## tidyLPA analysis using mclust: 
+## 
+##  Model Classes AIC       BIC       Entropy prob_min prob_max n_min n_max BLRT_p
+##  6     3       156872.22 158752.84 0.67    0.82     0.87     0.23  0.41  0.01
+\end{verbatim}
 
 \hypertarget{comparing-a-wide-range-of-solutions}{%
 \subsection{Comparing a wide range of solutions}\label{comparing-a-wide-range-of-solutions}}
@@ -533,166 +546,92 @@ with varying numbers of profiles and model specifications:
 \begin{verbatim}
 ## tidyLPA analysis using mclust: 
 ## 
-##  Model Classes AIC      BIC      Entropy prob_min prob_max n_min n_max BLRT_p
-##  1     1       79926.21 79999.54 1.00    1.00     1.00     1.00  1.00        
-##  1     2       79307.22 79422.47 0.59    0.86     0.89     0.44  0.56  0.01  
-##  1     3       79297.86 79455.02 0.54    0.45     0.87     0.10  0.45  0.01  
-##  1     4       79253.01 79452.07 0.51    0.53     0.82     0.13  0.45  0.01  
-##  1     5       79198.41 79439.38 0.54    0.49     0.82     0.05  0.43  0.01  
-##  1     6       79157.81 79440.69 0.52    0.56     0.70     0.05  0.26  0.01  
-##  1     7       79127.69 79452.48 0.52    0.62     0.67     0.04  0.23  0.01  
-##  1     8       79093.92 79460.61 0.56    0.58     0.72     0.04  0.23  0.01  
-##  1     9       79085.02 79493.62 0.58    0.50     0.73     0.02  0.21  0.02  
-##  2     1       79926.21 79999.54 1.00    1.00     1.00     1.00  1.00        
-##  2     2       79221.45 79373.37 0.60    0.87     0.88     0.49  0.51  0.01  
-##  2     3       79119.17 79349.67 0.55    0.68     0.83     0.28  0.41  0.01  
-##  2     4       79007.67 79316.75 0.57    0.60     0.82     0.13  0.38  0.01  
-##  2     5       78978.84 79366.48 0.56    0.60     0.82     0.10  0.30  0.01  
-##  2     6       78934.24 79400.47 0.60    0.59     0.83     0.09  0.32  0.01  
-##  2     7       78967.67 79512.47 0.56    0.58     0.81     0.07  0.22  0.97  
-##  2     8       78963.30 79586.68 0.57    0.55     0.82     0.05  0.24  0.13  
-##  2     9       78949.02 79650.98 0.59    0.55     0.79     0.04  0.23  0.04  
-##  3     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  3     2       79171.36 79396.62 0.31    0.76     0.77     0.49  0.51  0.08  
-##  3     3       79173.56 79440.72 0.37    0.45     0.79     0.10  0.53  0.12  
-##  3     4       79086.06 79395.13 0.49    0.46     0.85     0.13  0.58  0.01  
-##  3     5       79081.65 79432.62 0.46    0.49     0.79     0.09  0.48  0.06  
-##  3     6       79093.82 79486.70 0.40    0.50     0.69     0.09  0.24  0.58  
-##  3     7       79039.87 79474.67 0.49    0.37     0.72     0.05  0.34  0.01  
-##  3     8       79023.57 79500.27 0.51    0.44     0.73     0.05  0.33  0.02  
-##  3     9       79007.36 79525.97 0.55    0.50     0.75     0.02  0.33  0.01  
-##  6     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  6     2       78984.37 79356.30 0.42    0.80     0.84     0.49  0.51  0.01  
-##  6     3       78965.36 79525.87 0.50    0.67     0.80     0.19  0.43  0.01  
-##  6     4       78937.22 79686.33 0.50    0.63     0.77     0.18  0.31  0.01  
-##  6     5       78951.32 79889.01 0.52    0.64     0.74     0.13  0.29  0.38  
-##  6     6       78922.42 80048.70 0.61    0.62     0.79     0.11  0.26  0.04  
-##  6     7       78931.88 80246.75 0.62    0.65     0.83     0.09  0.23  0.43  
-##  6     8       78941.80 80445.25 0.64    0.63     0.82     0.08  0.19  0.50  
-##  6     9       78909.55 80601.58 0.66    0.62     0.83     0.06  0.20  0.12
+##  Model Classes AIC       BIC       Entropy prob_min prob_max n_min n_max BLRT_p
+##  1     1       139226.33 139352.05 1.00    1.00     1.00     1.00  1.00        
+##  1     2       136511.15 136704.97 0.83    0.92     0.97     0.34  0.66  0.01  
+##  1     3       135651.76 135913.69 0.81    0.90     0.92     0.14  0.53  0.01  
+##  1     4       135391.00 135721.03 0.77    0.83     0.91     0.07  0.47  0.01  
+##  1     5       135326.12 135724.24 0.72    0.57     0.91     0.07  0.39  0.01  
+##  1     6       135281.64 135747.86 0.68    0.56     0.92     0.07  0.28  0.01  
+##  1     7       135218.07 135752.39 0.67    0.59     0.91     0.07  0.29  0.01  
+##  1     8       135135.62 135738.04 0.70    0.59     0.92     0.05  0.31  0.01  
+##  1     9       135098.58 135769.10 0.70    0.57     0.93     0.05  0.30  0.01  
+##  2     1       139226.33 139352.05 1.00    1.00     1.00     1.00  1.00        
+##  2     2       136245.76 136502.44 0.81    0.92     0.96     0.39  0.61  0.01  
+##  2     3       135337.03 135724.68 0.80    0.91     0.91     0.25  0.49  0.01  
+##  2     4       135103.11 135621.72 0.75    0.82     0.92     0.17  0.37  0.01  
+##  2     5       134840.49 135490.07 0.75    0.76     0.89     0.13  0.31  0.01  
+##  2     6       134688.81 135469.35 0.75    0.71     0.89     0.06  0.29  0.01  
+##  2     7       134579.47 135490.97 0.75    0.64     0.90     0.06  0.23  0.01  
+##  2     8       134482.30 135524.76 0.75    0.71     0.90     0.06  0.18  0.01  
+##  2     9       134434.76 135608.19 0.75    0.65     0.91     0.06  0.17  0.01  
+##  3     1       134912.97 135384.44 1.00    1.00     1.00     1.00  1.00        
+##  3     2       134836.15 135375.72 0.69    0.78     0.96     0.22  0.78  0.01  
+##  3     3       134862.13 135469.80 0.41    0.16     0.88     0.07  0.69  0.76  
+##  3     4       134728.94 135404.71 0.50    0.31     0.83     0.10  0.63  0.01  
+##  3     5       134615.77 135359.63 0.58    0.43     0.79     0.07  0.56  0.01  
+##  3     6       134696.35 135508.32 0.52    0.43     0.81     0.06  0.39  0.71  
+##  3     7       134589.15 135469.21 0.54    0.36     0.84     0.06  0.37  0.01  
+##  3     8       134604.12 135552.29 0.54    0.40     0.84     0.04  0.33  0.77  
+##  3     9       134568.05 135584.32 0.56    0.31     0.83     0.03  0.34  0.01  
+##  6     1       134912.97 135384.44 1.00    1.00     1.00     1.00  1.00        
+##  6     2       134223.62 135171.78 0.62    0.87     0.90     0.48  0.52  0.01  
+##  6     3       134151.67 135576.55 0.68    0.80     0.88     0.18  0.47  0.01  
+##  6     4       134089.83 135991.41 0.68    0.77     0.87     0.17  0.36  0.01  
+##  6     5       134092.59 136470.87 0.71    0.77     0.89     0.06  0.33  0.34  
+##  6     6       134088.85 136943.83 0.72    0.75     0.90     0.06  0.29  0.43  
+##  6     7       134021.25 137352.94 0.74    0.77     0.88     0.09  0.20  0.01  
+##  6     8       134038.51 137846.90 0.77    0.79     0.98     0.03  0.19  0.58  
+##  6     9       134067.02 138352.11 0.78    0.77     0.96     0.04  0.18  0.78
 \end{verbatim}
 
 \begin{verbatim}
-## tidyLPA analysis using mplus: 
+## Compare tidyLPA solutions:
 ## 
-##  Model Classes AIC      BIC      Entropy prob_min prob_max n_min n_max BLRT_p
-##  1     1       79926.21 79999.54 1.00    1.00     1.00     1.00  1.00        
-##  1     2       79305.15 79420.39 0.60    0.85     0.90     0.41  0.59  0.00  
-##  1     3       79255.92 79413.08 0.53    0.68     0.81     0.15  0.54  0.00  
-##  1     4       79185.44 79384.50 0.59    0.62     0.79     0.05  0.50  0.00  
-##  1     5       79122.99 79363.96 0.64    0.60     0.81     0.05  0.51  0.00  
-##  1     6       79102.55 79385.43 0.66    0.60     0.82     0.03  0.51  0.00  
-##  1     7       79096.03 79420.81 0.62    0.53     0.78     0.01  0.39  0.13  
-##  1     8       79068.33 79435.02 0.69    0.58     0.83     0.01  0.51  0.02  
-##  1     9       79065.91 79474.51 0.63    0.41     0.80     0.01  0.45  0.00  
-##  2     1       79926.21 79999.54 1.00    1.00     1.00     1.00  1.00        
-##  2     2       79220.63 79372.54 0.60    0.87     0.89     0.50  0.50  0.00  
-##  2     3       79100.80 79331.30 0.58    0.77     0.81     0.18  0.45  0.00  
-##  2     4       79000.42 79309.49 0.59    0.66     0.79     0.14  0.38  0.00  
-##  2     5       78946.87 79334.52 0.62    0.59     0.81     0.08  0.36  0.00  
-##  2     6       78926.11 79392.34 0.59    0.60     0.80     0.08  0.24  0.08  
-##  2     7       78902.41 79447.21 0.58    0.62     0.81     0.08  0.25  0.03  
-##  2     8       78900.48 79523.86 0.57    0.57     0.82     0.08  0.21  0.24  
-##  2     9       78884.99 79586.95 0.62    0.56     0.79     0.01  0.24  1.00  
-##  3     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  3     2       79090.94 79316.20 0.77    0.62     0.98     0.09  0.91  0.00  
-##  3     3       79084.97 79352.14 0.57    0.66     0.89     0.09  0.64  1.00  
-##  3     4       79047.05 79356.12 0.79    0.58     0.97     0.05  0.85  0.00  
-##  3     5       79023.67 79374.65 0.79    0.56     0.95     0.01  0.80  0.03  
-##  3     6       79017.46 79410.34 0.79    0.45     0.96     0.01  0.83  0.67  
-##  3     7       78998.02 79432.82 0.63    0.56     0.79     0.01  0.41  0.67  
-##  3     8       78992.36 79469.07 0.62    0.54     0.82     0.02  0.48  0.33  
-##  3     9       78976.63 79495.24 0.65    0.52     0.81     0.03  0.44  0.67  
-##  4     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  4     2       78988.37 79250.30 0.38    0.77     0.82     0.48  0.52  0.00  
-##  4     3       78942.17 79282.68 0.47    0.59     0.83     0.13  0.51  0.09  
-##  4     4       78916.22 79335.30 0.51    0.56     0.78     0.11  0.41  0.29  
-##  4     5       78887.30 79384.96 0.64    0.60     0.99     0.01  0.39  0.27  
-##  4     6       78876.11 79452.35 0.58    0.60     0.78     0.03  0.32  0.31  
-##  4     7       78865.12 79519.93 0.55    0.47     0.76     0.07  0.29  0.67  
-##  4     8       78862.98 79596.37 0.64    0.50     0.85     0.04  0.47  1.00  
-##  4     9       78859.93 79671.90 0.65    0.58     0.94     0.01  0.44  0.67  
-##  5     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  5     2       79090.89 79426.16 0.81    0.71     0.98     0.11  0.89  0.00  
-##  5     3       79057.51 79544.69 0.70    0.62     0.94     0.06  0.78  0.43  
-##  5     4       79024.23 79663.33 0.79    0.59     0.97     0.01  0.81  0.16  
-##  5     5       79001.55 79792.57 0.79    0.65     1.00     0.01  0.75  0.02  
-##  5     6       78960.55 79903.48 0.87    0.53     1.00     0.01  0.84  0.00  
-##  5     7       79005.61 80100.45 0.81    0.52     1.00     0.01  0.75  0.00  
-##  5     8       78958.75 80205.52 0.91    0.65     1.00     0.01  0.82  0.00  
-##  5     9       78911.08 80309.75 0.72    0.50     0.98     0.01  0.51  0.11  
-##  6     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  6     2       78980.55 79352.48 0.41    0.75     0.86     0.42  0.58  0.00  
-##  6     3       78946.26 79506.78 0.55    0.72     0.85     0.17  0.50  0.25  
-##  6     4       78921.55 79670.65 0.61    0.74     0.81     0.12  0.40  0.67  
-##  6     5       78905.25 79842.94 0.64    0.65     1.00     0.01  0.38  0.00  
-##  6     6       78889.78 80016.05 0.66    0.68     0.96     0.02  0.33  0.33  
-##  6     7       78880.06 80194.92 0.67    0.67     1.00     0.01  0.29  0.00  
-##  6     8       78844.83 80348.28 0.70    0.66     0.99     0.01  0.38  0.50  
-##  6     9       78871.79 80563.83 0.74    0.72     1.00     0.01  0.39  0.60
+##  Model Classes BIC       
+##  1     1       139352.049
+##  1     2       136704.970
+##  1     3       135913.687
+##  1     4       135721.026
+##  1     5       135724.243
+##  1     6       135747.862
+##  1     7       135752.395
+##  1     8       135738.044
+##  1     9       135769.104
+##  2     1       139352.049
+##  2     2       136502.441
+##  2     3       135724.680
+##  2     4       135621.724
+##  2     5       135490.065
+##  2     6       135469.349
+##  2     7       135490.971
+##  2     8       135524.760
+##  2     9       135608.188
+##  3     1       135384.436
+##  3     2       135375.718
+##  3     3       135469.796
+##  3     4       135404.708
+##  3     5       135359.634
+##  3     6       135508.318
+##  3     7       135469.214
+##  3     8       135552.290
+##  3     9       135584.321
+##  6     1       135384.436
+##  6     2       135171.784
+##  6     3       135576.546
+##  6     4       135991.409
+##  6     5       136470.871
+##  6     6       136943.826
+##  6     7       137352.936
+##  6     8       137846.896
+##  6     9       138352.109
+## 
+## Best model according to BIC is Model 6 with 2 classes.
+## 
+## An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 6 with 2 classes.
 \end{verbatim}
 
-\begin{verbatim}
-## tidyLPA analysis using mplus: 
-## 
-##  Model Classes AIC      BIC      Entropy prob_min prob_max n_min n_max BLRT_p
-##  1     1       79926.21 79999.54 1.00    1.00     1.00     1.00  1.00        
-##  1     2       79305.15 79420.39 0.60    0.85     0.90     0.41  0.59  0.00  
-##  1     3       79236.08 79393.23 0.68    0.58     0.90     0.05  0.55  0.00  
-##  1     4       79185.44 79384.50 0.59    0.62     0.79     0.05  0.50  0.00  
-##  1     5       79122.99 79363.96 0.64    0.60     0.81     0.05  0.51  0.00  
-##  1     6       79102.55 79385.43 0.66    0.60     0.83     0.03  0.51  0.00  
-##  1     7       79082.23 79407.02 0.69    0.60     0.83     0.01  0.51  0.00  
-##  1     8       79068.00 79434.69 0.65    0.51     0.78     0.01  0.43  0.00  
-##  1     9       79045.95 79454.55 0.65    0.56     0.79     0.02  0.42  0.00  
-##  2     1       79926.21 79999.54 1.00    1.00     1.00     1.00  1.00        
-##  2     2       79220.63 79372.54 0.60    0.87     0.89     0.50  0.50  0.00  
-##  2     3       79100.80 79331.30 0.58    0.77     0.81     0.18  0.45  0.00  
-##  2     4       79000.42 79309.49 0.59    0.66     0.79     0.14  0.38  0.00  
-##  2     5       78946.87 79334.52 0.62    0.59     0.81     0.08  0.36  0.00  
-##  2     6       78926.11 79392.34 0.59    0.60     0.80     0.08  0.24  0.07  
-##  2     7       78902.41 79447.21 0.58    0.62     0.81     0.08  0.25  0.00  
-##  2     8       78894.18 79517.57 0.62    0.55     0.80     0.03  0.34  0.67  
-##  2     9       78883.07 79585.03 0.62    0.60     0.83     0.04  0.16  1.00  
-##  3     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  3     2       79090.94 79316.20 0.77    0.62     0.98     0.09  0.91  0.00  
-##  3     3       79070.64 79337.81 0.85    0.63     0.98     0.01  0.90  0.00  
-##  3     4       79045.48 79354.55 0.81    0.61     0.97     0.03  0.85  0.00  
-##  3     5       79013.99 79364.97 0.79    0.62     0.96     0.01  0.80  0.00  
-##  3     6       79006.55 79399.44 0.76    0.50     0.94     0.02  0.76  0.24  
-##  3     7       78996.75 79431.55 0.68    0.61     0.83     0.01  0.43  0.18  
-##  3     8       78973.50 79450.20 0.79    0.45     0.95     0.01  0.78  0.00  
-##  3     9       78976.27 79494.88 0.62    0.54     0.84     0.01  0.41  1.00  
-##  4     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  4     2       78988.37 79250.30 0.38    0.77     0.82     0.48  0.52  0.00  
-##  4     3       78942.17 79282.68 0.47    0.59     0.83     0.13  0.51  0.05  
-##  4     4       78916.22 79335.30 0.51    0.56     0.78     0.11  0.41  0.38  
-##  4     5       78882.99 79380.65 0.55    0.58     0.99     0.01  0.36  0.27  
-##  4     6       78876.11 79452.35 0.58    0.60     0.78     0.03  0.32  0.38  
-##  4     7       78860.74 79515.56 0.60    0.60     0.97     0.02  0.29  0.43  
-##  4     8       78828.13 79561.52 0.66    0.54     0.97     0.01  0.35  0.33  
-##  4     9       78826.80 79638.77 0.65    0.53     0.97     0.01  0.38  0.00  
-##  5     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  5     2       79090.89 79426.16 0.81    0.71     0.98     0.11  0.89  0.00  
-##  5     3       79053.92 79541.10 0.68    0.68     0.92     0.13  0.72  0.25  
-##  5     4       79012.99 79652.08 0.93    0.71     0.99     0.01  0.90  0.04  
-##  5     5       78980.40 79771.42 0.78    0.67     1.00     0.01  0.72  0.10  
-##  5     6       78960.55 79903.48 0.87    0.53     1.00     0.01  0.84  0.00  
-##  5     7       78937.28 80032.13 0.88    0.63     1.00     0.01  0.79  0.24  
-##  5     8       78945.36 80192.12 0.75    0.66     1.00     0.01  0.53  0.24  
-##  5     9       78890.04 80288.71 0.77    0.50     1.00     0.01  0.56  0.00  
-##  6     1       79157.63 79340.98 1.00    1.00     1.00     1.00  1.00        
-##  6     2       78980.55 79352.48 0.41    0.75     0.86     0.42  0.58  0.00  
-##  6     3       78943.69 79504.21 0.51    0.64     0.88     0.20  0.58  0.67  
-##  6     4       78910.45 79659.56 0.64    0.73     0.92     0.03  0.49  0.10  
-##  6     5       78890.91 79828.60 0.61    0.56     0.85     0.08  0.47  0.36  
-##  6     6       78837.12 79963.39 0.73    0.74     0.96     0.01  0.47  0.00  
-##  6     7       78854.88 80169.74 0.68    0.58     0.94     0.02  0.42  0.67  
-##  6     8       78843.89 80347.34 0.81    0.72     1.00     0.01  0.58  0.00  
-##  6     9       78871.79 80563.83 0.74    0.72     1.00     0.01  0.39  0.60
-\end{verbatim}
-
-The results of this analysis suggests that the Model 6, two or seven class models are best.
+\includegraphics{paper_files/figure-latex/plot-one-solution-1.pdf}
 
 \hypertarget{accessing-values-in-the-output}{%
 \subsection{Accessing values in the output}\label{accessing-values-in-the-output}}
@@ -714,10 +653,25 @@ function from the \textbf{tidyr} package can be used, e.g.:
 \hypertarget{recommendations-regarding-analytic-choices}{%
 \section{Recommendations Regarding Analytic Choices}\label{recommendations-regarding-analytic-choices}}
 
+A note of caution is warranted about LPA in the context of their characteristics
+and strengths. Bauer (2007) notes that many samples of data can be usefully
+broken down into profiles, and that the addition of profiles will likely be
+suggested for reasons other than the samples coming from more than one
+distribution (i.e., due to non-normality in the variables measured). Bauer also
+cautions that profiles should not be reified; that profiles do not necessarily
+exist outside of the analysis that they should be interpreted more as useful
+interpretative devices. These cautions suggest that, in general, parsimony,
+interpretability, and a general sense that the profiles are not necessarily
+real, but are rather helpful analytic tools, should be both priorities for the
+analyst and the reader of studies using this approach.
+
+The GRoLTs checklist is a helpful way to think about how best practices for LPA;
+here, we show how to implement these using tidyLPA. First, here is the checklist:
+
 \hypertarget{grolts-checklist}{%
 \subsection{GRoLTs checklist}\label{grolts-checklist}}
 
-\includegraphics{paper_files/figure-latex/unnamed-chunk-14-1.pdf}
+\hypertarget{htmlwidget-675d126ab2afaf44720a}{}
 
 We walk through each of these in turn.
 
@@ -827,7 +781,7 @@ This section highlights three general recommendations. First, scholars taking a
 person-oriented approach should emphasize reproducibility in carrying out
 analyses. This is in part due to the exploratory and interpretative nature of
 person-oriented approaches. To this end, presenting multiple models, as in
-Pastor et al.~(2007), should be encouraged, rather than presenting one solution.
+Pastor et al. (2007), should be encouraged, rather than presenting one solution.
 In addition, having multiple analysts review the solutions found is encouraged.
 As part of this recommendation, we suggest that researchers consider how their
 analyses can be reproduced by other analysts outside of the research team:
@@ -871,7 +825,7 @@ been, so far, well-received. This suggests that there is an audience (or a
 market) for tools to carry out sophisticated tools that may be otherwise
 out-of-reach. Tools do not need to be hard to use, a point made by developers
 of, for example, tools to carry out highly-sophisticated Bayesian methods using
-the most cutting-edge tools (Bürkner \& others, 2017, p. @makowski2019). We think
+the most cutting-edge tools (Bürkner \& others, 2017, Makowski, Ben-Shachar, Chen, and Lüdecke (2019)). We think
 that tidyLPA speaks to this, too.
 
 Another implication concerns how we developed tidyLPA. We used a modern software
@@ -935,7 +889,16 @@ Bürkner, P.-C., \& others. (2017). Brms: An r package for bayesian multilevel m
 Makowski, D., Ben-Shachar, M. S., Chen, S., \& Lüdecke, D. (2019). Indices of effect existence and significance in the bayesian framework. \emph{Frontiers in Psychology}, \emph{10}, 2767.
 
 \leavevmode\hypertarget{ref-R-tidyLPA}{}%
-Rosenberg, J. M., Beymer, P. N., Anderson, D. J., Lissa, C. van, \& Schmidt, J. A. (2018). TidyLPA: An r package to easily carry out latent profile analysis (lpa) using open-source or commercial software. \emph{Journal of Open Source Software}, \emph{3}(30), 978. \url{https://doi.org/10.21105/joss.00978}
+Rosenberg, J. M., Beymer, P. N., Anderson, D. J., Lissa, C. van, \& Schmidt, J. A. (2018). TidyLPA: An r package to easily carry out latent profile analysis (lpa) using open-source or commercial software. \emph{Journal of Open Source Software}, \emph{3}(30), 978. doi:\href{https://doi.org/10.21105/joss.00978}{10.21105/joss.00978}
+
+\leavevmode\hypertarget{ref-burkner2017}{}%
+Bürkner, P.-C., \& others. (2017). Brms: An r package for bayesian multilevel models using stan. \emph{Journal of Statistical Software}, \emph{80}(1), 1--28.
+
+\leavevmode\hypertarget{ref-makowski2019}{}%
+Makowski, D., Ben-Shachar, M. S., Chen, S., \& Lüdecke, D. (2019). Indices of effect existence and significance in the bayesian framework. \emph{Frontiers in Psychology}, \emph{10}, 2767.
+
+\leavevmode\hypertarget{ref-R-tidyLPA}{}%
+Rosenberg, J. M., Beymer, P. N., Anderson, D. J., Lissa, C. van, \& Schmidt, J. A. (2018). TidyLPA: An r package to easily carry out latent profile analysis (lpa) using open-source or commercial software. \emph{Journal of Open Source Software}, \emph{3}(30), 978. doi:\href{https://doi.org/10.21105/joss.00978}{10.21105/joss.00978}
 
 \endgroup
 
