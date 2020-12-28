@@ -35,6 +35,46 @@
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -109,38 +149,6 @@ Correspondence concerning this article should be addressed to Joshua Rosenberg, 
 
 \begin{document}
 \maketitle
-
-\begin{verbatim}
-## Warning: package 'ggplot2' was built under R version 3.6.2
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'tibble' was built under R version 3.6.2
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'tidyr' was built under R version 3.6.2
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'readr' was built under R version 3.6.2
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'purrr' was built under R version 3.6.2
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'dplyr' was built under R version 3.6.2
-\end{verbatim}
-
-\begin{verbatim}
-## Warning: package 'simstudy' was built under R version 3.6.2
-\end{verbatim}
-
-\begin{verbatim}
-## NULL
-\end{verbatim}
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -244,8 +252,160 @@ are more likely to fit the data better. More information on the model
 parameterizations are discussed in the context of the software tool tidyLPA that
 we have developed.
 
-\hypertarget{specific-software-tools}{%
-\section{Specific Software Tools}\label{specific-software-tools}}
+\hypertarget{best-practices-for-latent-profile-analysis}{%
+\section{Best Practices for Latent Profile Analysis}\label{best-practices-for-latent-profile-analysis}}
+
+\hypertarget{recommendations-regarding-analytic-choices}{%
+\subsection{Recommendations Regarding Analytic Choices}\label{recommendations-regarding-analytic-choices}}
+
+A note of caution is warranted about LPA in the context of their characteristics
+and strengths. Bauer (2007) notes that many samples of data can be usefully
+broken down into profiles, and that the addition of profiles will likely be
+suggested for reasons other than the samples coming from more than one
+distribution (i.e., due to non-normality in the variables measured). Bauer also
+cautions that profiles should not be reified; that profiles do not necessarily
+exist outside of the analysis that they should be interpreted more as useful
+interpretative devices. These cautions suggest that, in general, parsimony,
+interpretability, and a general sense that the profiles are not necessarily
+real, but are rather helpful analytic tools, should be both priorities for the
+analyst and the reader of studies using this approach.
+
+The GRoLTs checklist is a helpful way to think about how best practices for LPA;
+here, we show how to implement these using tidyLPA. First, here is the checklist:
+
+\hypertarget{grolts-checklist}{%
+\subsection{GRoLTs checklist}\label{grolts-checklist}}
+
+\hypertarget{htmlwidget-6725a3bb4d9d4a47b614}{}
+
+We walk through each of these in turn.
+
+\hypertarget{is-the-missing-data-mechanism-reported}{%
+\subsubsection{Is the missing data mechanism reported?}\label{is-the-missing-data-mechanism-reported}}
+
+\hypertarget{is-a-description-provided-of-what-variables-are-related-to-attritionmissing-data}{%
+\subsubsection{Is a description provided of what variables are related to attrition/missing data?}\label{is-a-description-provided-of-what-variables-are-related-to-attritionmissing-data}}
+
+\hypertarget{is-a-description-provided-of-how-missing-data-in-the-analyses-were-dealt-with}{%
+\subsubsection{Is a description provided of how missing data in the analyses were dealt with?}\label{is-a-description-provided-of-how-missing-data-in-the-analyses-were-dealt-with}}
+
+\hypertarget{is-information-about-the-distribution-of-the-observed-variables-included}{%
+\subsubsection{Is information about the distribution of the observed variables included?}\label{is-information-about-the-distribution-of-the-observed-variables-included}}
+
+\hypertarget{is-the-software-mentioned}{%
+\subsubsection{Is the software mentioned?}\label{is-the-software-mentioned}}
+
+\hypertarget{are-alternative-specifications-of-the-between-class-differences-in-variancecovariance-matrix-structure-considered-and-clearly-documented}{%
+\subsubsection{Are alternative specifications of the between-class differences in variance--covariance matrix structure considered and clearly documented?}\label{are-alternative-specifications-of-the-between-class-differences-in-variancecovariance-matrix-structure-considered-and-clearly-documented}}
+
+In LPA, we can determine which parameters - variance
+and covariance - are estimated to be the same or different across all profiles,
+and, in the case of covariance, whether it is fixed to zero. Of course, for the
+profiles we are most interested in, the mean is allowed to vary across profiles.
+The models with more parameters freely-estimated use more degrees of freedom;
+thus, similar to the number of profiles selected, the balance between adding
+more parameters (and having a more complex model) and interpretability and
+parsimony must be balanced. If a more complex model fits better and is
+interpretable and is justifiable in terms of the data collected, then it may be
+preferred to simpler models. If the two models are similar in terms of their
+fit, then the more simple, parsimonious model should be selected.
+
+There are a number of analytic choices that need to be made when carrying out
+person-oriented analyses. Because such person-oriented approaches are often more
+subjective (in practice) than other approaches (Linnenbrink-Garcia and
+Wormington, 2017), there is no one rule for determining the solution obtained.
+This solution is obtained on the basis of multiple decisions, such as the number
+of profiles selected or the modeling decisions such as what specific options are
+used for the cluster analysis (i.e., the distance metric used to calculate the
+similarity of the observations as part of the Ward's hierarchical clustering) or
+what parameters are estimated and how as part of LPA.
+
+Given the subjectivity involved, it is important that researchers be transparent
+and work as part of a team to obtain clustering solutions. Transparency about
+the design and analytic choices is important so that readers can appropriately
+interpret the report. Researchers can enhance transparency and reproducibility
+by sharing detailed descriptions of methodology and document it through the use
+of syntax (and, if possible, data) that we share with others. Working as part of
+a team can help to serve as a check on several of the choices researchers make,
+such as over-fitting or under-fitting the model to the data. Each decision
+depends on multiple factors and balancing tensions. We discuss each of the key
+decisions listed in an analysis.
+
+\hypertarget{is-information-reported-about-the-number-of-random-start-values-and-final-iterations-included}{%
+\subsubsection{Is information reported about the number of random start values and final iterations included?}\label{is-information-reported-about-the-number-of-random-start-values-and-final-iterations-included}}
+
+\hypertarget{are-the-model-comparison-and-selection-tools-described-from-a-statistical-perspective}{%
+\subsubsection{Are the model comparison (and selection) tools described from a statistical perspective?}\label{are-the-model-comparison-and-selection-tools-described-from-a-statistical-perspective}}
+
+In the case of choosing the number of profiles (and the specification of the
+model / profile solution), multiple criteria, such as the BIC or the proportion
+of variance explained are recommended for decision-making, but also
+interpretability in light of theory, parsimony, and evidence from
+cross-validation should be considered.
+
+\hypertarget{are-the-total-number-of-fitted-models-reported-including-a-one-class-solution}{%
+\subsubsection{Are the total number of fitted models reported, including a one-class solution?}\label{are-the-total-number-of-fitted-models-reported-including-a-one-class-solution}}
+
+\hypertarget{are-the-number-of-cases-per-class-reported-for-each-model-absolute-sample-size-or-proportion}{%
+\subsubsection{Are the number of cases per class reported for each model (absolute sample size, or proportion)?}\label{are-the-number-of-cases-per-class-reported-for-each-model-absolute-sample-size-or-proportion}}
+
+\hypertarget{if-classification-of-cases-in-a-trajectory-is-the-goal-is-entropy-reported}{%
+\subsubsection{If classification of cases in a trajectory is the goal, is entropy reported?}\label{if-classification-of-cases-in-a-trajectory-is-the-goal-is-entropy-reported}}
+
+\hypertarget{are-all-of-the-estimates-plotted}{%
+\subsubsection{Are all of the estimates plotted?}\label{are-all-of-the-estimates-plotted}}
+
+\hypertarget{are-the-raw-data-plotted-along-with-the-estimates}{%
+\subsubsection{Are the raw data plotted along with the estimates?}\label{are-the-raw-data-plotted-along-with-the-estimates}}
+
+\hypertarget{are-characteristics-of-the-final-class-solution-numerically-described-i.e.-means-sdse-n-ci-etc.}{%
+\subsubsection{Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?}\label{are-characteristics-of-the-final-class-solution-numerically-described-i.e.-means-sdse-n-ci-etc.}}
+
+\hypertarget{are-the-syntax-files-available-either-in-the-appendix-supplementary-materials-or-from-the-authors}{%
+\subsubsection{Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?}\label{are-the-syntax-files-available-either-in-the-appendix-supplementary-materials-or-from-the-authors}}
+
+\hypertarget{future-directions-and-extensions}{%
+\section{Future Directions and Extensions}\label{future-directions-and-extensions}}
+
+First, scholars taking a
+person-oriented approach should emphasize reproducibility in carrying out
+analyses. This is in part due to the exploratory and interpretative nature of
+person-oriented approaches. To this end, presenting multiple models, as in
+Pastor et al. (2007), should be encouraged, rather than presenting one solution.
+In addition, having multiple analysts review the solutions found is encouraged.
+As part of this recommendation, we suggest that researchers consider how their
+analyses can be reproduced by other analysts outside of the research team:
+Sharing code and data is an important part of this work. Also related,
+researchers should consider how profiles are replicated across samples.
+
+A second general recommendation considers more flexibly incorporating time, when
+data are collected across multiple time points, into analyses. ISOA groups all
+time points and doesn't make distinctions. Other approaches perform analysis
+separately at different timepoints (Corpus \& Wormington, 2014). Some integrate
+time as a part of the profiles, i.e.~growth mixture modeling (groups of
+patterns), i.e.~within-person growth modeling, where there are individual growth
+patterns. Research to date has yet to consider additional challenges in applying
+person centered approaches to longitudinal data. For instance, Schmidt et al
+(2018) use an Experience Sampling Method (ESM) approach to collecting data and
+used a person-centered approach to generate profiles of students in science
+class. This work does not account for student-level effects. In other words, it
+did not model the shared variance of multiple observations of the same student.
+
+Third, best practices in within-person or longitudinal research call for
+modeling the nesting structure. However, researchers have yet to successfully
+incorporate this practice into the person centered approach. One way to approach
+this is to use cross-classified mixed effects models, as in Strati, Schmidt, and
+Maier (2017) and in Rosenberg (2018). In such approaches, dependencies in terms
+of, for example, individuals responding to (ESM) surveys at the same time and
+repeated responses being associated with the same individuals can both be
+modeled, although the effects of these two sources of dependencies are not
+nested as in very common uses of multi-level models, but rather are
+cross-classified. West, Welch, \& Galecki (2014) have a description of the use of
+multi-level models with cross-classified data and tools (including those freely
+available through R) that can be used to estimate them.
+
+\hypertarget{tidylpa}{%
+\section{tidyLPA}\label{tidylpa}}
 
 \hypertarget{tools-other-than-tidylpa}{%
 \subsection{Tools other than tidyLPA}\label{tools-other-than-tidylpa}}
@@ -282,8 +442,8 @@ and covariances are estimated. They also may use different default settings
 (than those encountered in MPlus) in terms of the expectation-maximization
 algorithm, which can make comparing results across tools challenging.
 
-\hypertarget{tidylpa}{%
-\subsection{tidyLPA}\label{tidylpa}}
+\hypertarget{the-tidylpa-r-package}{%
+\subsection{The tidyLPA R package}\label{the-tidylpa-r-package}}
 
 Because of the limitations in other tools, we set out to develop a tool that a)
 provided sensible defaults and were easy to use, but provided the option to
@@ -338,7 +498,25 @@ You can also install the development version of tidyLPA, which may have new feat
 \hypertarget{examples}{%
 \subsection{Examples}\label{examples}}
 
-Here, we use a simulated dataset contains data on moral relevance and judgment across the seven domains of the \emph{Morality As Cooperation} scale. More on this scale can be found in Curry et al., (2019).
+Here, we use a simulated dataset contains data on broad interest, enjoyment, and self-efficacy from the PISA assessment.
+
+First, let's explore the data graphically using the \{ggplot2\} package:
+
+\includegraphics{paper_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+Here, we use the \{psych\} package to explore the distributional properties of the variables:
+
+\begin{tabular}{l|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+  & vars & n & mean & sd & median & trimmed & mad & min & max & range & skew & kurtosis & se\\
+\hline
+broad\_interest & 1 & 5454 & 2.652246 & 0.7772383 & 2.8 & 2.683902 & 0.59304 & 1 & 5 & 4 & -0.2767312 & -0.0261463 & 0.0105244\\
+\hline
+enjoyment & 2 & 5520 & 2.780263 & 0.7509386 & 3.0 & 2.819973 & 0.59304 & 1 & 4 & 3 & -0.5076839 & 0.1652595 & 0.0101073\\
+\hline
+self\_efficacy & 3 & 5409 & 2.136430 & 0.6729143 & 2.0 & 2.112135 & 0.63540 & 1 & 4 & 3 & 0.4376698 & 0.0705830 & 0.0091496\\
+\hline
+\end{tabular}
 
 Add one or two sentences here on the dataset?
 
@@ -358,6 +536,49 @@ format the output in an RMarkdown document, like the one we are using; this is
 not necessary to use unless you also wish to format the tidyLPA output in an
 RMarkdown document.
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pisaUSA15 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(broad_interest, enjoyment, self_efficacy) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{single_imputation}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{estimate_profiles}\NormalTok{(}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tidyLPA analysis using mclust: 
+## 
+##  Model Classes AIC      BIC      Entropy prob_min prob_max n_min n_max BLRT_p
+##  1     3       34815.05 34908.15 0.75    0.77     0.94     0.16  0.67  0.01
+\end{verbatim}
+
+\hypertarget{mplus-via-tidylpa}{%
+\subsubsection{Mplus via tidyLPA}\label{mplus-via-tidylpa}}
+
+We can use Mplus simply by changing the package argument for
+\texttt{estimate\_profiles()} to \enquote{mplus} or \enquote{MplusAutomation} (either will work; not run here):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pisaUSA15 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(broad_interest, enjoyment, self_efficacy) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{single_imputation}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{estimate_profiles}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DataTypeTok{package =} \StringTok{"mplus"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## tidyLPA analysis using mplus: 
+## 
+##  Model Classes AIC      BIC      Entropy prob_min prob_max n_min n_max BLRT_p
+##  1     3       34804.95 34898.05 0.77    0.79     0.94     0.16  0.67  0.00
+\end{verbatim}
+
+These are the very basics; we will return to what we do with this output later in the tutorial.
+
+\hypertarget{fit}{%
+\subsubsection{Fit}\label{fit}}
+
 We can see a number of statistics for each of the models that were estimated, including the
 AIC (Aikake information criterion; based on -2 * the log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are \emph{penalized} likelihood statistics; the log-likelihood will always decrease with the addition of additional
 paremeters estimated by the model, whereas the AIC and BIC will account for the number of parameters; lower values of
@@ -368,39 +589,48 @@ refers to the maximum. Finally. \texttt{n\_min} refers to the proportion of the 
 Additional fit statistics (other penalized likelihood values, such as the CAIC, SABIC, and ICL), and the bootstrapped LRT
 test statistic, can be obtained with the \texttt{get\_fit()} function:
 
-\begin{tabular}{r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
-\hline
-Model & Classes & LogLik & AIC & AWE & BIC & CAIC & CLC & KIC & SABIC & ICL & Entropy & prob\_min & prob\_max & n\_min & n\_max & BLRT\_val & BLRT\_p\\
-\hline
-1 & 1 & -81245.00 & 162546.0 & 162977.4 & 162692.7 & 162720.7 & 162492.0 & 162577.0 & 162603.7 & -162692.7 & 1.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & 1.0000000 & NA & NA\\
-\hline
-1 & 2 & -79727.50 & 159541.0 & 160204.8 & 159766.3 & 159809.3 & 159456.7 & 159587.0 & 159629.7 & -159925.3 & 0.8369494 & 0.9296991 & 0.9637189 & 0.3441092 & 0.6558908 & 3035.00346 & 0.009901\\
-\hline
-1 & 3 & -79239.27 & 158594.5 & 159490.6 & 158898.4 & 158956.4 & 158480.2 & 158655.5 & 158714.1 & -159175.7 & 0.8188766 & 0.9053581 & 0.9222054 & 0.1465517 & 0.5272989 & 976.44661 & 0.009901\\
-\hline
-1 & 4 & -79090.59 & 158327.2 & 159455.5 & 158709.6 & 158782.6 & 158182.7 & 158403.2 & 158477.7 & -159150.2 & 0.7763719 & 0.8393595 & 0.9127306 & 0.0732759 & 0.4655172 & 297.35974 & 0.009901\\
-\hline
-1 & 5 & -79029.50 & 158235.0 & 159595.6 & 158696.0 & 158784.0 & 158060.4 & 158326.0 & 158416.4 & -159398.5 & 0.7012112 & 0.6979575 & 0.8987374 & 0.0675287 & 0.2406609 & 122.19715 & 0.009901\\
-\hline
-1 & 6 & -78971.30 & 158148.6 & 159741.3 & 158688.2 & 158791.2 & 157944.0 & 158254.6 & 158361.0 & -159456.7 & 0.6954594 & 0.6929238 & 0.9230731 & 0.0603448 & 0.3060345 & 116.39215 & 0.009901\\
-\hline
-1 & 7 & -78930.08 & 158096.2 & 159921.0 & 158714.3 & 158832.3 & 157861.5 & 158217.2 & 158339.5 & -159550.6 & 0.6933730 & 0.5964096 & 0.9236077 & 0.0610632 & 0.2550287 & 82.44963 & 0.009901\\
-\hline
-1 & 8 & -78851.80 & 157969.6 & 160026.5 & 158666.3 & 158799.3 & 157705.1 & 158105.6 & 158243.8 & -159391.4 & 0.7477064 & 0.6432919 & 0.9219048 & 0.0423851 & 0.2902299 & 156.55019 & 0.009901\\
-\hline
-1 & 9 & -78821.74 & 157939.5 & 160228.6 & 158714.8 & 158862.8 & 157645.0 & 158090.5 & 158244.6 & -159455.8 & 0.7515427 & 0.6071032 & 0.9456474 & 0.0402299 & 0.2938218 & 60.12578 & 0.009901\\
-\hline
-1 & 10 & -78751.27 & 157828.5 & 160349.8 & 158682.4 & 158845.4 & 157504.1 & 157994.5 & 158164.6 & -159420.9 & 0.7625067 & 0.6463008 & 0.9396876 & 0.0337644 & 0.2909483 & 140.92881 & 0.009901\\
-\hline
-\end{tabular}
+\begin{verbatim}
+## # A tibble: 1 x 18
+##   Model Classes  LogLik    AIC    AWE    BIC   CAIC    CLC    KIC  SABIC     ICL
+##   <dbl>   <dbl>   <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl>
+## 1     1       3 -17386. 34800. 35055. 34893. 34907. 34774. 34817. 34849. -36424.
+## # ... with 7 more variables: Entropy <dbl>, prob_min <dbl>, prob_max <dbl>,
+## #   n_min <dbl>, n_max <dbl>, BLRT_val <dbl>, BLRT_p <dbl>
+\end{verbatim}
 
-\hypertarget{mplus-via-tidylpa}{%
-\subsubsection{Mplus via tidyLPA}\label{mplus-via-tidylpa}}
+\hypertarget{comparing-a-wide-range-of-solutions}{%
+\subsection{Comparing a wide range of solutions}\label{comparing-a-wide-range-of-solutions}}
 
-We can use Mplus simply by changing the package argument for
-\texttt{estimate\_profiles()} to \enquote{mplus} or \enquote{MplusAutomation} (either will work; not run here):
+The function \texttt{compare\_solutions()} compares the fit of several estimated models,
+with varying numbers of profiles and model specifications:
 
-These are the very basics; we will return to what we do with this output later in the tutorial.
+\begin{verbatim}
+## tidyLPA analysis using mclust: 
+## 
+##  Model Classes AIC      BIC      Entropy prob_min prob_max n_min n_max BLRT_p
+##  1     1       37962.61 38002.51 1.00    1.00     1.00     1.00  1.00        
+##  1     2       35495.33 35561.83 0.74    0.83     0.96     0.24  0.76  0.01  
+##  1     3       34850.99 34944.09 0.75    0.76     0.94     0.16  0.67  0.01  
+##  1     4       32990.63 33110.33 0.93    0.94     0.97     0.07  0.54  0.01  
+##  1     5       32652.78 32799.09 0.89    0.79     0.99     0.07  0.46  0.01  
+##  1     6       32631.88 32804.79 0.76    0.44     0.99     0.07  0.34  0.01
+\end{verbatim}
+
+\begin{verbatim}
+## Compare tidyLPA solutions:
+## 
+##  Model Classes BIC      
+##  1     1       38002.509
+##  1     2       35561.831
+##  1     3       34944.094
+##  1     4       33110.333
+##  1     5       32799.090
+##  1     6       32804.788
+## 
+## Best model according to BIC is Model 1 with 5 classes.
+## 
+## An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 1 with 6 classes.
+\end{verbatim}
 
 \hypertarget{specifying-the-model}{%
 \subsubsection{\texorpdfstring{Specifying the \emph{model}}{Specifying the model}}\label{specifying-the-model}}
@@ -527,112 +757,6 @@ Two additional models (Models 4 and 5) can be fit using MPlus. More information
 on the models can be found in the
 \href{https://data-edu.github.io/tidyLPA/articles/Introduction_to_tidyLPA.html}{vignette}.
 
-Here is an example of specifying a model with varying variances and covariances
-(Model 6)
-
-\begin{verbatim}
-## tidyLPA analysis using mclust: 
-## 
-##  Model Classes AIC       BIC       Entropy prob_min prob_max n_min n_max BLRT_p
-##  6     3       156872.22 158752.84 0.67    0.82     0.87     0.23  0.41  0.01
-\end{verbatim}
-
-\hypertarget{comparing-a-wide-range-of-solutions}{%
-\subsection{Comparing a wide range of solutions}\label{comparing-a-wide-range-of-solutions}}
-
-The function \texttt{compare\_solutions()} compares the fit of several estimated models,
-with varying numbers of profiles and model specifications:
-
-\begin{verbatim}
-## tidyLPA analysis using mclust: 
-## 
-##  Model Classes AIC       BIC       Entropy prob_min prob_max n_min n_max BLRT_p
-##  1     1       139226.33 139352.05 1.00    1.00     1.00     1.00  1.00        
-##  1     2       136511.15 136704.97 0.83    0.92     0.97     0.34  0.66  0.01  
-##  1     3       135651.76 135913.69 0.81    0.90     0.92     0.14  0.53  0.01  
-##  1     4       135391.00 135721.03 0.77    0.83     0.91     0.07  0.47  0.01  
-##  1     5       135326.12 135724.24 0.72    0.57     0.91     0.07  0.39  0.01  
-##  1     6       135281.64 135747.86 0.68    0.56     0.92     0.07  0.28  0.01  
-##  1     7       135218.07 135752.39 0.67    0.59     0.91     0.07  0.29  0.01  
-##  1     8       135135.62 135738.04 0.70    0.59     0.92     0.05  0.31  0.01  
-##  1     9       135098.58 135769.10 0.70    0.57     0.93     0.05  0.30  0.01  
-##  2     1       139226.33 139352.05 1.00    1.00     1.00     1.00  1.00        
-##  2     2       136245.76 136502.44 0.81    0.92     0.96     0.39  0.61  0.01  
-##  2     3       135337.03 135724.68 0.80    0.91     0.91     0.25  0.49  0.01  
-##  2     4       135103.11 135621.72 0.75    0.82     0.92     0.17  0.37  0.01  
-##  2     5       134840.49 135490.07 0.75    0.76     0.89     0.13  0.31  0.01  
-##  2     6       134688.81 135469.35 0.75    0.71     0.89     0.06  0.29  0.01  
-##  2     7       134579.47 135490.97 0.75    0.64     0.90     0.06  0.23  0.01  
-##  2     8       134482.30 135524.76 0.75    0.71     0.90     0.06  0.18  0.01  
-##  2     9       134434.76 135608.19 0.75    0.65     0.91     0.06  0.17  0.01  
-##  3     1       134912.97 135384.44 1.00    1.00     1.00     1.00  1.00        
-##  3     2       134836.15 135375.72 0.69    0.78     0.96     0.22  0.78  0.01  
-##  3     3       134862.13 135469.80 0.41    0.16     0.88     0.07  0.69  0.76  
-##  3     4       134728.94 135404.71 0.50    0.31     0.83     0.10  0.63  0.01  
-##  3     5       134615.77 135359.63 0.58    0.43     0.79     0.07  0.56  0.01  
-##  3     6       134696.35 135508.32 0.52    0.43     0.81     0.06  0.39  0.71  
-##  3     7       134589.15 135469.21 0.54    0.36     0.84     0.06  0.37  0.01  
-##  3     8       134604.12 135552.29 0.54    0.40     0.84     0.04  0.33  0.77  
-##  3     9       134568.05 135584.32 0.56    0.31     0.83     0.03  0.34  0.01  
-##  6     1       134912.97 135384.44 1.00    1.00     1.00     1.00  1.00        
-##  6     2       134223.62 135171.78 0.62    0.87     0.90     0.48  0.52  0.01  
-##  6     3       134151.67 135576.55 0.68    0.80     0.88     0.18  0.47  0.01  
-##  6     4       134089.83 135991.41 0.68    0.77     0.87     0.17  0.36  0.01  
-##  6     5       134092.59 136470.87 0.71    0.77     0.89     0.06  0.33  0.34  
-##  6     6       134088.85 136943.83 0.72    0.75     0.90     0.06  0.29  0.43  
-##  6     7       134021.25 137352.94 0.74    0.77     0.88     0.09  0.20  0.01  
-##  6     8       134038.51 137846.90 0.77    0.79     0.98     0.03  0.19  0.58  
-##  6     9       134067.02 138352.11 0.78    0.77     0.96     0.04  0.18  0.78
-\end{verbatim}
-
-\begin{verbatim}
-## Compare tidyLPA solutions:
-## 
-##  Model Classes BIC       
-##  1     1       139352.049
-##  1     2       136704.970
-##  1     3       135913.687
-##  1     4       135721.026
-##  1     5       135724.243
-##  1     6       135747.862
-##  1     7       135752.395
-##  1     8       135738.044
-##  1     9       135769.104
-##  2     1       139352.049
-##  2     2       136502.441
-##  2     3       135724.680
-##  2     4       135621.724
-##  2     5       135490.065
-##  2     6       135469.349
-##  2     7       135490.971
-##  2     8       135524.760
-##  2     9       135608.188
-##  3     1       135384.436
-##  3     2       135375.718
-##  3     3       135469.796
-##  3     4       135404.708
-##  3     5       135359.634
-##  3     6       135508.318
-##  3     7       135469.214
-##  3     8       135552.290
-##  3     9       135584.321
-##  6     1       135384.436
-##  6     2       135171.784
-##  6     3       135576.546
-##  6     4       135991.409
-##  6     5       136470.871
-##  6     6       136943.826
-##  6     7       137352.936
-##  6     8       137846.896
-##  6     9       138352.109
-## 
-## Best model according to BIC is Model 6 with 2 classes.
-## 
-## An analytic hierarchy process, based on the fit indices AIC, AWE, BIC, CLC, and KIC (Akogul & Erisoglu, 2017), suggests the best solution is Model 6 with 2 classes.
-\end{verbatim}
-
-\includegraphics{paper_files/figure-latex/plot-one-solution-1.pdf}
-
 \hypertarget{accessing-values-in-the-output}{%
 \subsection{Accessing values in the output}\label{accessing-values-in-the-output}}
 
@@ -649,170 +773,6 @@ format does not make sense).
 
 To transform data in the wide format into the long format, the \texttt{gather()}
 function from the \textbf{tidyr} package can be used, e.g.:
-
-\hypertarget{recommendations-regarding-analytic-choices}{%
-\section{Recommendations Regarding Analytic Choices}\label{recommendations-regarding-analytic-choices}}
-
-A note of caution is warranted about LPA in the context of their characteristics
-and strengths. Bauer (2007) notes that many samples of data can be usefully
-broken down into profiles, and that the addition of profiles will likely be
-suggested for reasons other than the samples coming from more than one
-distribution (i.e., due to non-normality in the variables measured). Bauer also
-cautions that profiles should not be reified; that profiles do not necessarily
-exist outside of the analysis that they should be interpreted more as useful
-interpretative devices. These cautions suggest that, in general, parsimony,
-interpretability, and a general sense that the profiles are not necessarily
-real, but are rather helpful analytic tools, should be both priorities for the
-analyst and the reader of studies using this approach.
-
-The GRoLTs checklist is a helpful way to think about how best practices for LPA;
-here, we show how to implement these using tidyLPA. First, here is the checklist:
-
-\hypertarget{grolts-checklist}{%
-\subsection{GRoLTs checklist}\label{grolts-checklist}}
-
-\hypertarget{htmlwidget-675d126ab2afaf44720a}{}
-
-We walk through each of these in turn.
-
-\hypertarget{is-the-missing-data-mechanism-reported}{%
-\subsubsection{Is the missing data mechanism reported?}\label{is-the-missing-data-mechanism-reported}}
-
-\hypertarget{is-a-description-provided-of-what-variables-are-related-to-attritionmissing-data}{%
-\subsubsection{Is a description provided of what variables are related to attrition/missing data?}\label{is-a-description-provided-of-what-variables-are-related-to-attritionmissing-data}}
-
-\hypertarget{is-a-description-provided-of-how-missing-data-in-the-analyses-were-dealt-with}{%
-\subsubsection{Is a description provided of how missing data in the analyses were dealt with?}\label{is-a-description-provided-of-how-missing-data-in-the-analyses-were-dealt-with}}
-
-\hypertarget{is-information-about-the-distribution-of-the-observed-variables-included}{%
-\subsubsection{Is information about the distribution of the observed variables included?}\label{is-information-about-the-distribution-of-the-observed-variables-included}}
-
-\hypertarget{is-the-software-mentioned}{%
-\subsubsection{Is the software mentioned?}\label{is-the-software-mentioned}}
-
-\hypertarget{are-alternative-specifications-of-the-between-class-differences-in-variancecovariance-matrix-structure-considered-and-clearly-documented}{%
-\subsubsection{Are alternative specifications of the between-class differences in variance--covariance matrix structure considered and clearly documented?}\label{are-alternative-specifications-of-the-between-class-differences-in-variancecovariance-matrix-structure-considered-and-clearly-documented}}
-
-\hypertarget{is-information-reported-about-the-number-of-random-start-values-and-final-iterations-included}{%
-\subsubsection{Is information reported about the number of random start values and final iterations included?}\label{is-information-reported-about-the-number-of-random-start-values-and-final-iterations-included}}
-
-\hypertarget{are-the-model-comparison-and-selection-tools-described-from-a-statistical-perspective}{%
-\subsubsection{Are the model comparison (and selection) tools described from a statistical perspective?}\label{are-the-model-comparison-and-selection-tools-described-from-a-statistical-perspective}}
-
-\hypertarget{are-the-total-number-of-fitted-models-reported-including-a-one-class-solution}{%
-\subsubsection{Are the total number of fitted models reported, including a one-class solution?}\label{are-the-total-number-of-fitted-models-reported-including-a-one-class-solution}}
-
-\hypertarget{are-the-number-of-cases-per-class-reported-for-each-model-absolute-sample-size-or-proportion}{%
-\subsubsection{Are the number of cases per class reported for each model (absolute sample size, or proportion)?}\label{are-the-number-of-cases-per-class-reported-for-each-model-absolute-sample-size-or-proportion}}
-
-\hypertarget{if-classification-of-cases-in-a-trajectory-is-the-goal-is-entropy-reported}{%
-\subsubsection{If classification of cases in a trajectory is the goal, is entropy reported?}\label{if-classification-of-cases-in-a-trajectory-is-the-goal-is-entropy-reported}}
-
-\hypertarget{are-all-of-the-estimates-plotted}{%
-\subsubsection{Are all of the estimates plotted?}\label{are-all-of-the-estimates-plotted}}
-
-\hypertarget{are-the-raw-data-plotted-along-with-the-estimates}{%
-\subsubsection{Are the raw data plotted along with the estimates?}\label{are-the-raw-data-plotted-along-with-the-estimates}}
-
-\hypertarget{are-characteristics-of-the-final-class-solution-numerically-described-i.e.-means-sdse-n-ci-etc.}{%
-\subsubsection{Are characteristics of the final class solution numerically described (i.e., means, SD/SE, n, CI, etc.)?}\label{are-characteristics-of-the-final-class-solution-numerically-described-i.e.-means-sdse-n-ci-etc.}}
-
-\hypertarget{are-the-syntax-files-available-either-in-the-appendix-supplementary-materials-or-from-the-authors}{%
-\subsubsection{Are the syntax files available (either in the appendix, supplementary materials, or from the authors)?}\label{are-the-syntax-files-available-either-in-the-appendix-supplementary-materials-or-from-the-authors}}
-
-There are a number of analytic choices that need to be made when carrying out
-person-oriented analyses. Because such person-oriented approaches are often more
-subjective (in practice) than other approaches (Linnenbrink-Garcia and
-Wormington, 2017), there is no one rule for determining the solution obtained.
-This solution is obtained on the basis of multiple decisions, such as the number
-of profiles selected or the modeling decisions such as what specific options are
-used for the cluster analysis (i.e., the distance metric used to calculate the
-similarity of the observations as part of the Ward's hierarchical clustering) or
-what parameters are estimated and how as part of LPA.
-
-Given the subjectivity involved, it is important that researchers be transparent
-and work as part of a team to obtain clustering solutions. Transparency about
-the design and analytic choices is important so that readers can appropriately
-interpret the report. Researchers can enhance transparency and reproducibility
-by sharing detailed descriptions of methodology and document it through the use
-of syntax (and, if possible, data) that we share with others. Working as part of
-a team can help to serve as a check on several of the choices researchers make,
-such as over-fitting or under-fitting the model to the data. Each decision
-depends on multiple factors and balancing tensions. We discuss each of the key
-decisions listed in an analysis.
-
-\hypertarget{how-the-data-are-centering-or-scaled}{%
-\subsection{How the Data are Centering or Scaled}\label{how-the-data-are-centering-or-scaled}}
-
-The data can be transformed by centering or scaling. Typically, these are done
-after the profiles are created, so that differences between profiles can be more
-easily explored. They can also be done prior to the analysis, which can be
-helpful for obtaining solutions when the variables are on very different
-scales.
-
-\hypertarget{how-to-choose-the-number-of-profilesclasses}{%
-\subsection{How to Choose the Number of Profiles/Classes}\label{how-to-choose-the-number-of-profilesclasses}}
-
-In the case of choosing the number of profiles (and the specification of the
-model / profile solution), multiple criteria, such as the BIC or the proportion
-of variance explained are recommended for decision-making, but also
-interpretability in light of theory, parsimony, and evidence from
-cross-validation should be considered.
-
-\hypertarget{how-to-choose-options-for-the-clustering-procedure-or-to-select-the-model-parameterization}{%
-\subsection{How to Choose Options for the Clustering Procedure or to Select the Model Parameterization}\label{how-to-choose-options-for-the-clustering-procedure-or-to-select-the-model-parameterization}}
-
-In LPA, we can determine which parameters - variance
-and covariance - are estimated to be the same or different across all profiles,
-and, in the case of covariance, whether it is fixed to zero. Of course, for the
-profiles we are most interested in, the mean is allowed to vary across profiles.
-The models with more parameters freely-estimated use more degrees of freedom;
-thus, similar to the number of profiles selected, the balance between adding
-more parameters (and having a more complex model) and interpretability and
-parsimony must be balanced. If a more complex model fits better and is
-interpretable and is justifiable in terms of the data collected, then it may be
-preferred to simpler models. If the two models are similar in terms of their
-fit, then the more simple, parsimonious model should be selected.
-
-\hypertarget{more-general-recommendations}{%
-\subsection{More General Recommendations}\label{more-general-recommendations}}
-
-This section highlights three general recommendations. First, scholars taking a
-person-oriented approach should emphasize reproducibility in carrying out
-analyses. This is in part due to the exploratory and interpretative nature of
-person-oriented approaches. To this end, presenting multiple models, as in
-Pastor et al. (2007), should be encouraged, rather than presenting one solution.
-In addition, having multiple analysts review the solutions found is encouraged.
-As part of this recommendation, we suggest that researchers consider how their
-analyses can be reproduced by other analysts outside of the research team:
-Sharing code and data is an important part of this work. Also related,
-researchers should consider how profiles are replicated across samples.
-
-A second general recommendation considers more flexibly incorporating time, when
-data are collected across multiple time points, into analyses. ISOA groups all
-time points and doesn't make distinctions. Other approaches perform analysis
-separately at different timepoints (Corpus \& Wormington, 2014). Some integrate
-time as a part of the profiles, i.e.~growth mixture modeling (groups of
-patterns), i.e.~within-person growth modeling, where there are individual growth
-patterns. Research to date has yet to consider additional challenges in applying
-person centered approaches to longitudinal data. For instance, Schmidt et al
-(2018) use an Experience Sampling Method (ESM) approach to collecting data and
-used a person-centered approach to generate profiles of students in science
-class. This work does not account for student-level effects. In other words, it
-did not model the shared variance of multiple observations of the same student.
-
-Third, best practices in within-person or longitudinal research call for
-modeling the nesting structure. However, researchers have yet to successfully
-incorporate this practice into the person centered approach. One way to approach
-this is to use cross-classified mixed effects models, as in Strati, Schmidt, and
-Maier (2017) and in Rosenberg (2018). In such approaches, dependencies in terms
-of, for example, individuals responding to (ESM) surveys at the same time and
-repeated responses being associated with the same individuals can both be
-modeled, although the effects of these two sources of dependencies are not
-nested as in very common uses of multi-level models, but rather are
-cross-classified. West, Welch, \& Galecki (2014) have a description of the use of
-multi-level models with cross-classified data and tools (including those freely
-available through R) that can be used to estimate them.
 
 \hypertarget{implications}{%
 \section{Implications}\label{implications}}
