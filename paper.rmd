@@ -1,6 +1,6 @@
 ---
-title             : "Decisions Decisions Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package"
-shorttitle        : "LPA Best Practices"
+title             : "Decisions. Decisions, Decisions: Carrying out Latent Profile Analysis in Accordance With Best Practices Using the tidyLPA R package"
+shorttitle        : "Using tidyLPA in accordance with best practices"
 
 author: 
   - name          : "Joshua Rosenberg"
@@ -10,10 +10,10 @@ author:
     email         : "jmrosenberg@utk.edu"
   - name          : "Caspar van Lissa"
     affiliation   : "2"
-  - name          : "Jennifer Schmidt"
-    affiliation   : "3"
   - name          : "Patrick Beymer"
     affiliation   : "5"
+  - name          : "Jennifer Schmidt"
+    affiliation   : "3"
   - name          : "Daniel Anderson"
     affiliation   : "4"
   - name          : "Matthew Schell"
@@ -33,7 +33,7 @@ affiliation:
 
 abstract: 
 keywords          : "Latent Profile Analysis, mixture models, finite mixture models, tutorial, R, MPlus, mclust"
-wordcount         : "suggested to be no more than 3,000"
+wordcount         : "5,385"
 
 bibliography      : ["r-references.bib", "citations.bib"]
 
@@ -64,8 +64,8 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed, warning = FALSE, cache = T
 
 # Introduction
 
-In statistics classes, textbooks, and workshops, an example like the following
-is common:
+In statistics classes and workshops, an example like the following
+is commonly used:
 
 > Grades are normally distributed, with $\mu$ = 75, $\sigma$ = 5.
 
@@ -117,7 +117,7 @@ Miller, & Davis, 2007).
 In this tutorial, we aim to describe one of the most commonly-used---and
 relevant to psychologists---application of the general mixture model, to cases
 for which all of the variables for which (relatively) homogeneous groups are
-identified from among a (relatively) heterogeneous sample are continuos, *latent
+identified from among a (relatively) heterogeneous sample are continuous, *latent
 profile analysis* (LPA). After describing the method and some examples of its
 use, we provide a tutorial for carrying out LPA in the context of a
 freely-available, open-source statistical software package that we have
@@ -141,7 +141,7 @@ and covariances and how they are the same or different across profiles---that
 best characterize the different distributions. Then, this approach seeks to
 estimate a probability that the observation is a sample from the population
 associated with each profile (or mixture component) for each observation in the
-dataset.
+data set.
 
 Because LPA is model-based, a number of different model parameterizations can be
 estimated. These models differ in terms of whether--and how--parameters are
@@ -232,13 +232,13 @@ created tidyLPA [@R-tidyLPA].
 This package focuses on models that are commonly specified as part of LPA.
 Because MPlus is so widely-used, it can be helpful to compare output from other
 software to MPlus. The functions in tidyLPA that use mclust have been
-benchmarked to MPlus for a series of simple models (with small datasets and for
+benchmarked to MPlus for a series of simple models (with small data sets and for
 models with small numbers of profiles. This R Markdown output contains
 information on how mclust and Mplus compare. The R Markdown to generate the
 output is also available here, and, as long as you have purchased MPlus (and
 installed MplusAutomation), can be used to replicate all of the results for the
 benchmark. Note that most of the output is identical, though there are some
-differences in the hundreths decimal places for some. Because of differences in
+differences in the hundredths decimal places for some. Because of differences in
 settings for the EM algorithm and particularly for the start values (random
 starts for MPlus and starting values from hierarchical clustering for mclust),
 differences may be expected for more complex data and models.
@@ -257,7 +257,7 @@ same maximum likelihood estimation procedure, they are benchmarked to produce
 the same output. Also, note that we have described the model specifications with
 descriptions of what is estimated in terms of the variances and covariances, the
 common names for the models (i.e., class-varying unrestricted), and the
-covariance matrix associated with the parameterizationfor the six models that
+covariance matrix associated with the parameterization for the six models that
 are possible to be estimated.
 
 # A Walkthrough Using the tidyLPA R package
@@ -274,7 +274,7 @@ install.packages("tidyLPA")
 This is how we recommend most users install tidyLPA.
 
 You can also install the development version of tidyLPA, which may have new
-features that are not yet availalble on CRAN (because the version on CRAN is
+features that are not yet available on CRAN (because the version on CRAN is
 periodically updated) from GitHub with:
 ``` {r gh-installation, eval = FALSE, echo = TRUE}
 # install.packages("devtools")
@@ -286,7 +286,7 @@ library(dplyr) # for preparing the data
 ```
 ## Plotting and Describing the Data
 
-Here, we use a simulated dataset contains data on broad (general, and not situation- or topic-specific) interest, sense of enjoyment, and self-efficacy from the PISA assessment.
+Here, we use a simulated data set contains data on broad (general, and not situation- or topic-specific) interest, sense of enjoyment, and self-efficacy from the PISA assessment.
 First, let's explore the data graphically using the {ggplot2} package:
 ```{r, echo = TRUE}
 pisaUSA15 %>%
@@ -347,7 +347,7 @@ log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian
 information criterion; based on -2 log-likelihood, and penalized by number of
 parameters adjusted by sample size). Both are *penalized* likelihood statistics;
 the log-likelihood will always decrease with the addition of additional
-paremeters estimated by the model, whereas the AIC and BIC will account for the
+parameters estimated by the model, whereas the AIC and BIC will account for the
 number of parameters; lower values of either indicate better fit.
 
 Entropy. `prob_min` refers to the minimum of the diagonal of the average latent
@@ -443,7 +443,7 @@ get_data(model_4) %>%
 # Best Practices for Latent Profile Analysis
 
 In addition to the pragmatic challenges facing the analyst carrying out LPA, there 
-are a number of statistical issues that anaylsts face. Past research is informative in
+are a number of statistical issues that analysts face. Past research is informative in
 this respect; Bauer
 
 ## Recommendations Regarding Analytic Choices
@@ -475,7 +475,7 @@ First, here is the checklist:
 t <- readr::read_csv("GRoLTS-applicability-to-LPA.csv")
 
 tp <- t %>% filter(use == 1) %>% mutate(`LPA Number` = 1:nrow(.)) %>%
-  select( `LPA Number`, `GRoLTS Number` = Number, `Checklist Item`) 
+  select( `LPA Number`, `GRoLTs Number` = Number, `Checklist Item`) 
 
 tp %>% DT::datatable()
 ```
@@ -491,7 +491,7 @@ Note whether any demographic or other variables are related to missing data.
 
 ### Is a description provided of how missing data in the analyses were dealt with?
 
-Because LPA cannot accomodate any missing values (and so uses listwise deletion) for this recommendation, tidyLPA has a function for addressing missing data that are based upon single imputation (with two methods available, one using a contemporary, machine learning-based procedure).
+Because LPA cannot accommodate any missing values (and so uses listwise deletion) for this recommendation, tidyLPA has a function for addressing missing data that are based upon single imputation (with two methods available, one using a contemporary, machine learning-based procedure).
 
 ### Is information about the distribution of the observed variables included?
 
@@ -543,7 +543,7 @@ cross-validation should be considered.
 
 We provide a number of functions for model comparison. The `compare_solutions()` profile
 takes as an argument a particular measure of fit (defaulting to the BIC), and returns information
-for all of the models estimated. It also implements an ensemble, analytic hierarchiy approach, that uses weighted values of a number of fit indices; see [@akogul2017approach] for more.
+for all of the models estimated. It also implements an ensemble, analytic hierarchy approach, that uses weighted values of a number of fit indices; see [@akogul2017approach] for more.
 
 ### Are the total number of fitted models reported, including a one-class solution?
 
@@ -703,6 +703,12 @@ $$
 $$
 
 # References
-```{r create_r-references}
-r_refs(file = "r-references.bib")
-```
+
+\newpage
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id = "refs"></div>
+\endgroup
