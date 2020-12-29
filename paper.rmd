@@ -63,26 +63,30 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed, warning = FALSE, cache = T
 
 # Introduction
 
-In statistics classes, textbooks, and workshops, an example like the following is common:
+In statistics classes, textbooks, and workshops, an example like the following
+is common:
 
-> Grades are normally distributed, with $\mu$ = 75, $\sigma$ = 5.
+> Grades are normally distributed, with $\\mu$ = 75, $\\sigma$ = 5.
 
-Students, may (reasonably) ask, though, are grades *really* normally distributed? 
+Students, may (reasonably) ask, though, are grades *really* normally
+distributed?
 
-```{r, include = FALSE, eval = TRUE}
+``` {r, include = FALSE, eval = TRUE}
 def <- defData(varname = "x1", formula = 65, variance = 30)
 def <- defData(def, varname = "x2", formula = 85, variance = 23)
 def <- defData(def, varname = "xMix", 
                formula = "x1 | .5 + x2 | .5", 
                dist = "mixture")
+```
 
-set.seed(2716)
-dx <- genData(1000, def)
+set.seed(2716) dx \<- genData(1000, def)
+
+``` 
 ```
 
 Are their one distribution?
 
-```{r, include = FALSE, eval = TRUE}
+``` {r, include = FALSE, eval = TRUE}
 ggplot(dx, aes(x = xMix)) +
   geom_density() +
   papaja::theme_apa() +
@@ -91,7 +95,7 @@ ggplot(dx, aes(x = xMix)) +
 
 Or two?
 
-```{r, include = FALSE, eval = TRUE}
+``` {r, include = FALSE, eval = TRUE}
 dx %>% 
   gather(key, val, x1:x2) %>% 
   ggplot(aes(x = val, fill = key)) +
@@ -156,9 +160,9 @@ be estimated freely or can be estimated to be the same, or equal, across
 profiles; and the covariances of the variables used to create the profiles,
 which can be freely-estimated, estimated to be equal, or fixed to be zero.
 
-We note that challenge facing the analyst using LPA is that these
-parameters and the distinct model parameterizations that can be estimated is the
-different terminology used. As one example, Scrucca et al. (2017) refer to these
+We note that challenge facing the analyst using LPA is that these parameters and
+the distinct model parameterizations that can be estimated is the different
+terminology used. As one example, Scrucca et al. (2017) refer to these
 parameterizations not in terms of whether and how parameters are estimated, but
 rather in terms of the geometric properties of the distributions that result
 from particular parameterizations. Muthen and Muthen (1997-2017) and others
@@ -203,20 +207,21 @@ real, but are rather helpful analytic tools, should be both priorities for the
 analyst and the reader of studies using this approach.
 
 The GRoLTs checklist is a helpful way to think about how best practices for LPA;
-here, we show how to implement these using tidyLPA. First, here is the checklist:
+here, we show how to implement these using tidyLPA. First, here is the
+checklist:
 
 ## GRoLTs checklist
 
-```{r, echo = FALSE}
+``` {r, echo = FALSE}
 t <- readr::read_csv("GRoLTS-applicability-to-LPA.csv")
+```
 
-tp <- t %>% 
-  filter(use == 1) %>% 
-  mutate(`LPA Number` = 1:nrow(.)) %>% 
-  select(`GRoLTS Number` = Number, `LPA Number`, `Checklist Item`)
+tp \<- t %\>% filter(use == 1) %\>% mutate(`LPA Number` = 1:nrow(.)) %\>%
+select(`GRoLTS Number` = Number, `LPA Number`, `Checklist Item`)
 
-tp %>% 
-  DT::datatable()
+tp %\>% DT::datatable()
+
+``` 
 ```
 
 We walk through each of these in turn.
@@ -233,17 +238,17 @@ We walk through each of these in turn.
 
 ### Are alternative specifications of the between-class differences in variance–covariance matrix structure considered and clearly documented?
 
-In LPA, we can determine which parameters - variance
-and covariance - are estimated to be the same or different across all profiles,
-and, in the case of covariance, whether it is fixed to zero. Of course, for the
-profiles we are most interested in, the mean is allowed to vary across profiles.
-The models with more parameters freely-estimated use more degrees of freedom;
-thus, similar to the number of profiles selected, the balance between adding
-more parameters (and having a more complex model) and interpretability and
-parsimony must be balanced. If a more complex model fits better and is
-interpretable and is justifiable in terms of the data collected, then it may be
-preferred to simpler models. If the two models are similar in terms of their
-fit, then the more simple, parsimonious model should be selected.
+In LPA, we can determine which parameters - variance and covariance - are
+estimated to be the same or different across all profiles, and, in the case of
+covariance, whether it is fixed to zero. Of course, for the profiles we are most
+interested in, the mean is allowed to vary across profiles. The models with more
+parameters freely-estimated use more degrees of freedom; thus, similar to the
+number of profiles selected, the balance between adding more parameters (and
+having a more complex model) and interpretability and parsimony must be
+balanced. If a more complex model fits better and is interpretable and is
+justifiable in terms of the data collected, then it may be preferred to simpler
+models. If the two models are similar in terms of their fit, then the more
+simple, parsimonious model should be selected.
 
 There are a number of analytic choices that need to be made when carrying out
 person-oriented analyses. Because such person-oriented approaches are often more
@@ -292,16 +297,16 @@ cross-validation should be considered.
 
 # Future Directions and Extensions
 
-First, scholars taking a
-person-oriented approach should emphasize reproducibility in carrying out
-analyses. This is in part due to the exploratory and interpretative nature of
-person-oriented approaches. To this end, presenting multiple models, as in
-Pastor et al. (2007), should be encouraged, rather than presenting one solution.
-In addition, having multiple analysts review the solutions found is encouraged.
-As part of this recommendation, we suggest that researchers consider how their
-analyses can be reproduced by other analysts outside of the research team:
-Sharing code and data is an important part of this work. Also related,
-researchers should consider how profiles are replicated across samples.
+First, scholars taking a person-oriented approach should emphasize
+reproducibility in carrying out analyses. This is in part due to the exploratory
+and interpretative nature of person-oriented approaches. To this end, presenting
+multiple models, as in Pastor et al. (2007), should be encouraged, rather than
+presenting one solution. In addition, having multiple analysts review the
+solutions found is encouraged. As part of this recommendation, we suggest that
+researchers consider how their analyses can be reproduced by other analysts
+outside of the research team: Sharing code and data is an important part of this
+work. Also related, researchers should consider how profiles are replicated
+across samples.
 
 A second general recommendation considers more flexibly incorporating time, when
 data are collected across multiple time points, into analyses. ISOA groups all
@@ -373,7 +378,7 @@ access and modify all of the inputs to the model (i.e., low barrier, high
 ceiling), b) interfaced to existing tools, and are able to translate between
 what existing tools are capable of and what researchers and analysts
 carrying-out person-oriented analyses would like to specify, c) made it easy to
-carry-out fully-reproducible analyses and d) were well-documented. To do so, we 
+carry-out fully-reproducible analyses and d) were well-documented. To do so, we
 created tidyLPA [@R-tidyLPA].
 
 This package focuses on models that are commonly specified as part of LPA.
@@ -388,7 +393,7 @@ benchmark. Note that most of the output is identical, though there are some
 differences in the hundreths decimal places for some. Because of differences in
 settings for the EM algorithm and particularly for the start values (random
 starts for MPlus and starting values from hierarchical clustering for mclust),
-differences may be expected for more complex data and models. 
+differences may be expected for more complex data and models.
 
 One way that tidyLPA is designed to be easy to use is that it assumes a “tidy”
 data structure (Wickham, 2014). This means that it emphasizes the use of a data
@@ -401,12 +406,11 @@ different tools, one that is open-source and available through R, the mclust
 package (Scrucca et al., 2017) and one that is available through the commercial
 software MPlus (Muthen & Muthen, 1997-2017). Moreover, as both tools use the
 same maximum likelihood estimation procedure, they are benchmarked to produce
-the same output. Also, note that we have described the model
-specifications with descriptions of what is estimated in terms of the variances
-and covariances, the common names for the models (i.e., class-varying
-unrestricted), and the covariance matrix associated with the parameterizationfor
-the six models that are possible to be estimated on the website for tidyLPA (see
-here).
+the same output. Also, note that we have described the model specifications with
+descriptions of what is estimated in terms of the variances and covariances, the
+common names for the models (i.e., class-varying unrestricted), and the
+covariance matrix associated with the parameterizationfor the six models that
+are possible to be estimated on the website for tidyLPA (see here).
 
 ## Installation
 
@@ -416,9 +420,11 @@ You can install tidyLPA from the Comprehensive R Archive Network, or CRAN, with:
 install.packages("tidyLPA")
 ```
 
-This is how we recommend most users install tidyLPA. 
+This is how we recommend most users install tidyLPA.
 
-You can also install the development version of tidyLPA, which may have new features that are not yet availalble on CRAN (because the version on CRAN is periodically updated) from GitHub with:
+You can also install the development version of tidyLPA, which may have new
+features that are not yet availalble on CRAN (because the version on CRAN is
+periodically updated) from GitHub with:
 
 ``` {r gh-installation, eval = FALSE}
 # install.packages("devtools")
@@ -432,11 +438,12 @@ library(dplyr) # for preparing the data
 
 ## Examples
 
-Here, we use a simulated dataset contains data on broad interest, enjoyment, and self-efficacy from the PISA assessment.
+Here, we use a simulated dataset contains data on broad interest, enjoyment, and
+self-efficacy from the PISA assessment.
 
 First, let's explore the data graphically using the {ggplot2} package:
 
-```{r}
+``` {r}
 pisaUSA15 %>%
   select(broad_interest, enjoyment, self_efficacy) %>% 
   tidyr::gather(key, val) %>% 
@@ -446,9 +453,10 @@ pisaUSA15 %>%
   theme_bw()
 ```
 
-Here, we use the {psych} package to explore the distributional properties of the variables:
+Here, we use the {psych} package to explore the distributional properties of the
+variables:
 
-```{r}
+``` {r}
 pisaUSA15 %>%
   select(broad_interest, enjoyment, self_efficacy) %>% 
   psych::describe() %>% 
@@ -482,7 +490,8 @@ pisaUSA15 %>%
 ### Mplus via tidyLPA
 
 We can use Mplus simply by changing the package argument for
-`estimate_profiles()` to "mplus" or "MplusAutomation" (either will work; not run here):
+`estimate_profiles()` to "mplus" or "MplusAutomation" (either will work; not run
+here):
 
 ``` {r, curry-mac-mplus, echo = TRUE}
 pisaUSA15 %>%
@@ -491,21 +500,34 @@ pisaUSA15 %>%
   estimate_profiles(3, package = "mplus")
 ```
 
-These are the very basics; we will return to what we do with this output later in the tutorial.
+These are the very basics; we will return to what we do with this output later
+in the tutorial.
 
 ### Fit
 
-We can see a number of statistics for each of the models that were estimated, including the 
-AIC (Aikake information criterion; based on -2 * the log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian information criterion; based on -2 log-likelihood, and penalized by number of parameters adjusted by sample size). Both are _penalized_ likelihood statistics; the log-likelihood will always decrease with the addition of additional 
-paremeters estimated by the model, whereas the AIC and BIC will account for the number of parameters; lower values of
-either indicate better fit. 
+We can see a number of statistics for each of the models that were estimated,
+including the AIC (Aikake information criterion; based on -2 \* the
+log-likelihood, and penalized by number of parameters) and BIC (BIC: Bayesian
+information criterion; based on -2 log-likelihood, and penalized by number of
+parameters adjusted by sample size). Both are *penalized* likelihood statistics;
+the log-likelihood will always decrease with the addition of additional
+paremeters estimated by the model, whereas the AIC and BIC will account for the
+number of parameters; lower values of either indicate better fit.
 
-Entropy. `prob_min` refers to the minimum of the diagonal of the average latent class probabilities for most likely class membership, by assigned class. The minimum should be as high as possible, reflecting greater classification certainty (cases are assigned to classes they have a high probability of belonging to; see Jung & Wickrama, 2008); `prob_max`
-refers to the maximum. Finally. `n_min` refers to the proportion of the sample assigned to the smallest class (based on most likely class membership); `n_max` to the largest. Finally, `BLRT_p` refers to the p-value for the bootstrapped likelihood ratio test; a value greater than .05 indicates that the model fit better than one with one fewer class. 
-Additional fit statistics (other penalized likelihood values, such as the CAIC, SABIC, and ICL), and the bootstrapped LRT 
-test statistic, can be obtained with the `get_fit()` function:
+Entropy. `prob_min` refers to the minimum of the diagonal of the average latent
+class probabilities for most likely class membership, by assigned class. The
+minimum should be as high as possible, reflecting greater classification
+certainty (cases are assigned to classes they have a high probability of
+belonging to; see Jung & Wickrama, 2008); `prob_max` refers to the maximum.
+Finally. `n_min` refers to the proportion of the sample assigned to the smallest
+class (based on most likely class membership); `n_max` to the largest. Finally,
+`BLRT_p` refers to the p-value for the bootstrapped likelihood ratio test; a
+value greater than .05 indicates that the model fit better than one with one
+fewer class. Additional fit statistics (other penalized likelihood values, such
+as the CAIC, SABIC, and ICL), and the bootstrapped LRT test statistic, can be
+obtained with the `get_fit()` function:
 
-```{r, get-fit-m1}
+``` {r, get-fit-m1}
 pisaUSA15 %>%
   select(broad_interest, enjoyment, self_efficacy) %>%
   single_imputation() %>%
@@ -518,160 +540,234 @@ pisaUSA15 %>%
 The function `compare_solutions()` compares the fit of several estimated models,
 with varying numbers of profiles and model specifications:
 
-````{r, compare-mclust, eval= TRUE}
+``` {r, compare-mclust, eval= TRUE}
 many_analyses <- pisaUSA15 %>%
   select(broad_interest, enjoyment, self_efficacy) %>%
   single_imputation() %>%
   estimate_profiles(models = 1,
                     n_profiles = 1:6)
-
-many_analyses
-
-compare_solutions(many_analyses)
-
-many_analyses_1_3 <- pisaUSA15 %>%
-  select(broad_interest, enjoyment, self_efficacy) %>%
-  single_imputation() %>%
-  estimate_profiles(models = c(1, 3),
-                    n_profiles = 1:6)
-
-many_analyses_1_3
-
-compare_solutions(many_analyses_1_3)
 ```
 
-It appears that the four and five-class solutions fit best. Let's inspect those, specifically:
+many\_analyses
 
-```{r}
+compare\_solutions(many\_analyses)
+
+many\_analyses\_1\_3 \<- pisaUSA15 %\>% select(broad\_interest, enjoyment,
+self\_efficacy) %\>% single\_imputation() %\>% estimate\_profiles(models =
+c(1, 3), n\_profiles = 1:6)
+
+many\_analyses\_1\_3
+
+compare\_solutions(many\_analyses\_1\_3)
+
+``` 
+```
+
+It appears that the four and five-class solutions fit best. Let's inspect those,
+specifically:
+
+``` {r}
 models_4_5 <- pisaUSA15[1:100, ] %>%
   select(broad_interest, enjoyment, self_efficacy) %>%
   single_imputation() %>%
   estimate_profiles(models = 1,
                     n_profiles = c(4, 5))
+```
 
+models\_4\_5 %\>% plot\_profiles(add\_line = TRUE)
+
+``` 
+```
+
+We can also create a faceted plot of density plots for an object of class
+'tidyLPA'. For each variable, a Total density plot will be shown, along with
+separate density plots for each latent class, where cases are weighted by the
+posterior probability of being assigned to that class:
+
+``` {r}
 models_4_5 %>% 
   plot_profiles(add_line = TRUE)
 ```
 
-We can also create a faceted plot of density plots for an object of class 'tidyLPA'. For each variable, a Total density plot will be shown, along with separate density plots for each latent class, where cases are weighted by the posterior probability of being assigned to that class:
+Last, we can create a faceted plot of two-dimensional correlation plots and
+unidimensional density plots for an object of class 'tidyProfile':
 
-```{r}
-models_4_5 %>% 
-  plot_profiles(add_line = TRUE)
-```
-
-Last, we can create a faceted plot of two-dimensional correlation plots and unidimensional density plots for an object of class 'tidyProfile':
-
-```{r}
+``` {r}
 models_4_5 %>% 
   plot_bivariate()
 ```
 
-```{r, eval = FALSE, echo = FALSE}
+``` {r, eval = FALSE, echo = FALSE}
 many_analyses_mplus <- pisaUSA15 %>%
   select(broad_interest, enjoyment, self_efficacy) %>%
   single_imputation() %>%
   estimate_profiles(models = c(1),
                     n_profiles = 1:7,
                     package = "mplus")
-
-many_analyses_mplus
-
-compare_solutions(many_analyses_mplus)
 ```
 
-### Specifying the _model_
+many\_analyses\_mplus
 
-We passed the number of profiles, but no details about the model we wished to estimate. 
+compare\_solutions(many\_analyses\_mplus)
 
-There are a number of different types of models for LPA that estimate different parameters; choosing 
-between them is an important consideration, and one that has a bearing on how we will interpret the results we saw above.
+``` 
+```
+
+### Specifying the *model*
+
+We passed the number of profiles, but no details about the model we wished to
+estimate.
+
+There are a number of different types of models for LPA that estimate different
+parameters; choosing between them is an important consideration, and one that
+has a bearing on how we will interpret the results we saw above.
 
 Thus, in addition to the number of profiles (specified with the `n_profiles`
 argument), the model can be specified in terms of whether and how the variable
-variances and covariances are estimated. The models are specified by passing arguments to the `variance` and `covariance`
-arguments. The possible values for these arguments are:
+variances and covariances are estimated. The models are specified by passing
+arguments to the `variance` and `covariance` arguments. The possible values for
+these arguments are:
 
-- `variances`: "equal" and "zero"
-- `covariances`: "varying", "equal", and "zero"
+  - `variances`: "equal" and "zero"
+  - `covariances`: "varying", "equal", and "zero"
 
-In general, the approach to choosing the model is similar to choosing the number of profiles, requiring **deciding on the basis of evidence from multiple sources**, including information criteria, statistical tests, and concerns of interpretability and parsimony. The article by [Pastor and colleagues (2007)](https://www.sciencedirect.com/science/article/pii/S0361476X06000543) has helpful information on the model specifications. Here, the six models that are possible to specify in LPA are described in terms of how the variables used to create the profiles are estimated. 
+In general, the approach to choosing the model is similar to choosing the number
+of profiles, requiring **deciding on the basis of evidence from multiple
+sources**, including information criteria, statistical tests, and concerns of
+interpretability and parsimony. The article by [Pastor and colleagues
+(2007)](https://www.sciencedirect.com/science/article/pii/S0361476X06000543) has
+helpful information on the model specifications. Here, the six models that are
+possible to specify in LPA are described in terms of how the variables used to
+create the profiles are estimated.
 
-Note that *p* represents different profiles and each parameterization is represented by a 4 x 4 covariance matrix and therefore would represent the parameterization for a four-profile solution. In all of the models, the means are estimated freely in the different profiles. Imagine that each row and column represents a different variable, i.e., the first row (and column) represents broad interest, the second enjoyment, the third self-efficacy, and the fourth another variable, i.e., future goals and plans.
+Note that *p* represents different profiles and each parameterization is
+represented by a 4 x 4 covariance matrix and therefore would represent the
+parameterization for a four-profile solution. In all of the models, the means
+are estimated freely in the different profiles. Imagine that each row and column
+represents a different variable, i.e., the first row (and column) represents
+broad interest, the second enjoyment, the third self-efficacy, and the fourth
+another variable, i.e., future goals and plans.
 
-### 1. Equal variances, and covariances fixed to 0 (model 1)
+### 1\. Equal variances, and covariances fixed to 0 (model 1)
 
-In this model, which corresponds to the mclust model wit the name "EEI", the variances are estimated to be equal across profiles, indicated by the absence of a p subscript for any of the diagonal elements of the matrix. The covariances are constrained to be zero, as indicated by the 0's between every combination of the variables. 
+In this model, which corresponds to the mclust model wit the name "EEI", the
+variances are estimated to be equal across profiles, indicated by the absence of
+a p subscript for any of the diagonal elements of the matrix. The covariances
+are constrained to be zero, as indicated by the 0's between every combination of
+the variables.
 
-It is specified with `variances = "equal"` and `covariances = "zero"`. 
+It is specified with `variances = "equal"` and `covariances = "zero"`.
 
-This model is highly constrained but also parsimonious: the profiles are estimated in such a way that the variables' variances are identical for each of the profiles, and the relationships between the variables are not estimated. In this way, less degrees of freedom are taken used to explain the observations that make up the data. However, estimating more parameters--as in the other models--may better explain the data, justifying the addition in complexity that their addition involves (and their reduction in degrees of freedom). This model is sometimes referred to as a *class-invariant* parameterization.
+This model is highly constrained but also parsimonious: the profiles are
+estimated in such a way that the variables' variances are identical for each of
+the profiles, and the relationships between the variables are not estimated. In
+this way, less degrees of freedom are taken used to explain the observations
+that make up the data. However, estimating more parameters--as in the other
+models--may better explain the data, justifying the addition in complexity that
+their addition involves (and their reduction in degrees of freedom). This model
+is sometimes referred to as a *class-invariant* parameterization.
 
-$$
-\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & 0 & 0 & 0 \\ 0 & { \sigma  }_{ 2 }^{ 2 } & 0 & 0 \\ 0 & 0 & { \sigma  }_{ 3 }^{ 2 } & 0 \\ 0 & 0 & 0 & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] 
-$$
+$$ \\left[ \\begin{matrix} { \\sigma }*{ 1 }^{ 2 } & 0 & 0 & 0 \\ 0 & { \\sigma
+}*{ 2 }^{ 2 } & 0 & 0 \\ 0 & 0 & { \\sigma }*{ 3 }^{ 2 } & 0 \\ 0 & 0 & 0 & {
+\\sigma }*{ 4 }^{ 2 } \\end{matrix} \\right] $$
 
-### 2. Varying variances and covariances fixed to 0 (model 2)
+### 2\. Varying variances and covariances fixed to 0 (model 2)
 
-This model corresponds to the mclust model "VVI" and allows for the variances to be freely estimated across profiles. The covariances are constrained to zero. 
+This model corresponds to the mclust model "VVI" and allows for the variances to
+be freely estimated across profiles. The covariances are constrained to zero.
 
-It is specified with `variances = "varying"` and `covariances = "zero"`. 
+It is specified with `variances = "varying"` and `covariances = "zero"`.
 
-Thus, it is more flexible (and less parsimonious) than model 1, but in terms of the covariances, is more constrained than model 2. This model is sometimes referred to as a *class-varying diagonal* parameterization.
+Thus, it is more flexible (and less parsimonious) than model 1, but in terms of
+the covariances, is more constrained than model 2. This model is sometimes
+referred to as a *class-varying diagonal* parameterization.
 
-$$ 
-\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & 0 & 0 & 0 \\ 0 & { \sigma  }_{ 2p }^{ 2 } & 0 & 0 \\ 0 & 0 & { \sigma  }_{ 3p }^{ 2 } & 0 \\ 0 & 0 & 0 & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
-$$
-
-
-### 3. Equal variances and equal covariances (model 3)
-
-This model corresponds to the mclust model "EEE". In this model, the variances are still constrained to be the same across the profiles, although now the covariances are estimated (but like the variances, are constrained to be the same across profiles). 
-
-It is specified with `variances = "equal"` and `covariances = "equal"`. 
-
-Thus, this model is the first to estimate the covariance (or correlations) of the variables used to create the profiles, thus adding more information that can be used to better understand the characteristics of the profiles (and, potentially, better explain the data). This model is sometimes referred to as a *class-invariant unrestricted* parameterization.
-
-$$
-\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & { \sigma  }_{ 21 } & { \sigma  }_{ 31 } & { \sigma  }_{ 41 } \\ { \sigma  }_{ 12 } & { \sigma  }_{ 2 }^{ 2 } & { \sigma  }_{ 23 } & { \sigma  }_{ 24 } \\ { \sigma  }_{ 13 } & { \sigma  }_{ 12 } & { \sigma  }_{ 3 }^{ 2 } & { \sigma  }_{ 33 } \\ { \sigma  }_{ 14 } & { \sigma  }_{ 12 } & { \sigma  }_{ 12 } & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] 
-$$
+$$ \\left[ \\begin{matrix} { \\sigma }*{ 1p }^{ 2 } & 0 & 0 & 0 \\ 0 & {
+\\sigma }*{ 2p }^{ 2 } & 0 & 0 \\ 0 & 0 & { \\sigma }*{ 3p }^{ 2 } & 0 \\ 0 & 0
+& 0 & { \\sigma }*{ 4p }^{ 2 } \\end{matrix} \\right] $$
 
 
-### 4. Varying means, varying variances, and equal covariances (model 4)
+### 3\. Equal variances and equal covariances (model 3)
 
-This model, which specifies for the variances to be freely estimated across the profiles and for the covariances to be estimated to be equal across profiles, extends model 3. 
+This model corresponds to the mclust model "EEE". In this model, the variances
+are still constrained to be the same across the profiles, although now the
+covariances are estimated (but like the variances, are constrained to be the
+same across profiles).
 
-It is specified with `variances = "varying"` and `covariances = "equal"`. 
+It is specified with `variances = "equal"` and `covariances = "equal"`.
 
-Unfortunately, this model cannot be specified with mclust, though it can be with MPlus; this model *can* be used with the functions to interface to MPlus described below.
+Thus, this model is the first to estimate the covariance (or correlations) of
+the variables used to create the profiles, thus adding more information that can
+be used to better understand the characteristics of the profiles (and,
+potentially, better explain the data). This model is sometimes referred to as a
+*class-invariant unrestricted* parameterization.
 
-$$
-\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & { \sigma  }_{ 21 } & { \sigma  }_{ 31 } & { \sigma  }_{ 41 } \\ { \sigma  }_{ 12 } & { \sigma  }_{ 2p }^{ 2 } & { \sigma  }_{ 23 } & { \sigma  }_{ 24 } \\ { \sigma  }_{ 13 } & { \sigma  }_{ 12 } & { \sigma  }_{ 3p }^{ 2 } & { \sigma  }_{ 33 } \\ { \sigma  }_{ 14 } & { \sigma  }_{ 12 } & { \sigma  }_{ 12 } & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
-$$
+$$ \\left[ \\begin{matrix} { \\sigma }*{ 1 }^{ 2 } & { \\sigma }*{ 21 } & {
+\\sigma }*{ 31 } & { \\sigma }*{ 41 } \\ { \\sigma }*{ 12 } & { \\sigma }*{ 2
+}^{ 2 } & { \\sigma }*{ 23 } & { \\sigma }*{ 24 } \\ { \\sigma }*{ 13 } & {
+\\sigma }*{ 12 } & { \\sigma }*{ 3 }^{ 2 } & { \\sigma }*{ 33 } \\ { \\sigma
+}*{ 14 } & { \\sigma }*{ 12 } & { \\sigma }*{ 12 } & { \\sigma }*{ 4 }^{ 2 }
+\\end{matrix} \\right] $$
 
-### 5. Varying means, equal variances, and varying covariances (model 5)
 
-This model specifies the variances to be equal across the profiles, but allows the covariances to be freely estimated across the profiles. 
+### 4\. Varying means, varying variances, and equal covariances (model 4)
 
-It is specified with `variances = "equal"` and `covariances = "varying"`. 
+This model, which specifies for the variances to be freely estimated across the
+profiles and for the covariances to be estimated to be equal across profiles,
+extends model 3.
 
-Like model 4, this model cannot be specified with mclust, though it can be with MPlus. Again, this model *can* be used with the functions to interface to MPlus described below.
+It is specified with `variances = "varying"` and `covariances = "equal"`.
 
-$$
-\left[ \begin{matrix} { \sigma  }_{ 1 }^{ 2 } & { \sigma  }_{ 21p } & { \sigma  }_{ 31p } & { \sigma  }_{ 41p } \\ { \sigma  }_{ 12p } & { \sigma  }_{ 2 }^{ 2 } & { \sigma  }_{ 23p } & { \sigma  }_{ 24p } \\ { \sigma  }_{ 13p } & { \sigma  }_{ 12p } & { \sigma  }_{ 3 }^{ 2 } & { \sigma  }_{ 33p } \\ { \sigma  }_{ 14p } & { \sigma  }_{ 12p } & { \sigma  }_{ 12p } & { \sigma  }_{ 4 }^{ 2 } \end{matrix} \right] \quad 
-$$
+Unfortunately, this model cannot be specified with mclust, though it can be with
+MPlus; this model *can* be used with the functions to interface to MPlus
+described below.
 
-### 6. Varying variances and varying covariances (model 6)
+$$ \\left[ \\begin{matrix} { \\sigma }*{ 1p }^{ 2 } & { \\sigma }*{ 21 } & {
+\\sigma }*{ 31 } & { \\sigma }*{ 41 } \\ { \\sigma }*{ 12 } & { \\sigma }*{ 2p
+}^{ 2 } & { \\sigma }*{ 23 } & { \\sigma }*{ 24 } \\ { \\sigma }*{ 13 } & {
+\\sigma }*{ 12 } & { \\sigma }*{ 3p }^{ 2 } & { \\sigma }*{ 33 } \\ { \\sigma
+}*{ 14 } & { \\sigma }*{ 12 } & { \\sigma }*{ 12 } & { \\sigma }*{ 4p }^{ 2 }
+\\end{matrix} \\right] $$
 
-This model corresponds to the mclust model "VVV". It allows the variances and the covariances to be freely estimated across profiles. 
+### 5\. Varying means, equal variances, and varying covariances (model 5)
 
-It is specified with `variances = "varying"` and `covariances = "varying"`. 
+This model specifies the variances to be equal across the profiles, but allows
+the covariances to be freely estimated across the profiles.
 
-Thus, it is the most complex model, with the potential to allow for understanding many aspects of the variables that are used to estimate the profiles and how they are related. However, it is less parsimonious than all of the other models, and the added parameters should be considered in light of how preferred this model is relative to those with more simple specifications. This model is sometimes referred to as a *class-varying unrestricted* parameterization.
+It is specified with `variances = "equal"` and `covariances = "varying"`.
 
-$$
-\left[ \begin{matrix} { \sigma  }_{ 1p }^{ 2 } & { \sigma  }_{ 21p } & { \sigma  }_{ 31p } & { \sigma  }_{ 41p } \\ { \sigma  }_{ 12p } & { \sigma  }_{ 2p }^{ 2 } & { \sigma  }_{ 23p } & { \sigma  }_{ 24p } \\ { \sigma  }_{ 13p } & { \sigma  }_{ 12p } & { \sigma  }_{ 3p }^{ 2 } & { \sigma  }_{ 33p } \\ { \sigma  }_{ 14p } & { \sigma  }_{ 12p } & { \sigma  }_{ 12p } & { \sigma  }_{ 4p }^{ 2 } \end{matrix} \right] 
-$$
+Like model 4, this model cannot be specified with mclust, though it can be with
+MPlus. Again, this model *can* be used with the functions to interface to MPlus
+described below.
+
+$$ \\left[ \\begin{matrix} { \\sigma }*{ 1 }^{ 2 } & { \\sigma }*{ 21p } & {
+\\sigma }*{ 31p } & { \\sigma }*{ 41p } \\ { \\sigma }*{ 12p } & { \\sigma }*{ 2
+}^{ 2 } & { \\sigma }*{ 23p } & { \\sigma }*{ 24p } \\ { \\sigma }*{ 13p } & {
+\\sigma }*{ 12p } & { \\sigma }*{ 3 }^{ 2 } & { \\sigma }*{ 33p } \\ { \\sigma
+}*{ 14p } & { \\sigma }*{ 12p } & { \\sigma }*{ 12p } & { \\sigma }*{ 4 }^{ 2 }
+\\end{matrix} \\right] \\quad $$
+
+### 6\. Varying variances and varying covariances (model 6)
+
+This model corresponds to the mclust model "VVV". It allows the variances and
+the covariances to be freely estimated across profiles.
+
+It is specified with `variances = "varying"` and `covariances = "varying"`.
+
+Thus, it is the most complex model, with the potential to allow for
+understanding many aspects of the variables that are used to estimate the
+profiles and how they are related. However, it is less parsimonious than all of
+the other models, and the added parameters should be considered in light of how
+preferred this model is relative to those with more simple specifications. This
+model is sometimes referred to as a *class-varying unrestricted*
+parameterization.
+
+$$ \\left[ \\begin{matrix} { \\sigma }*{ 1p }^{ 2 } & { \\sigma }*{ 21p } & {
+\\sigma }*{ 31p } & { \\sigma }*{ 41p } \\ { \\sigma }*{ 12p } & { \\sigma
+}*{ 2p }^{ 2 } & { \\sigma }*{ 23p } & { \\sigma }*{ 24p } \\ { \\sigma }*{ 13p
+} & { \\sigma }*{ 12p } & { \\sigma }*{ 3p }^{ 2 } & { \\sigma }*{ 33p } \\ {
+\\sigma }*{ 14p } & { \\sigma }*{ 12p } & { \\sigma }*{ 12p } & { \\sigma }*{ 4p
+}^{ 2 } \\end{matrix} \\right] $$
 
 If no values are specified for these, then the variances are constrained to be
 equal across classes, and covariances are fixed to 0 (conditional independence
@@ -679,10 +775,10 @@ of the indicators).
 
 These arguments allow for four models to be specified:
 
-- Equal variances and covariances fixed to 0 (Model 1)
-- Varying variances and covariances fixed to 0 (Model 2)
-- Equal variances and equal covariances (Model 3)
-- Varying variances and varying covariances (Model 6)
+  - Equal variances and covariances fixed to 0 (Model 1)
+  - Varying variances and covariances fixed to 0 (Model 2)
+  - Equal variances and equal covariances (Model 3)
+  - Varying variances and varying covariances (Model 6)
 
 Two additional models (Models 4 and 5) can be fit using MPlus. More information
 on the models can be found in the
@@ -715,16 +811,17 @@ get_data(compare_solutions_mclust[[32]]) %>%
 
 # Implications
 
-A step away from the tutorial side of this work, we wish to note some implications 
-for the developers of statistical software for psychological scientists. 
+A step away from the tutorial side of this work, we wish to note some
+implications for the developers of statistical software for psychological
+scientists.
 
 First, we note that developing a tool that emphasized both rigor and access has
 been, so far, well-received. This suggests that there is an audience (or a
 market) for tools to carry out sophisticated tools that may be otherwise
 out-of-reach. Tools do not need to be hard to use, a point made by developers
 of, for example, tools to carry out highly-sophisticated Bayesian methods using
-the most cutting-edge tools [@burkner2017, @makowski2019]. We think
-that tidyLPA speaks to this, too.
+the most cutting-edge tools [@burkner2017, @makowski2019]. We think that
+tidyLPA speaks to this, too.
 
 Another implication concerns how we developed tidyLPA. We used a modern software
 development workflow, including git/GitHub, a suite of tests, and continuous
